@@ -1,6 +1,29 @@
 import { IInputs, IOutputs } from './generated/ManifestTypes';
+import LookupFieldApp, { ILookupFieldProps } from './components/LookupFieldApp';
+import { createElement } from 'react';
+import { createRoot, Root } from 'react-dom/client';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+    private _root: Root;
+
+    // Reference to ComponentFramework Context object
+    private _context: ComponentFramework.Context<IInputs>;
+
+    // PCF framework delegate which will be assigned to this object which would be called whenever any update happens
+    private _notifyOutputChanged: () => void;
+
+    // Values to be filled based on control context, passed as arguments to lookupObjects API
+    private _entityType = '';
+    private _defaultViewId = '';
+
+    // Used to store necessary data for a single lookup entity selected during runtime
+    private _selectedItem: ComponentFramework.LookupValue;
+
+    // Used to track which lookup property is being updated
+    private _updateSelected = false;
+
+    private _lookupValues: ComponentFramework.LookupValue[];
+
     /**
      * Empty constructor.
      */
@@ -20,7 +43,14 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         state: ComponentFramework.Dictionary,
         container: HTMLDivElement,
     ): void {
-        // Add control initialization code
+        this._entityType = context.parameters.lookupfield.getTargetEntityType();
+        this._defaultViewId = context.parameters.lookupfield.getViewId();
+        this._root = createRoot(container!);
+        this._notifyOutputChanged = notifyOutputChanged;
+        this.performLookupObjects.bind(this, this._entityType, this._defaultViewId, (value, update = true) => {
+            this._selectedItem = value;
+            this._updateSelected = update;
+        });
     }
 
     /**
@@ -28,7 +58,19 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
      */
     public updateView(context: ComponentFramework.Context<IInputs>): void {
-        // Add code to update control view
+        const lookupValue: ComponentFramework.LookupValue = context.parameters.lookupfield.raw[0];
+        const props: ILookupFieldProps = {
+            lookupValue: lookupValue,
+            performLookupObjects: this.performLookupObjects.bind(this, this._entityType, this._defaultViewId, (value, update = true) => {
+                this._selectedItem = value;
+                this._updateSelected = update;
+            }),
+            onInputChange: () => {
+                this._notifyOutputChanged();
+            },
+        };
+        this._context = context;
+        this._root.render(createElement(LookupFieldApp, props));
     }
 
     /**
@@ -36,7 +78,10 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
      */
     public getOutputs(): IOutputs {
-        return {};
+        // Send the updated selected lookup item back to the ComponentFramework, based on the currently selected item
+        return {
+            lookupfield: [this._selectedItem],
+        };
     }
 
     /**
@@ -44,6 +89,52 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
      * i.e. cancelling any pending remote calls, removing listeners, etc.
      */
     public destroy(): void {
-        // Add code to cleanup control if necessary
+        this._root.unmount();
+    }
+    /*******************/
+    /*PRIVATE FUNCTIONS*/
+    /*******************/
+
+    private performLookupObjects(
+        entityType: string,
+        viewId: string,
+        setSelected: (value: ComponentFramework.LookupValue, update?: boolean) => void,
+    ): void {
+        // Used cached values from lookup parameter to set options for lookupObjects API
+        const lookupOptions = {
+            defaultEntityType: entityType,
+            defaultViewId: viewId,
+            allowMultiSelect: false,
+            entityTypes: [entityType],
+            viewIds: [viewId],
+        };
+
+        this._context.utils.lookupObjects(lookupOptions).then(
+            (success) => {
+                if (success && success.length > 0) {
+                    // Cache the necessary information for the newly selected entity lookup
+                    const selectedReference = success[0];
+                    const selectedLookupValue: ComponentFramework.LookupValue = {
+                        id: selectedReference.id,
+                        name: selectedReference.name,
+                        entityType: selectedReference.entityType,
+                    };
+
+                    // Update the primary or secondary lookup property
+                    setSelected(selectedLookupValue);
+
+                    // Trigger a control update
+                    this._notifyOutputChanged();
+                } else {
+                    setSelected({} as ComponentFramework.LookupValue);
+                }
+            },
+            (error) => {
+                console.log(error);
+            },
+        );
+    }
+    private notifyChange() {
+        this._notifyOutputChanged();
     }
 }
