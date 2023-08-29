@@ -15,6 +15,7 @@ import {
     Overflow,
 } from '@fluentui/react-components';
 import { useState } from 'react';
+import { on } from 'events';
 
 export interface ICreateFromLookupProps {
     lookupField: ComponentFramework.PropertyTypes.LookupProperty;
@@ -116,11 +117,15 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     });
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
-        props.onRequest(inputValue);
-        // props.onRequest();
+            iconOnClick();
+            onRequst();
         }
         // console.log('onInputKey ' + inputValue);
     };
+
+    const onRequst = () => {
+        props.onRequest(inputValue);
+    }
 
     const iconOnClick = () => {
         setState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
