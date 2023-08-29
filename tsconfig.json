@@ -3,6 +3,7 @@
     "compilerOptions": {
         "typeRoots": ["node_modules/@types"],
         "module": "ES2015",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "sourceMap": true,
     }
 }
