@@ -20,7 +20,8 @@ export interface ICreateFromLookupProps {
     lookupField: ComponentFramework.PropertyTypes.LookupProperty;
     utils: ComponentFramework.Utility;
     isDisabled: boolean;
-    currentValue: string
+    currentValue: string;
+    onRequest: (text: string) => void;
 }
 
 export interface ICreateFromLookupState {
@@ -107,14 +108,18 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
 
     const id = useId();
-    const [inputValue, setInputValue] = useState(props.currentValue);
+    const [inputValue, setInputValue] = useState('');
     const [state, setState] = useState<ICreateFromLookupState>({
         currentValue: '',
         overlayHidden: true,
         iconBackground: 'transparent',
     });
-    const onKeyFunction: InputProps['onKeyDown'] = (key) => {
-        console.log(inputValue)
+    const onInputKey: InputProps['onKeyUp'] = (key) => {
+        if (key.key === 'Enter') {
+        props.onRequest(inputValue);
+        // props.onRequest();
+        }
+        // console.log('onInputKey ' + inputValue);
     };
 
     const iconOnClick = () => {
@@ -135,7 +140,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     return (
         <FluentProvider theme={webLightTheme}>
             <div className={stackClasses}>
-                <Input id={id} readOnly={props.isDisabled} className={inputClass} value={inputValue} onKeyDown={onKeyFunction} onChange={e => e.target.value} />
+                <Input id={id} readOnly={props.isDisabled} className={inputClass} value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyUp={onInputKey} />
                 <Button className={classes.stackitem} icon={showIcon()} onClick={iconOnClick}></Button>
             </div>
         </FluentProvider>

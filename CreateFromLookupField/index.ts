@@ -2,6 +2,7 @@ import { IInputs, IOutputs } from './generated/ManifestTypes';
 import CreateFromLookupApp, { ICreateFromLookupProps } from './components/LookupFieldApp';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
+import { lookup } from 'dns';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _notifyOutputChanged: () => void;
@@ -24,18 +25,23 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     ) {
         this._root = createRoot(container!);
         this._notifyOutputChanged = notifyOutputChanged;
+        this._lookupField = context.parameters.lookupField.raw || [];
+        this._isReadOnly = context.mode.isControlDisabled;
+        this._currentValue = this._lookupField[0].name;
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         const lookupField = context.parameters.lookupField;
-        const isDisabled = context.mode.isControlDisabled;
+        const isDisabled = false;
 
         const props: ICreateFromLookupProps = {
             lookupField: lookupField,
             utils: context.utils,
             isDisabled: false,
-            currentValue: this._currentValue
+            currentValue: this._currentValue,
+            onRequest: this.onChange,
         };
+        console.log('currentValue', props.currentValue)
         this._root.render(createElement(CreateFromLookupApp, props));
     }
 
@@ -48,7 +54,9 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._root.unmount();
     }
 
-    private onChange = () => {
+    private onChange = (value: string) => {
+        this._currentValue = value;
         this._notifyOutputChanged();
+        console.log('onChange called -- and currentValue is: ', this._currentValue)
     };
 }
