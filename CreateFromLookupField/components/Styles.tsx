@@ -1,4 +1,4 @@
-import { makeStyles } from '@fluentui/react-components';
+import { makeStyles, shorthands, tokens } from '@fluentui/react-components';
 
 export const useStyles = makeStyles({
     stack: {
@@ -34,6 +34,16 @@ export const useStyles = makeStyles({
         alignSelf: 'right',
         flexShrink: 1,
     },
+    stackitemSliderVertical: {
+        alignSelf: 'left',
+        marginLeft: '10px',
+        flexShrink: 1,
+    },
+    stackitemBadgeVertical: {
+        alignSelf: 'left',
+        marginLeft: '5px',
+        flexShrink: 1,
+    },
     tooltip: {
         paddingLeft: '0px',
         paddingRight: '0px',
@@ -46,5 +56,9 @@ export const useStyles = makeStyles({
     },
     icon: {
         scale: 1.3,
+    },
+    input: {
+        ...shorthands.border('0px', 'solid', tokens.colorNeutralStroke1),
+        backgroundColor: '#f5f5f5',
     },
 });

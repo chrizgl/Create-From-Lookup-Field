@@ -1,28 +1,18 @@
 import * as React from 'react';
-import { Checkmark32Regular, Checkmark32Filled, Copy32Regular, CheckboxChecked24Regular } from '@fluentui/react-icons';
-import {
-    makeStyles,
-    mergeClasses,
-    Button,
-    FluentProvider,
-    webLightTheme,
-    Input,
-    InputProps,
-    useId,
-    shorthands,
-    tokens,
-    ColorPaletteTokens,
-    Overflow,
-} from '@fluentui/react-components';
+import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled } from '@fluentui/react-icons';
+import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import { useState } from 'react';
-import { on } from 'events';
+import { useStyles } from './Styles';
 
 export interface ICreateFromLookupProps {
-    lookupField: ComponentFramework.PropertyTypes.LookupProperty;
+    input: string | undefined;
     utils: ComponentFramework.Utility;
     isDisabled: boolean;
     currentValue: string;
+    isCreateEnabled: boolean;
     onRequest: (text: string) => void;
+    onSearchRequest: (text: string) => Promise<boolean>;
+    onCreateRequest: (text: string) => Promise<boolean>;
 }
 
 export interface ICreateFromLookupState {
@@ -38,118 +28,118 @@ interface IClipboardClassObject {
     textboxOverlay: string;
 }
 
-const useStyles = makeStyles({
-    stack: {
-        // must be merged with stackHorizontal or stackVertical
-        display: 'flex',
-        flexWrap: 'nowrap',
-        width: '100%',
-        height: 'fit-content',
-        boxSizing: 'border-box',
-        '> *': {
-            textOverflow: 'ellipsis',
-        },
-    },
-    stackHorizontal: {
-        // overrides for horizontal stack
-        flexDirection: 'row',
-        marginLeft: '0px',
-        '> :not(:last-child)': {
-            marginRight: '1px',
-        },
-    },
-    stackVertical: {
-        // overrides for vertical stack
-        flexDirection: 'column',
-        marginLeft: '5px',
-        '> :not(:first-child)': {
-            marginTop: '10px',
-        },
-    },
-    stackitem: {
-        height: 'fit-content',
-        width: '100%',
-        alignSelf: 'right',
-        flexShrink: 1,
-    },
-    stackitemSliderVertical: {
-        alignSelf: 'left',
-        marginLeft: '10px',
-        flexShrink: 1,
-    },
-    stackitemBadgeVertical: {
-        alignSelf: 'left',
-        marginLeft: '5px',
-        flexShrink: 1,
-    },
-    tooltip: {
-        paddingLeft: '0px',
-        paddingRight: '0px',
-        paddingTop: '0px',
-        paddingBottom: '0px',
-    },
-    overflow: {
-        color: 'forestgreen',
-        scale: 1.5,
-    },
-    icon: {
-        scale: 1.3,
-    },
-    input: {
-        ...shorthands.border('0px', 'solid', tokens.colorNeutralStroke1),
-        backgroundColor: '#f5f5f5',
-    },
-});
-
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
     const inputClass = mergeClasses(classes.input, classes.stackitem);
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
-
     const id = useId();
+    let found = true;
+    let createdRecord = false;
     const [inputValue, setInputValue] = useState('');
-    const [state, setState] = useState<ICreateFromLookupState>({
+    const [searchState, setSearchState] = useState<ICreateFromLookupState>({
+        currentValue: '',
+        overlayHidden: true,
+        iconBackground: 'transparent',
+    });
+    const [createEnabledState, setCreateEnabledState] = useState(false);
+    const [createState, setCreateState] = useState<ICreateFromLookupState>({
         currentValue: '',
         overlayHidden: true,
         iconBackground: 'transparent',
     });
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
-            iconOnClick();
-            onRequst();
+            onClickSearchRequest();
+            onRequest();
         }
         // console.log('onInputKey ' + inputValue);
     };
 
-    const onRequst = () => {
+    const onRequest = () => {
         props.onRequest(inputValue);
-    }
+    };
+    //
+    // noch habe ich eine eigene Funktionen für Search und Create, eventuell ginge hier ne Klasse und instanzieren?
+    //
+    const onClickSearchRequest = () => {
+        console.log('onClickSearchRequest ' + inputValue);
 
-    const iconOnClick = () => {
-        setState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
+        setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
-            setState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
+            setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, 1000);
+        props.onSearchRequest(inputValue).then((result) => {
+            console.log('onClickSearchRequest result ' + result);
+            found = result;
+            console.log('found ' + found);
+            if (found === true) {
+                setCreateEnabledState(false);
+                //console.log('1. if - createEnabledState ' + createEnabledState);
+            } else {
+                setCreateEnabledState(true);
+                //console.log('2. else set true? - createEnabledState ' + createEnabledState);
+            }
+            //console.log('3. After if/else - createEnabledState ' + createEnabledState);
+        });
     };
 
-    const showIcon = () => {
-        if (state.overlayHidden) {
-            return <Copy32Regular className={iconClass}></Copy32Regular>;
+    const onClickCreateRequest = () => {
+        console.log('onClickCreateRequest ' + inputValue);
+
+        setCreateState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
+        setTimeout(() => {
+            setCreateState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
+        }, 1000);
+        props.onCreateRequest(inputValue).then((result) => {
+            console.log('onClickCreateRequest result ' + result);
+            createdRecord = result;
+            console.log('createdRecord ' + createdRecord);
+            if (createdRecord === true) {
+                setCreateEnabledState(false);
+                // console.log('1. if - createEnabledState ' + createEnabledState);
+            } else {
+                setCreateEnabledState(true);
+                // console.log('2. else set true? - createEnabledState ' + createEnabledState);
+            }
+            // console.log('3. After if/else - createEnabledState ' + createEnabledState);
+        });
+    };
+
+    // Component Buttons (Icons)
+    const showSearchButton = () => {
+        if (searchState.overlayHidden) {
+            return <Search32Regular className={iconClass}></Search32Regular>;
         } else {
-            return <Checkmark32Filled className={overflowClass}></Checkmark32Filled>;
+            return <Search32Filled className={overflowClass}></Search32Filled>;
+        }
+    };
+    const showCreateButton = () => {
+        if (createState.overlayHidden) {
+            return <AddCircle32Regular className={iconClass}></AddCircle32Regular>;
+        } else {
+            return <AddCircle32Filled className={overflowClass}></AddCircle32Filled>;
         }
     };
 
     return (
         <FluentProvider theme={webLightTheme}>
             <div className={stackClasses}>
-                <Input id={id} readOnly={props.isDisabled} className={inputClass} value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyUp={onInputKey} />
-                <Button className={classes.stackitem} icon={showIcon()} onClick={iconOnClick}></Button>
+                <Input
+                    id={id}
+                    readOnly={props.isDisabled}
+                    className={inputClass}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyUp={onInputKey}
+                />
+                <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest}></Button>
+                <div hidden={!createEnabledState}>
+                    <Button className={classes.stackitem} icon={showCreateButton()} onClick={onClickCreateRequest}></Button>
+                </div>
             </div>
         </FluentProvider>
     );
 };
-
 export default CreateFromLookupApp;
