@@ -8,15 +8,15 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _root: Root;
     private _context: ComponentFramework.Context<IInputs>;
     private _isReadOnly: boolean;
-    private _entityName: string | undefined;
-    private _defaultEntityType: string;
-    private _viewId: string;
+    private _entityName: string;
     private _entityTypes: string[];
     private _viewIds: string[];
     private _currentValue: string;
     private _inputValue: string;
-    private _recordId: string;
+    private _sourceRecordId: any;
+    private _targetRecordId: string | undefined;
     private _isCreateEnabled: boolean;
+    private _sourceEntityTypeName: string | undefined;
 
     constructor() {}
 
@@ -36,6 +36,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         const inputValue = context.parameters.input.raw || '';
         const isDisabled = context.mode.isControlDisabled;
+        this._sourceRecordId = context.resources.getString('cgsol_prt_partnumber');
 
         const props: ICreateFromLookupProps = {
             input: inputValue,
@@ -81,9 +82,10 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             // Currently there is a bug with EntityReference defination
             // It should be resp.id.guid as per doc but response contains the record GUID at resp.id
             // Workaround is to typecast resp.is into any
-            this._recordId = <any>resp.id;
+            this._targetRecordId = <any>resp.id;
             // this.outputLabel.innerHTML = `Contact created with id = ${this.contactEntityId}.`;
             createdRecord = true;
+            this.relateRecord();
         } else {
             createdRecord = false;
         }
@@ -107,5 +109,23 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         }
         console.log('foundRecords: ', foundRecords);
         return foundRecords;
+    }
+    private relateRecord(): void {
+        console.log('relateRecord called');
+        const recordId = (this._context as any)?.page?.entityId ?? '';
+        console.log('\t _targetRecordId: ', this._targetRecordId);
+        console.log('\t recordId: ', recordId);
+        if (this._targetRecordId) {
+            const recordData: ComponentFramework.WebApi.Entity = {};
+            console.log('\t _sourceRecordId: ', this._sourceRecordId);
+            console.log('\t _target: ', this._targetRecordId);
+            recordData['cgsol_prt_ChildPart@odata.bind'] = `/cgsol_parts(${recordId})`;
+            this._context.webAPI.updateRecord('cgsol_part', this._targetRecordId || '', recordData);
+            console.log(`Contact with id = ${this._targetRecordId} updated.`);
+        } else {
+            console.log(`Contact id is not defined.`);
+        }
+
+        // this.retrieveContactButton.disabled = false;
     }
 }
