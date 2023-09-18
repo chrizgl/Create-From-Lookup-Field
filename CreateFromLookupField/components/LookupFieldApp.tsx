@@ -37,7 +37,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const id = useId();
     let found = true;
     let createdRecord = false;
-    const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState(props.currentValue);
     const [searchState, setSearchState] = useState<ICreateFromLookupState>({
         currentValue: '',
         overlayHidden: true,
