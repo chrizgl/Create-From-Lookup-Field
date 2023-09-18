@@ -100,7 +100,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             .retrieveMultipleRecords('cgsol_part', searchString)
             .catch((err) => console.log('Failed to retrieve records'));
         if (result && result.entities.length > 0) {
-            // console.log(`${result.entities.length} records successfully retrieved`);
+            console.log(`${result.entities.length} records successfully retrieved`);
             result.entities.forEach((ele) => {
                 console.log('Part Number: ' + ele.cgsol_prt_partnumber + '\t\t Generation: ' + ele.cgsol_prt_generation);
             });

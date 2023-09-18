@@ -37,7 +37,8 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const id = useId();
     let found = true;
     let createdRecord = false;
-    const [inputValue, setInputValue] = useState(props.currentValue);
+    const [inputValue, setInputValue] = useState('');
+    const [validInputState, setValidInputState] = useState(false);
     const [searchState, setSearchState] = useState<ICreateFromLookupState>({
         currentValue: '',
         overlayHidden: true,
@@ -66,23 +67,23 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const onClickSearchRequest = () => {
         console.log('onClickSearchRequest ' + inputValue);
 
+        console.log('validInput =' + validInputState);
         setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, 1000);
-        props.onSearchRequest(inputValue).then((result) => {
-            console.log('onClickSearchRequest result ' + result);
-            found = result;
-            console.log('found ' + found);
-            if (found === true) {
-                setCreateEnabledState(false);
-                //console.log('1. if - createEnabledState ' + createEnabledState);
-            } else {
-                setCreateEnabledState(true);
-                //console.log('2. else set true? - createEnabledState ' + createEnabledState);
-            }
-            //console.log('3. After if/else - createEnabledState ' + createEnabledState);
-        });
+        if (validInputState === true) {
+            props.onSearchRequest(inputValue).then((result) => {
+                console.log('onClickSearchRequest result ' + result);
+                found = result;
+                console.log('found ' + found);
+                if (!found) {
+                    setCreateEnabledState(true);
+                } else {
+                    setCreateEnabledState(false);
+                }
+            });
+        }
     };
 
     const onClickCreateRequest = () => {
@@ -123,6 +124,18 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         }
     };
 
+    const onInputChange = (value: string) => {
+        setInputValue(value);
+        console.log('onInputChange ' + value);
+        if (value.length > 3) {
+            setValidInputState(true);
+        } else {
+            setValidInputState(false);
+            setCreateEnabledState(false);
+        }
+        console.log('validInput ' + validInputState);
+    };
+
     return (
         <FluentProvider theme={webLightTheme}>
             <div className={stackClasses}>
@@ -131,11 +144,13 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
                     readOnly={props.isDisabled}
                     className={inputClass}
                     value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
+                    onChange={(e) => onInputChange(e.target.value)}
                     onKeyUp={onInputKey}
                 />
-                <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest}></Button>
-                <div hidden={!createEnabledState}>
+                <div hidden={!validInputState}>
+                    <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest}></Button>
+                </div>
+                <div hidden={!createEnabledState || !validInputState}>
                     <Button className={classes.stackitem} icon={showCreateButton()} onClick={onClickCreateRequest}></Button>
                 </div>
             </div>
