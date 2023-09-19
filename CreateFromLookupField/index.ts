@@ -1,7 +1,8 @@
 import { IInputs, IOutputs } from './generated/ManifestTypes';
-import CreateFromLookupApp, { ICreateFromLookupProps } from './components/LookupFieldApp';
+import CreateFromLookupComponent from './components/LookupFieldComponent';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
+import { iCreateFromLookupProps } from './interfaces/iCreateFromLookupProps';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _notifyOutputChanged: () => void;
@@ -15,6 +16,8 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _isCreateEnabled: boolean;
     private _lookUpValue: ComponentFramework.LookupValue[] | undefined;
     private _lookUpName: string | undefined;
+    private _container: HTMLDivElement;
+    private props: iCreateFromLookupProps;
 
     constructor() {}
 
@@ -24,7 +27,8 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         state: ComponentFramework.Dictionary,
         container: HTMLDivElement,
     ) {
-        this._context = context;
+        // this._container = container;
+        // this._context = context;
         this._root = createRoot(container!);
         this._sourceEntityId = this._context.parameters.sourceEntityId.raw || '';
         this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
@@ -37,11 +41,10 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         // this._abc = this._config.abc;
     }
 
-    public async updateView(context: ComponentFramework.Context<IInputs>) {
+    public updateView(context: ComponentFramework.Context<IInputs>): void {
+        this._context = context;
         const inputValue = context.parameters.searchInputField.raw || '';
-        this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
-
-        const props: ICreateFromLookupProps = {
+        this.props = {
             input: inputValue,
             utils: context.utils,
             isDisabled: false,
@@ -51,11 +54,14 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             onSearchRequest: this.retrieveRecords.bind(this),
             onCreateRequest: this.createRecord.bind(this),
         };
-        this._root.render(createElement(CreateFromLookupApp, props));
+        this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
+        // Render the React component into the div container
+        this._root.render(createElement(CreateFromLookupComponent, this.props));
     }
 
     public getOutputs(): IOutputs {
-        return { searchInputField: this._currentValue };
+        return {};
+        //return { searchInputField: this._currentValue };
     }
 
     public destroy(): void {
