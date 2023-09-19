@@ -8,7 +8,6 @@
       -->
     </external-service-usage>
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="lookupfield" display-name-key="Lookup Field" description-key="Lookup field to update value" of-type="Lookup.Simple" usage="bound" required="true" />
     <property name="input" display-name-key="Input Field" description-key="Text field to enter lookUp value" of-type-group="strings" usage="bound" required="true" />
     <property name="entityId" display-name-key="Entity Id" description-key="The id of the current record." of-type="SingleLine.Text" usage="input" required="true" />
     <property name="entityName" display-name-key="Entity Name" description-key="The logical name of the type of the current record." of-type="SingleLine.Text" usage="input" required="true" />

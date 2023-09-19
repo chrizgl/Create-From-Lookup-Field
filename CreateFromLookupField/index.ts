@@ -13,7 +13,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _targetEntityId: string;
     private _targetEntityName: string;
     private _isCreateEnabled: boolean;
-    private _selectedValue: ComponentFramework.LookupValue[] | undefined;
 
     constructor() {}
 
@@ -33,8 +32,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         const inputValue = context.parameters.input.raw || '';
-        const isDisabled = context.mode.isControlDisabled;
-        //this._sourceEntityId = this._context.parameters.entityId.raw || '';
         this._sourceEntityName = this._context.parameters.entityName.raw || '';
 
         const props: ICreateFromLookupProps = {
@@ -47,15 +44,11 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             onSearchRequest: this.retrieveRecords.bind(this),
             onCreateRequest: this.createRecord.bind(this),
         };
-        // console.log('currentValue', props.currentValue);
         this._root.render(createElement(CreateFromLookupApp, props));
     }
 
     public getOutputs(): IOutputs {
-        return {
-            // lookupField: this._lookupField,
-            // input: this._currentValue,
-        };
+        return { input: this._currentValue };
     }
 
     public destroy(): void {
@@ -65,7 +58,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private onChange = (value: string) => {
         this._currentValue = value;
         this._notifyOutputChanged();
-        // console.log('onChange called -- and currentValue is: ', this._currentValue);
     };
     private async createRecord(value: string): Promise<boolean> {
         let createdRecord: boolean;
@@ -84,7 +76,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             // Workaround is to typecast resp.is into any
             this._targetEntityId = <any>resp.id;
             console.log(`Part created with id = ${this._targetEntityId}.`);
-            // this.outputLabel.innerHTML = `Contact created with id = ${this.contactEntityId}.`;
             createdRecord = true;
             this.relateRecord();
         } else {
@@ -106,23 +97,17 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             });
             this._targetEntityId = result.entities[0].cgsol_partid;
             this.relateRecord();
-            // console.log('targetEntityId within retrieveRecords() ', this._targetEntityId);
             foundRecords = true;
         } else {
             foundRecords = false;
         }
-        // console.log('foundRecords: ', foundRecords);
         return foundRecords;
     }
     private relateRecord(): void {
-        // console.log('sourceEntityId within relateRecord() ', this._sourceEntityId);
-        // console.log('targetEntityId within relateRecord() ', this._targetEntityId);
-
         if (this._targetEntityId) {
             const recordData: ComponentFramework.WebApi.Entity = {};
             recordData['cgsol_asn_ChildPart@odata.bind'] = `/cgsol_parts(${this._targetEntityId})`;
             this._context.webAPI.updateRecord(this._sourceEntityName, this._sourceEntityId, recordData);
-            // console.log(`Part Assignment with id = ${this._sourceEntityId} updated.`);
         } else {
             console.log(`Part id is not defined.`);
         }

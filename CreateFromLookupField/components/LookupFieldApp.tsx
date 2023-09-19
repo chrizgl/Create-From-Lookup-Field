@@ -55,7 +55,6 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
             onClickSearchRequest();
             onRequest();
         }
-        // console.log('onInputKey ' + inputValue);
     };
 
     const onRequest = () => {
@@ -99,12 +98,9 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
             console.log('createdRecord ' + createdRecord);
             if (createdRecord === true) {
                 setCreateEnabledState(false);
-                // console.log('1. if - createEnabledState ' + createEnabledState);
             } else {
                 setCreateEnabledState(true);
-                // console.log('2. else set true? - createEnabledState ' + createEnabledState);
             }
-            // console.log('3. After if/else - createEnabledState ' + createEnabledState);
         });
     };
 
