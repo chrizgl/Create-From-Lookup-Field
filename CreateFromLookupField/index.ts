@@ -13,6 +13,8 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _targetEntityId: string;
     private _targetEntityName: string;
     private _isCreateEnabled: boolean;
+    private _lookUpValue: ComponentFramework.LookupValue[] | undefined;
+    private _lookUpName: string | undefined;
 
     constructor() {}
 
@@ -24,15 +26,20 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     ) {
         this._context = context;
         this._root = createRoot(container!);
-        this._sourceEntityId = this._context.parameters.entityId.raw || '';
-        this._targetEntityName = 'cgsol_prt_partnumber';
+        this._sourceEntityId = this._context.parameters.sourceEntityId.raw || '';
+        this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
+        this._targetEntityName = this._context.parameters.targetEntityName.raw || '';
+        this._lookUpValue = this._context.parameters.lookUpValue.raw;
+        this._lookUpName = this._lookUpValue[0].name;
         this._isCreateEnabled = false;
         this._notifyOutputChanged = notifyOutputChanged;
+        // this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
+        // this._abc = this._config.abc;
     }
 
-    public updateView(context: ComponentFramework.Context<IInputs>): void {
-        const inputValue = context.parameters.input.raw || '';
-        this._sourceEntityName = this._context.parameters.entityName.raw || '';
+    public async updateView(context: ComponentFramework.Context<IInputs>) {
+        const inputValue = context.parameters.searchInputField.raw || '';
+        this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
 
         const props: ICreateFromLookupProps = {
             input: inputValue,
@@ -48,7 +55,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     }
 
     public getOutputs(): IOutputs {
-        return { input: this._currentValue };
+        return { searchInputField: this._currentValue };
     }
 
     public destroy(): void {
