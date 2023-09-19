@@ -14,10 +14,9 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _targetEntityId: string;
     private _targetEntityName: string;
     private _isCreateEnabled: boolean;
-    private _lookUpValue: ComponentFramework.LookupValue[] | undefined;
-    private _lookUpName: string | undefined;
-    private _container: HTMLDivElement;
-    private props: iCreateFromLookupProps;
+    // private _lookUpValue: ComponentFramework.LookupValue[] | undefined;
+    // private _lookUpName: string | undefined;
+    // private _container: HTMLDivElement;
 
     constructor() {}
 
@@ -28,13 +27,13 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         container: HTMLDivElement,
     ) {
         // this._container = container;
-        // this._context = context;
+        this._context = context;
         this._root = createRoot(container!);
         this._sourceEntityId = this._context.parameters.sourceEntityId.raw || '';
         this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
         this._targetEntityName = this._context.parameters.targetEntityName.raw || '';
-        this._lookUpValue = this._context.parameters.lookUpValue.raw;
-        this._lookUpName = this._lookUpValue[0].name;
+        // this._lookUpValue = this._context.parameters.lookUpValue.raw;
+        // this._lookUpName = this._lookUpValue[0].name;
         this._isCreateEnabled = false;
         this._notifyOutputChanged = notifyOutputChanged;
         // this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
@@ -44,7 +43,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         this._context = context;
         const inputValue = context.parameters.searchInputField.raw || '';
-        this.props = {
+        const props: iCreateFromLookupProps = {
             input: inputValue,
             utils: context.utils,
             isDisabled: false,
@@ -56,7 +55,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         };
         this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
         // Render the React component into the div container
-        this._root.render(createElement(CreateFromLookupComponent, this.props));
+        this._root.render(createElement(CreateFromLookupComponent, props));
     }
 
     public getOutputs(): IOutputs {
