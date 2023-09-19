@@ -3,6 +3,7 @@ import CreateFromLookupApp from './components/LookupFieldApp';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { iCreateFromLookupProps } from './interfaces/iCreateFromLookupProps';
+import { iUpdateField } from './interfaces/iUpdateField';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _notifyOutputChanged: () => void;
@@ -14,8 +15,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _targetEntityId: string;
     private _targetEntityName: string;
     private _isCreateEnabled: boolean;
-    private _lookUpValue: ComponentFramework.LookupValue[] | undefined;
-    private _lookUpName: string | undefined;
+    private _config: any;
 
     constructor() {}
 
@@ -30,18 +30,13 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._sourceEntityId = this._context.parameters.sourceEntityId.raw || '';
         this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
         this._targetEntityName = this._context.parameters.targetEntityName.raw || '';
-        this._lookUpValue = this._context.parameters.lookUpColumn.raw;
-        this._lookUpName = this._lookUpValue[0].name;
         this._isCreateEnabled = false;
         this._notifyOutputChanged = notifyOutputChanged;
-        // this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
-        // this._abc = this._config.abc;
+        this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
     }
 
-    public async updateView(context: ComponentFramework.Context<IInputs>) {
+    public updateView(context: ComponentFramework.Context<IInputs>): void {
         const inputValue = context.parameters.searchInputField.raw || '';
-        this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
-
         const props: iCreateFromLookupProps = {
             input: inputValue,
             utils: context.utils,
@@ -52,6 +47,12 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             onSearchRequest: this.retrieveRecords.bind(this),
             onCreateRequest: this.createRecord.bind(this),
         };
+        /*
+        console.log('lookupColumnName: ' + this._config.lookupColumnName);
+        console.log('sourceEntityName: ' + this._sourceEntityName);
+        console.log('sourceEntityId: ' + this._sourceEntityId);
+        console.log('targetEntityName: ' + this._targetEntityName);
+        */
         this._root.render(createElement(CreateFromLookupApp, props));
     }
 
@@ -70,10 +71,17 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private async createRecord(value: string): Promise<boolean> {
         let createdRecord: boolean;
         const recordData: ComponentFramework.WebApi.Entity = {};
-        recordData['cgsol_prt_partnumber'] = value;
-        recordData['cgsol_prt_generation'] = 0;
-        recordData['cgsol_prt_iscurrent'] = true;
-
+        recordData[`${this._config.lookupColumnName}`] = value;
+        console.log('Create record with value: ' + recordData[`${this._targetEntityName}`]);
+        //
+        //
+        //
+        this._config.updateColumns?.forEach((field: iUpdateField) => {
+            recordData[field.name] = field.value;
+        });
+        //
+        //
+        //
         const resp = await this._context.webAPI
             .createRecord('cgsol_part', recordData)
             .catch((err) => console.log('Contact creation failed.'));
