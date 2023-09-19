@@ -1,0 +1,9 @@
+{
+    "lookupColumnName": "cgsol_prt_PartNumber",
+    "selectedColumns": ["cgsol_prt_Generation", "cgsol_prt_DescriptionEn"],
+    "filter": [
+        {
+            "cgsol_prt_IsCurrent": true
+        }
+    ]
+}

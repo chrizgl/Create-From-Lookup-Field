@@ -1,7 +1,8 @@
 import { IInputs, IOutputs } from './generated/ManifestTypes';
-import CreateFromLookupApp, { ICreateFromLookupProps } from './components/LookupFieldApp';
+import CreateFromLookupApp from './components/LookupFieldApp';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
+import { iCreateFromLookupProps } from './interfaces/iCreateFromLookupProps';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _notifyOutputChanged: () => void;
@@ -29,7 +30,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._sourceEntityId = this._context.parameters.sourceEntityId.raw || '';
         this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
         this._targetEntityName = this._context.parameters.targetEntityName.raw || '';
-        this._lookUpValue = this._context.parameters.lookUpValue.raw;
+        this._lookUpValue = this._context.parameters.lookUpColumn.raw;
         this._lookUpName = this._lookUpValue[0].name;
         this._isCreateEnabled = false;
         this._notifyOutputChanged = notifyOutputChanged;
@@ -41,7 +42,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         const inputValue = context.parameters.searchInputField.raw || '';
         this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
 
-        const props: ICreateFromLookupProps = {
+        const props: iCreateFromLookupProps = {
             input: inputValue,
             utils: context.utils,
             isDisabled: false,

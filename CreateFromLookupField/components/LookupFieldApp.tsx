@@ -3,32 +3,12 @@ import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled 
 import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import { useState } from 'react';
 import { useStyles } from './Styles';
+import { iCreateFromLookupProps } from '../interfaces/iCreateFromLookupProps';
+import { iCreateFromLookupState } from '../interfaces/iCreateFromLookupState';
 
-export interface ICreateFromLookupProps {
-    input: string | undefined;
-    utils: ComponentFramework.Utility;
-    isDisabled: boolean;
-    currentValue: string;
-    isCreateEnabled: boolean;
-    onRequest: (text: string) => void;
-    onSearchRequest: (text: string) => Promise<boolean>;
-    onCreateRequest: (text: string) => Promise<boolean>;
-}
+//
 
-export interface ICreateFromLookupState {
-    currentValue: string;
-    overlayHidden: boolean;
-    iconBackground: string;
-}
-
-interface IClipboardClassObject {
-    clipboardIcon: string;
-    textbox: string;
-    iconWrapper: string;
-    textboxOverlay: string;
-}
-
-const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
+const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
@@ -39,13 +19,13 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     let createdRecord = false;
     const [inputValue, setInputValue] = useState('');
     const [validInputState, setValidInputState] = useState(false);
-    const [searchState, setSearchState] = useState<ICreateFromLookupState>({
+    const [searchState, setSearchState] = useState<iCreateFromLookupState>({
         currentValue: '',
         overlayHidden: true,
         iconBackground: 'transparent',
     });
     const [createEnabledState, setCreateEnabledState] = useState(false);
-    const [createState, setCreateState] = useState<ICreateFromLookupState>({
+    const [createState, setCreateState] = useState<iCreateFromLookupState>({
         currentValue: '',
         overlayHidden: true,
         iconBackground: 'transparent',
