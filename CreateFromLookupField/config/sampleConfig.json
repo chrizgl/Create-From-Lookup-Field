@@ -1,11 +1,16 @@
 {
     "lookupColumnName": "cgsol_prt_partnumber",
-    "selectedColumns": ["cgsol_prt_generation", "cgsol_prt_descriptionen"],
+    "lookupColumn": "cgsol_partid",
+    "sourceLookupField": "cgsol_asn_ChildPart",
+    "targetEntityMultiple": "cgsol_parts",
+    "selectedColumns": ["cgsol_prt_generation", "cgsol_prt_generation", "cgsol_prt_iscurrent", "cgsol_partid"],
     "filter": [
         {
-            "cgsol_prt_iscurrent": true
+            "name": "cgsol_prt_iscurrent",
+            "value": true
         }
     ],
+    "orderBy": "cgsol_prt_generation",
     "updateColumns": [
         {
             "name": "cgsol_prt_generation",

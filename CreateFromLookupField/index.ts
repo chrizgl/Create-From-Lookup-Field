@@ -47,12 +47,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             onSearchRequest: this.retrieveRecords.bind(this),
             onCreateRequest: this.createRecord.bind(this),
         };
-        /*
-        console.log('lookupColumnName: ' + this._config.lookupColumnName);
-        console.log('sourceEntityName: ' + this._sourceEntityName);
-        console.log('sourceEntityId: ' + this._sourceEntityId);
-        console.log('targetEntityName: ' + this._targetEntityName);
-        */
+        // Render the React component
         this._root.render(createElement(CreateFromLookupApp, props));
     }
 
@@ -72,26 +67,20 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         let createdRecord: boolean;
         const recordData: ComponentFramework.WebApi.Entity = {};
         recordData[`${this._config.lookupColumnName}`] = value;
-        console.log('Create record with value: ' + recordData[`${this._targetEntityName}`]);
-        //
-        //
-        //
+        // Set payload for update fields from config
         this._config.updateColumns?.forEach((field: iUpdateField) => {
             recordData[field.name] = field.value;
         });
-        //
-        //
-        //
         const resp = await this._context.webAPI
-            .createRecord('cgsol_part', recordData)
-            .catch((err) => console.log('Contact creation failed.'));
+            .createRecord(this._targetEntityName, recordData)
+            .catch((err) => console.log('Item creation failed.'));
 
         if (resp) {
             // Currently there is a bug with EntityReference defination
             // It should be resp.id.guid as per doc but response contains the record GUID at resp.id
             // Workaround is to typecast resp.is into any
             this._targetEntityId = <any>resp.id;
-            console.log(`Part created with id = ${this._targetEntityId}.`);
+            console.log(`Item created with id = ${this._targetEntityId}.`);
             createdRecord = true;
             this.relateRecord();
         } else {
@@ -100,18 +89,18 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         return createdRecord;
     }
     private async retrieveRecords(value: string): Promise<boolean> {
+        // Retrieve select for search string form config
+        const selectString = this._config.selectedColumns?.join(',');
+        const filterString = this._config.filter[0].name + ' eq ' + this._config.filter[0].value;
         let foundRecords: boolean;
         const valueToSearch = "'" + value + "'";
-        const searchString = `?$select=cgsol_prt_partnumber,cgsol_prt_generation,cgsol_partid,cgsol_prt_iscurrent&$filter=cgsol_prt_partnumber eq ${valueToSearch} and cgsol_prt_iscurrent eq true&$top=5&$orderby=cgsol_prt_generation`;
+        const searchString = `?$select=${selectString}&$filter=${this._config.lookupColumnName} eq ${valueToSearch} and ${filterString}&$top=5`;
         const result = await this._context.webAPI
-            .retrieveMultipleRecords('cgsol_part', searchString)
+            .retrieveMultipleRecords(this._targetEntityName, searchString)
             .catch((err) => console.log('Failed to retrieve records'));
         if (result && result.entities.length > 0) {
             console.log(`${result.entities.length} records successfully retrieved`);
-            result.entities.forEach((ele) => {
-                console.log('Part Number: ' + ele.cgsol_prt_partnumber + '\t\t Generation: ' + ele.cgsol_prt_generation);
-            });
-            this._targetEntityId = result.entities[0].cgsol_partid;
+            this._targetEntityId = result.entities[0][`${this._config.lookupColumn}`];
             this.relateRecord();
             foundRecords = true;
         } else {
@@ -122,10 +111,10 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private relateRecord(): void {
         if (this._targetEntityId) {
             const recordData: ComponentFramework.WebApi.Entity = {};
-            recordData['cgsol_asn_ChildPart@odata.bind'] = `/cgsol_parts(${this._targetEntityId})`;
+            recordData[`${this._config.sourceLookupField}@odata.bind`] = `/${this._config.targetEntityMultiple}(${this._targetEntityId})`;
             this._context.webAPI.updateRecord(this._sourceEntityName, this._sourceEntityId, recordData);
         } else {
-            console.log(`Part id is not defined.`);
+            console.log(`Item id is not defined.`);
         }
     }
 }

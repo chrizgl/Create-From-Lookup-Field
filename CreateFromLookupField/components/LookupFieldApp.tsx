@@ -44,18 +44,13 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
     // noch habe ich eine eigene Funktionen für Search und Create, eventuell ginge hier ne Klasse und instanzieren?
     //
     const onClickSearchRequest = () => {
-        console.log('onClickSearchRequest ' + inputValue);
-
-        console.log('validInput =' + validInputState);
         setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, 1000);
         if (validInputState === true) {
             props.onSearchRequest(inputValue).then((result) => {
-                console.log('onClickSearchRequest result ' + result);
                 found = result;
-                console.log('found ' + found);
                 if (!found) {
                     setCreateEnabledState(true);
                 } else {
@@ -66,16 +61,12 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
     };
 
     const onClickCreateRequest = () => {
-        console.log('onClickCreateRequest ' + inputValue);
-
         setCreateState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setCreateState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, 1000);
         props.onCreateRequest(inputValue).then((result) => {
-            console.log('onClickCreateRequest result ' + result);
             createdRecord = result;
-            console.log('createdRecord ' + createdRecord);
             if (createdRecord === true) {
                 setCreateEnabledState(false);
             } else {
@@ -102,14 +93,12 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
 
     const onInputChange = (value: string) => {
         setInputValue(value);
-        console.log('onInputChange ' + value);
         if (value.length > 3) {
             setValidInputState(true);
         } else {
             setValidInputState(false);
             setCreateEnabledState(false);
         }
-        console.log('validInput ' + validInputState);
     };
 
     return (
