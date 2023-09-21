@@ -16,9 +16,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _targetEntityName: string;
     private _isCreateEnabled: boolean;
     private _config: any;
-    private _entityType = '';
-    private _defaultViewId = '';
-    private _selectedItem: ComponentFramework.LookupValue;
 
     constructor() {}
 
@@ -34,10 +31,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
         this._targetEntityName = this._context.parameters.targetEntityName.raw || '';
         this._isCreateEnabled = false;
-        this._notifyOutputChanged = notifyOutputChanged;
         this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
-        this._entityType = context.parameters.lookUpColumn.getTargetEntityType();
-        this._defaultViewId = context.parameters.lookUpColumn.getViewId();
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
@@ -61,7 +55,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     }
 
     public getOutputs(): IOutputs {
-        return { lookUpColumn: [this._selectedItem] };
+        return {};
     }
 
     public destroy(): void {
@@ -98,8 +92,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         return createdRecord;
     }
     private async retrieveRecords(value: string): Promise<boolean> {
-        console.log('default view id: ' + this._defaultViewId);
-        console.log('entity type: ' + this._entityType);
         console.log(`Searching for ${value}`);
         // Retrieve select for search string form config
         const selectString = this._config.selectedColumns?.join(',');
@@ -120,7 +112,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         }
         return foundRecords;
     }
-    /*    private relateRecord(): void {
+    private relateRecord(): void {
         console.log(`Relating ${this._sourceEntityName} with ${this._targetEntityName}`);
         console.log(`targetEntityMultiple = ${this._config.targetEntityMultiple}`);
         if (this._targetEntityId && this._sourceEntityId) {
@@ -132,15 +124,5 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             console.log(`Target Entity Id = ${this._targetEntityId}`);
             console.log(`Failed to relate ${this._sourceEntityName} with ${this._targetEntityName}`);
         }
-    }
-    */
-    private relateRecord(): void {
-        this._selectedItem = {
-            id: this._targetEntityId,
-            name: this._targetEntityName,
-            entityType: this._entityType,
-        };
-        this._notifyOutputChanged();
-        console.log(this._selectedItem.id);
     }
 }

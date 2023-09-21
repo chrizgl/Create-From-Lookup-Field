@@ -12,7 +12,6 @@
     <Name>Create-From-Lookup-Field</Name>
     <ProjectGuid>cb3d1c45-2749-45b7-9045-90ee06c857fa</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
-    <PcfBuildMode>production</PcfBuildMode>
   </PropertyGroup>
 
   <PropertyGroup>
