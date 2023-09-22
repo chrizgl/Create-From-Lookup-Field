@@ -1,0 +1,26 @@
+{
+    "lookupColumnName": "cgsol_doc_documentnumber",
+    "lookupColumn": "cgsol_documentid",
+    "sourceLookupField": "cgsol_docasn_Document",
+    "sourceEntityName": "cgsol_docassign",
+    "targetEntityName": "cgsol_document",
+    "targetEntityMultiple": "cgsol_documents",
+    "selectedColumns": ["cgsol_doc_generation", "cgsol_doc_iscurrent", "cgsol_documentid"],
+    "filter": [
+        {
+            "name": "cgsol_doc_iscurrent",
+            "value": true
+        }
+    ],
+    "orderBy": "cgsol_doc_generation",
+    "updateColumns": [
+        {
+            "name": "cgsol_doc_generation",
+            "value": 0
+        },
+        {
+            "name": "cgsol_doc_iscurrent",
+            "value": true
+        }
+    ]
+}

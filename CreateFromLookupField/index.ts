@@ -28,10 +28,10 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._context = context;
         this._root = createRoot(container!);
         this._sourceEntityId = this._context.parameters.sourceEntityId.raw || '';
-        this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
-        this._targetEntityName = this._context.parameters.targetEntityName.raw || '';
         this._isCreateEnabled = false;
         this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
+        this._targetEntityName = this._config.targetEntityName;
+        this._sourceEntityName = this._config.sourceEntityName;
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {

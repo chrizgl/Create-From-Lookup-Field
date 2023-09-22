@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="chrizgl" constructor="CreateFromLookupField" version="2.7.0" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
+  <control namespace="chrizgl" constructor="CreateFromLookupField" version="2.8.0" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
     <external-service-usage enabled="true">
       <!--UNCOMMENT TO ADD EXTERNAL DOMAINS
       <domain></domain>
@@ -10,8 +10,6 @@
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="searchInputField" display-name-key="Search_Input_Field" description-key="Text field to enter lookUp value" of-type-group="strings" usage="bound" required="true" />
     <property name="sourceEntityId" display-name-key="Source_Entity_Id" description-key="The id of the current (source) record." of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="sourceEntityName" display-name-key="Source_Entity_Name" description-key="The logical name of the source entity." of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="targetEntityName" display-name-key="Target_Entity_Name" description-key="The logical name of the target entity." of-type="SingleLine.Text" usage="input" required="true" />
     <property name="lookUpColumn" display-name-key="lookUpValue_Display_Key" description-key="lookUp Column to connect with" of-type="Lookup.Simple" usage="input" required="false" />
     <property name="configJSON" display-name-key="ConfigJSON" description-key="ConfigJSON" of-type="Multiple" usage="input" required="true" />
     <type-group name="strings">

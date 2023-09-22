@@ -2,8 +2,10 @@
     "lookupColumnName": "cgsol_prt_partnumber",
     "lookupColumn": "cgsol_partid",
     "sourceLookupField": "cgsol_asn_ChildPart",
+    "sourceEntityName": "cgsol_assignment",
+    "targetEntityName": "cgsol_part",
     "targetEntityMultiple": "cgsol_parts",
-    "selectedColumns": ["cgsol_prt_generation", "cgsol_prt_generation", "cgsol_prt_iscurrent", "cgsol_partid"],
+    "selectedColumns": ["cgsol_prt_generation", "cgsol_prt_iscurrent", "cgsol_partid"],
     "filter": [
         {
             "name": "cgsol_prt_iscurrent",
