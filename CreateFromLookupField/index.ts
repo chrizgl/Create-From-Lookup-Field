@@ -17,7 +17,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _isCreateEnabled: boolean;
     private _config: any;
     private _writeToField: string;
-    private _panes: any;
+    private _lookupValue: ComponentFramework.LookupValue[] = [];
 
     constructor() {}
 
@@ -63,26 +63,14 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
 
     private onChange = (value: string) => {
         this._currentValue = value;
-        // @ts-ignore
-        const _tmpField = (Xrm as any).Page.getAttribute(this._config.sourceLookupField);
-        // this._notifyOutputChanged();
-        console.log(_tmpField);
     };
-    private onWriteToField = (value: string) => {
-        this._writeToField = value;
-        this._notifyOutputChanged();
-        console.log(`Relating ${this._sourceEntityName} with ${this._targetEntityName}`);
-        console.log(`targetEntityMultiple = ${this._config.targetEntityMultiple}`);
-        if (this._targetEntityId && this._sourceEntityId) {
-            const recordData: ComponentFramework.WebApi.Entity = {};
-            recordData[`${this._config.sourceLookupField}@odata.bind`] = `/${this._config.targetEntityMultiple}(${this._targetEntityId})`;
-            this._context.webAPI.updateRecord(this._sourceEntityName, this._sourceEntityId, recordData);
-        } else {
-            console.log(`Source Entity Id = ${this._sourceEntityId}`);
-            console.log(`Target Entity Id = ${this._targetEntityId}`);
-            console.log(`Failed to relate ${this._sourceEntityName} with ${this._targetEntityName}`);
-        }
+
+    private onSetLookupField = () => {
+        const tmpLookupField = Xrm.Page.getAttribute(this._config.lookupField);
+        console.log('tmpLookupField' + tmpLookupField);
+        tmpLookupField.setValue(this._lookupValue);
     };
+
     private async createRecord(value: string): Promise<boolean> {
         let createdRecord: boolean;
         const recordData: ComponentFramework.WebApi.Entity = {};
@@ -102,8 +90,13 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             this._targetEntityId = <any>resp.id;
             console.log(`Item created with id = ${this._targetEntityId}.`);
             createdRecord = true;
-            // this.relateRecord();
-            this.onWriteToField(value);
+            this._lookupValue[0] = new Object() as ComponentFramework.LookupValue;
+            this._lookupValue[0] = {
+                id: this._targetEntityId,
+                name: value,
+                entityType: this._targetEntityName,
+            };
+            this.onSetLookupField();
         } else {
             createdRecord = false;
         }
@@ -123,15 +116,22 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         if (result && result.entities.length > 0) {
             console.log(`${result.entities.length} records successfully retrieved`);
             this._targetEntityId = result.entities[0][`${this._config.lookupColumn}`];
-            // this.relateRecord();
-            this.onWriteToField(value);
+            // define lookupValue
+            this._lookupValue[0] = new Object() as ComponentFramework.LookupValue;
+            this._lookupValue[0] = {
+                id: this._targetEntityId,
+                name: value,
+                entityType: this._targetEntityName,
+            };
+            this.onSetLookupField();
             foundRecords = true;
         } else {
             foundRecords = false;
         }
         return foundRecords;
     }
-    /* vorläufige Deaktivierung der Funktion
+}
+/* vorläufige Deaktivierung der Funktion
     private relateRecord(): void {
         console.log(`Relating ${this._sourceEntityName} with ${this._targetEntityName}`);
         console.log(`targetEntityMultiple = ${this._config.targetEntityMultiple}`);
@@ -146,4 +146,3 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         }
     }
     */
-}

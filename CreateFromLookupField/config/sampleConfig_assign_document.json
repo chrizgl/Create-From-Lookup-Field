@@ -1,7 +1,7 @@
 {
     "lookupColumnName": "cgsol_doc_documentnumber",
     "lookupColumn": "cgsol_documentid",
-    "sourceLookupField": "cgsol_docasn_Document",
+    "sourceLookupField": "cgsol_docasn_document",
     "sourceEntityName": "cgsol_docassign",
     "targetEntityName": "cgsol_document",
     "targetEntityMultiple": "cgsol_documents",
