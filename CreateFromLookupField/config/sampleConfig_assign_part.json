@@ -1,7 +1,7 @@
 {
     "lookupColumnName": "cgsol_prt_partnumber",
     "lookupColumn": "cgsol_partid",
-    "sourceLookupField": "cgsol_asn_ChildPart",
+    "sourceLookupField": "cgsol_asn_childpart",
     "sourceEntityName": "cgsol_assignment",
     "targetEntityName": "cgsol_part",
     "targetEntityMultiple": "cgsol_parts",

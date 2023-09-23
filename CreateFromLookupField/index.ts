@@ -10,8 +10,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _root: Root;
     private _context: ComponentFramework.Context<IInputs>;
     private _currentValue: string;
-    private _sourceEntityId: string;
-    private _sourceEntityName: string;
     private _targetEntityId: string;
     private _targetEntityName: string;
     private _isCreateEnabled: boolean;
@@ -30,11 +28,9 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._notifyOutputChanged = notifyOutputChanged;
         this._context = context;
         this._root = createRoot(container!);
-        this._sourceEntityId = this._context.parameters.sourceEntityId.raw || '';
         this._isCreateEnabled = false;
         this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
         this._targetEntityName = this._config.targetEntityName;
-        this._sourceEntityName = this._config.sourceEntityName;
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
@@ -66,9 +62,9 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     };
 
     private onSetLookupField = () => {
-        const tmpLookupField = Xrm.Page.getAttribute(this._config.lookupField);
-        console.log('tmpLookupField' + tmpLookupField);
+        const tmpLookupField = Xrm.Page.getAttribute(this._config.sourceLookupField);
         tmpLookupField.setValue(this._lookupValue);
+        console.log(`Lookup field updated with ${this._lookupValue[0].name}`);
     };
 
     private async createRecord(value: string): Promise<boolean> {
@@ -131,18 +127,3 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         return foundRecords;
     }
 }
-/* vorläufige Deaktivierung der Funktion
-    private relateRecord(): void {
-        console.log(`Relating ${this._sourceEntityName} with ${this._targetEntityName}`);
-        console.log(`targetEntityMultiple = ${this._config.targetEntityMultiple}`);
-        if (this._targetEntityId && this._sourceEntityId) {
-            const recordData: ComponentFramework.WebApi.Entity = {};
-            recordData[`${this._config.sourceLookupField}@odata.bind`] = `/${this._config.targetEntityMultiple}(${this._targetEntityId})`;
-            this._context.webAPI.updateRecord(this._sourceEntityName, this._sourceEntityId, recordData);
-        } else {
-            console.log(`Source Entity Id = ${this._sourceEntityId}`);
-            console.log(`Target Entity Id = ${this._targetEntityId}`);
-            console.log(`Failed to relate ${this._sourceEntityName} with ${this._targetEntityName}`);
-        }
-    }
-    */
