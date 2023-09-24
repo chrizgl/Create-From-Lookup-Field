@@ -20,25 +20,20 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
     const [inputValue, setInputValue] = useState('');
     const [validInputState, setValidInputState] = useState(false);
     const [searchState, setSearchState] = useState<iCreateFromLookupState>({
-        currentValue: '',
+        // currentValue: '',
         overlayHidden: true,
         iconBackground: 'transparent',
     });
     const [createEnabledState, setCreateEnabledState] = useState(false);
     const [createState, setCreateState] = useState<iCreateFromLookupState>({
-        currentValue: '',
+        // currentValue: '',
         overlayHidden: true,
         iconBackground: 'transparent',
     });
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
             onClickSearchRequest();
-            onRequest();
         }
-    };
-
-    const onRequest = () => {
-        props.onRequest(inputValue);
     };
     //
     // noch habe ich eine eigene Funktionen für Search und Create, eventuell ginge hier ne Klasse und instanzieren?
