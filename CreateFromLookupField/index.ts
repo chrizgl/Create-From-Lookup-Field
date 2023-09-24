@@ -14,7 +14,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _targetEntityName: string;
     private _isCreateEnabled: boolean;
     private _config: any;
-    private _writeToField: string;
     private _lookupValue: ComponentFramework.LookupValue[] = [];
 
     constructor() {}
@@ -34,14 +33,11 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
-        const inputValue = context.parameters.searchInputField.raw || '';
         const props: iCreateFromLookupProps = {
-            input: inputValue,
             utils: context.utils,
             isDisabled: false,
             isCreateEnabled: this._isCreateEnabled,
             currentValue: this._currentValue,
-            onRequest: this.onChange,
             onSearchRequest: this.retrieveRecords.bind(this),
             onCreateRequest: this.createRecord.bind(this),
         };
@@ -50,21 +46,16 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     }
 
     public getOutputs(): IOutputs {
-        return { searchInputField: this._writeToField };
+        return { lookupField: this._lookupValue };
     }
 
     public destroy(): void {
         this._root.unmount();
     }
 
-    private onChange = (value: string) => {
-        this._currentValue = value;
-    };
-
-    private onSetLookupField = () => {
-        const tmpLookupField = Xrm.Page.getAttribute(this._config.sourceLookupField);
-        tmpLookupField.setValue(this._lookupValue);
-        console.log(`Lookup field updated with ${this._lookupValue[0].name}`);
+    private onChange = () => {
+        // this._currentValue = value;
+        this._notifyOutputChanged();
     };
 
     private async createRecord(value: string): Promise<boolean> {
@@ -92,7 +83,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
                 name: value,
                 entityType: this._targetEntityName,
             };
-            this.onSetLookupField();
+            this.onChange();
         } else {
             createdRecord = false;
         }
@@ -119,7 +110,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
                 name: value,
                 entityType: this._targetEntityName,
             };
-            this.onSetLookupField();
+            this.onChange();
             foundRecords = true;
         } else {
             foundRecords = false;
