@@ -10,12 +10,12 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _root: Root;
     private _context: ComponentFramework.Context<IInputs>;
     private _currentValue: string;
-    private _sourceEntityId: string;
-    private _sourceEntityName: string;
     private _targetEntityId: string;
     private _targetEntityName: string;
     private _isCreateEnabled: boolean;
     private _config: any;
+    private _writeToField: string;
+    private _lookupValue: ComponentFramework.LookupValue[] = [];
 
     constructor() {}
 
@@ -25,20 +25,16 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         state: ComponentFramework.Dictionary,
         container: HTMLDivElement,
     ) {
+        this._notifyOutputChanged = notifyOutputChanged;
         this._context = context;
         this._root = createRoot(container!);
-        this._sourceEntityId = this._context.parameters.sourceEntityId.raw || '';
-        this._sourceEntityName = this._context.parameters.sourceEntityName.raw || '';
-        this._targetEntityName = this._context.parameters.targetEntityName.raw || '';
         this._isCreateEnabled = false;
         this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
+        this._targetEntityName = this._config.targetEntityName;
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         const inputValue = context.parameters.searchInputField.raw || '';
-        const lookupValue: ComponentFramework.LookupValue = context.parameters.lookUpColumn.raw[0];
-        const propertyValue = `name: ${lookupValue.name} entityType: ${lookupValue.entityType} id: ${lookupValue.id}`;
-        console.log(`propertyValue = ${propertyValue}`);
         const props: iCreateFromLookupProps = {
             input: inputValue,
             utils: context.utils,
@@ -50,12 +46,11 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             onCreateRequest: this.createRecord.bind(this),
         };
         // Render the React component
-        console.log(`propertyValue = ${propertyValue}`);
         this._root.render(createElement(CreateFromLookupApp, props));
     }
 
     public getOutputs(): IOutputs {
-        return {};
+        return { searchInputField: this._writeToField };
     }
 
     public destroy(): void {
@@ -64,8 +59,14 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
 
     private onChange = (value: string) => {
         this._currentValue = value;
-        this._notifyOutputChanged();
     };
+
+    private onSetLookupField = () => {
+        const tmpLookupField = Xrm.Page.getAttribute(this._config.sourceLookupField);
+        tmpLookupField.setValue(this._lookupValue);
+        console.log(`Lookup field updated with ${this._lookupValue[0].name}`);
+    };
+
     private async createRecord(value: string): Promise<boolean> {
         let createdRecord: boolean;
         const recordData: ComponentFramework.WebApi.Entity = {};
@@ -85,7 +86,13 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             this._targetEntityId = <any>resp.id;
             console.log(`Item created with id = ${this._targetEntityId}.`);
             createdRecord = true;
-            this.relateRecord();
+            this._lookupValue[0] = new Object() as ComponentFramework.LookupValue;
+            this._lookupValue[0] = {
+                id: this._targetEntityId,
+                name: value,
+                entityType: this._targetEntityName,
+            };
+            this.onSetLookupField();
         } else {
             createdRecord = false;
         }
@@ -105,24 +112,18 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         if (result && result.entities.length > 0) {
             console.log(`${result.entities.length} records successfully retrieved`);
             this._targetEntityId = result.entities[0][`${this._config.lookupColumn}`];
-            this.relateRecord();
+            // define lookupValue
+            this._lookupValue[0] = new Object() as ComponentFramework.LookupValue;
+            this._lookupValue[0] = {
+                id: this._targetEntityId,
+                name: value,
+                entityType: this._targetEntityName,
+            };
+            this.onSetLookupField();
             foundRecords = true;
         } else {
             foundRecords = false;
         }
         return foundRecords;
-    }
-    private relateRecord(): void {
-        console.log(`Relating ${this._sourceEntityName} with ${this._targetEntityName}`);
-        console.log(`targetEntityMultiple = ${this._config.targetEntityMultiple}`);
-        if (this._targetEntityId && this._sourceEntityId) {
-            const recordData: ComponentFramework.WebApi.Entity = {};
-            recordData[`${this._config.sourceLookupField}@odata.bind`] = `/${this._config.targetEntityMultiple}(${this._targetEntityId})`;
-            this._context.webAPI.updateRecord(this._sourceEntityName, this._sourceEntityId, recordData);
-        } else {
-            console.log(`Source Entity Id = ${this._sourceEntityId}`);
-            console.log(`Target Entity Id = ${this._targetEntityId}`);
-            console.log(`Failed to relate ${this._sourceEntityName} with ${this._targetEntityName}`);
-        }
     }
 }
