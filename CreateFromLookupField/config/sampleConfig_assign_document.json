@@ -5,7 +5,13 @@
     "sourceEntityName": "cgsol_docassign",
     "targetEntityName": "cgsol_document",
     "targetEntityMultiple": "cgsol_documents",
-    "selectedColumns": ["cgsol_doc_generation", "cgsol_doc_iscurrent", "cgsol_documentid"],
+    "selectedColumns": [
+        "cgsol_doc_documentnumber",
+        "cgsol_doc_revision",
+        "cgsol_doc_generation",
+        "cgsol_doc_iscurrent",
+        "cgsol_documentid"
+    ],
     "filter": [
         {
             "name": "cgsol_doc_iscurrent",

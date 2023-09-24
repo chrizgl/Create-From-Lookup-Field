@@ -15,6 +15,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _isCreateEnabled: boolean;
     private _config: any;
     private _lookupValue: ComponentFramework.LookupValue[] = [];
+    private _lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
 
     constructor() {}
 
@@ -30,6 +31,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._isCreateEnabled = false;
         this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
         this._targetEntityName = this._config.targetEntityName;
+        this._lookupValues = new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse;
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
@@ -38,6 +40,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             isDisabled: false,
             isCreateEnabled: this._isCreateEnabled,
             currentValue: this._currentValue,
+            lookupValues: this._lookupValues,
             onSearchRequest: this.retrieveRecords.bind(this),
             onCreateRequest: this.createRecord.bind(this),
         };
@@ -93,15 +96,16 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         console.log(`Searching for ${value}`);
         // Retrieve select for search string form config
         const selectString = this._config.selectedColumns?.join(',');
-        const filterString = this._config.filter[0].name + ' eq ' + this._config.filter[0].value;
+        // const filterString = this._config.filter[0].name + ' eq ' + this._config.filter[0].value;
         let foundRecords: boolean;
         const valueToSearch = "'" + value + "'";
-        const searchString = `?$select=${selectString}&$filter=${this._config.lookupColumnName} eq ${valueToSearch} and ${filterString}&$top=5`;
+        const searchString = `?$select=${selectString}&$filter=${this._config.lookupColumnName} eq ${valueToSearch}`; // and ${filterString}&$top=5`;
         const result = await this._context.webAPI
             .retrieveMultipleRecords(this._targetEntityName, searchString)
             .catch((err) => console.log('Failed to retrieve records'));
         if (result && result.entities.length > 0) {
             console.log(`${result.entities.length} records successfully retrieved`);
+            this._lookupValues = result;
             this._targetEntityId = result.entities[0][`${this._config.lookupColumn}`];
             // define lookupValue
             this._lookupValue[0] = new Object() as ComponentFramework.LookupValue;

@@ -1,12 +1,27 @@
 import * as React from 'react';
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled } from '@fluentui/react-icons';
-import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
+import {
+    mergeClasses,
+    Button,
+    FluentProvider,
+    webLightTheme,
+    Input,
+    InputProps,
+    useId,
+    Dialog,
+    DialogTrigger,
+    DialogSurface,
+    DialogTitle,
+    DialogBody,
+    DialogActions,
+    DialogContent,
+} from '@fluentui/react-components';
+import type { PopoverProps } from '@fluentui/react-components';
 import { useState } from 'react';
 import { useStyles } from './Styles';
 import { iCreateFromLookupProps } from '../interfaces/iCreateFromLookupProps';
 import { iCreateFromLookupState } from '../interfaces/iCreateFromLookupState';
-
-//
+import { SelectItemDialog } from './SelectItemDialog';
 
 const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
     const classes = useStyles();
@@ -20,13 +35,11 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
     const [inputValue, setInputValue] = useState('');
     const [validInputState, setValidInputState] = useState(false);
     const [searchState, setSearchState] = useState<iCreateFromLookupState>({
-        // currentValue: '',
         overlayHidden: true,
         iconBackground: 'transparent',
     });
     const [createEnabledState, setCreateEnabledState] = useState(false);
     const [createState, setCreateState] = useState<iCreateFromLookupState>({
-        // currentValue: '',
         overlayHidden: true,
         iconBackground: 'transparent',
     });
@@ -35,9 +48,7 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
             onClickSearchRequest();
         }
     };
-    //
-    // noch habe ich eine eigene Funktionen für Search und Create, eventuell ginge hier ne Klasse und instanzieren?
-    //
+
     const onClickSearchRequest = () => {
         setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
@@ -95,9 +106,27 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
             setCreateEnabledState(false);
         }
     };
+    // kann ggf. verwendet werden z.B. um vor dem Erstellen nachzufragen
+    const openDialog = () => {
+        return (
+            <DialogSurface>
+                <DialogBody>
+                    <DialogTitle>Create new item?</DialogTitle>
+                    <DialogContent>No item found. Do you want to create it new?</DialogContent>
+                    <DialogActions>
+                        <DialogTrigger disableButtonEnhancement>
+                            <Button appearance='secondary'>Close</Button>
+                        </DialogTrigger>
+                        <Button appearance='primary'>Do Something</Button>
+                    </DialogActions>
+                </DialogBody>
+            </DialogSurface>
+        );
+    };
 
     return (
         <FluentProvider theme={webLightTheme}>
+            {SelectItemDialog(props.lookupValues)}
             <div className={stackClasses}>
                 <Input
                     id={id}

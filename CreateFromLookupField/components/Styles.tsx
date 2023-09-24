@@ -61,4 +61,7 @@ export const useStyles = makeStyles({
         ...shorthands.border('0px', 'solid', tokens.colorNeutralStroke1),
         backgroundColor: '#f5f5f5',
     },
+    contentHeader: {
+        marginTop: '0',
+    },
 });
