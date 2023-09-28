@@ -1,7 +1,9 @@
 import { IInputs } from '../generated/ManifestTypes';
 
-export interface iCreateFromLookupProps {
+export default interface iCreateFromLookupProps {
     utils: ComponentFramework.Utility;
+    webAPI: ComponentFramework.WebApi;
+    config: any;
     isDisabled: boolean;
     currentValue: string;
     isCreateEnabled: boolean;

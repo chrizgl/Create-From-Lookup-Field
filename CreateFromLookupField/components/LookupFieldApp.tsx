@@ -19,7 +19,7 @@ import {
 import type { PopoverProps } from '@fluentui/react-components';
 import { useState } from 'react';
 import { useStyles } from './Styles';
-import { iCreateFromLookupProps } from '../interfaces/iCreateFromLookupProps';
+import iCreateFromLookupProps from '../interfaces/iCreateFromLookupProps';
 import { iCreateFromLookupState } from '../interfaces/iCreateFromLookupState';
 import { SelectItemDialog } from './SelectItemDialog';
 

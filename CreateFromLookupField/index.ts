@@ -2,8 +2,9 @@ import { IInputs, IOutputs } from './generated/ManifestTypes';
 import CreateFromLookupApp from './components/LookupFieldApp';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import { iCreateFromLookupProps } from './interfaces/iCreateFromLookupProps';
+import iCreateFromLookupProps from './interfaces/iCreateFromLookupProps';
 import { iUpdateField } from './interfaces/iUpdateField';
+import iConfig from './interfaces/iConfig';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _notifyOutputChanged: () => void;
@@ -13,7 +14,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _targetEntityId: string;
     private _targetEntityName: string;
     private _isCreateEnabled: boolean;
-    private _config: any;
+    private _config: iConfig;
     private _lookupValue: ComponentFramework.LookupValue[] = [];
     private _lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
 
@@ -37,6 +38,8 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         const props: iCreateFromLookupProps = {
             utils: context.utils,
+            webAPI: context.webAPI,
+            config: this._config,
             isDisabled: false,
             isCreateEnabled: this._isCreateEnabled,
             currentValue: this._currentValue,
