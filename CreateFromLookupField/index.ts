@@ -3,7 +3,7 @@ import CreateFromLookupApp from './components/LookupFieldApp';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import iCreateFromLookupProps from './interfaces/iCreateFromLookupProps';
-import { iUpdateField } from './interfaces/iUpdateField';
+import iUpdateField from './interfaces/iUpdateField';
 import iConfig from './interfaces/iConfig';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
@@ -45,7 +45,8 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             currentValue: this._currentValue,
             lookupValues: this._lookupValues,
             onSearchRequest: this.retrieveRecords.bind(this),
-            onCreateRequest: this.createRecord.bind(this),
+            onChangeRequest: this.onChange.bind(this),
+            // onCreateRequest: this.createRecord.bind(this),
         };
         // Render the React component
         this._root.render(createElement(CreateFromLookupApp, props));
@@ -59,11 +60,11 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._root.unmount();
     }
 
-    private onChange = () => {
-        // this._currentValue = value;
+    private onChange = (value: ComponentFramework.LookupValue[]) => {
+        this._lookupValue = value;
         this._notifyOutputChanged();
     };
-
+    /*
     private async createRecord(value: string): Promise<boolean> {
         let createdRecord: boolean;
         const recordData: ComponentFramework.WebApi.Entity = {};
@@ -95,6 +96,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         }
         return createdRecord;
     }
+    */
     private async retrieveRecords(value: string): Promise<boolean> {
         console.log(`Searching for ${value}`);
         // Retrieve select for search string form config
@@ -117,7 +119,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
                 name: value,
                 entityType: this._targetEntityName,
             };
-            this.onChange();
+            // this.onChange();
             foundRecords = true;
         } else {
             foundRecords = false;

@@ -1,34 +1,22 @@
 import * as React from 'react';
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled } from '@fluentui/react-icons';
-import {
-    mergeClasses,
-    Button,
-    FluentProvider,
-    webLightTheme,
-    Input,
-    InputProps,
-    useId,
-    Dialog,
-    DialogTrigger,
-    DialogSurface,
-    DialogTitle,
-    DialogBody,
-    DialogActions,
-    DialogContent,
-} from '@fluentui/react-components';
+import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import type { PopoverProps } from '@fluentui/react-components';
 import { useState } from 'react';
 import { useStyles } from './Styles';
 import iCreateFromLookupProps from '../interfaces/iCreateFromLookupProps';
 import { iCreateFromLookupState } from '../interfaces/iCreateFromLookupState';
 import { SelectItemDialog } from './SelectItemDialog';
+import WebApiRequest from './WebApiComponent';
 
 const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
+    const webApiRequest = new WebApiRequest(props.webAPI, props.config);
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
     const inputClass = mergeClasses(classes.input, classes.stackitem);
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
+
     const id = useId();
     let found = true;
     let createdRecord = false;
@@ -72,16 +60,18 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
         setTimeout(() => {
             setCreateState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, 1000);
-        props.onCreateRequest(inputValue).then((result) => {
-            createdRecord = result;
-            if (createdRecord === true) {
-                setCreateEnabledState(false);
-            } else {
-                setCreateEnabledState(true);
+        webApiRequest.createRecord(inputValue).then((result) => {
+            if (result) {
+                createdRecord = result.isCreated;
+                if (createdRecord === true) {
+                    props.onChangeRequest(result.lookupValue);
+                    setCreateEnabledState(false);
+                } else {
+                    setCreateEnabledState(true);
+                }
             }
         });
     };
-
     // Component Buttons (Icons)
     const showSearchButton = () => {
         if (searchState.overlayHidden) {
@@ -107,23 +97,6 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
             setValidInputState(false);
             setCreateEnabledState(false);
         }
-    };
-    // kann ggf. verwendet werden z.B. um vor dem Erstellen nachzufragen
-    const openDialog = () => {
-        return (
-            <DialogSurface>
-                <DialogBody>
-                    <DialogTitle>Create new item?</DialogTitle>
-                    <DialogContent>No item found. Do you want to create it new?</DialogContent>
-                    <DialogActions>
-                        <DialogTrigger disableButtonEnhancement>
-                            <Button appearance='secondary'>Close</Button>
-                        </DialogTrigger>
-                        <Button appearance='primary'>Do Something</Button>
-                    </DialogActions>
-                </DialogBody>
-            </DialogSurface>
-        );
     };
 
     return (
