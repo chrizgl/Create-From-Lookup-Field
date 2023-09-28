@@ -54,7 +54,7 @@ type Item = {
     revision: RevisionCell;
 };
 
-const dataGrid = () => {
+const dataGrid = (setSelectedItemState: any) => {
     const items: Item[] = [
         {
             partNumber: { label: '3380040' },
@@ -153,8 +153,8 @@ const dataGrid = () => {
             columns={columns}
             sortable
             selectionMode='single'
-            getRowId={(item) => item.partNumber.label}
-            onSelectionChange={(e, data) => console.log(data)}
+            getRowId={(item) => item.partNumber.label + '_' + item.revision.label}
+            onSelectionChange={(e, data) => setSelectedItemState(data)}
             focusMode='composite'
         >
             <DataGridHeader>
@@ -172,7 +172,7 @@ const dataGrid = () => {
         </DataGrid>
     );
 };
-export const SelectItemDialog = (props: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
+export const SelectItemDialog = (props: ComponentFramework.WebApi.RetrieveMultipleResponse, setSelectedItemState: any) => {
     if (props.entities !== undefined) {
         const entities = props.entities ?? undefined;
         const items = [];
@@ -189,11 +189,7 @@ export const SelectItemDialog = (props: ComponentFramework.WebApi.RetrieveMultip
                 <Button>Popover trigger</Button>
             </PopoverTrigger>
 
-            <PopoverSurface>
-                Hallo
-                {dataGrid()}
-                <Button>noch ein Button</Button>
-            </PopoverSurface>
+            <PopoverSurface>{dataGrid(setSelectedItemState)}</PopoverSurface>
         </Popover>
     );
 };

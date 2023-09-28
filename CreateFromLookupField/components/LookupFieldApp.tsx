@@ -43,6 +43,7 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
         overlayHidden: true,
         iconBackground: 'transparent',
     });
+    const [selectedItemState, setSelectedItemState] = useState('');
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
             onClickSearchRequest();
@@ -99,6 +100,7 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
 
     const onInputChange = (value: string) => {
         setInputValue(value);
+        console.log(selectedItemState);
         if (value.length > 3) {
             setValidInputState(true);
         } else {
@@ -126,7 +128,7 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
 
     return (
         <FluentProvider theme={webLightTheme}>
-            {SelectItemDialog(props.lookupValues)}
+            {SelectItemDialog(props.lookupValues, setSelectedItemState)}
             <div className={stackClasses}>
                 <Input
                     id={id}
