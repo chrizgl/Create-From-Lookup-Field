@@ -37,7 +37,7 @@ class WebApiRequest {
             } else {
                 foundRecords = false;
             }
-            return { hasFound: foundRecords, lookupValues: this._lookupValues };
+            return { hasFound: foundRecords, lookupValue: this._lookupValue, lookupValues: this._lookupValues };
         } catch (error) {
             console.log('Failed to retrieve records');
         }

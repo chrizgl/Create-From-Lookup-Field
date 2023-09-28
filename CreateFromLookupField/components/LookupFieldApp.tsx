@@ -6,11 +6,12 @@ import { useState } from 'react';
 import { useStyles } from './Styles';
 import iCreateFromLookupProps from '../interfaces/iCreateFromLookupProps';
 import { iCreateFromLookupState } from '../interfaces/iCreateFromLookupState';
-import { SelectItemDialog } from './SelectItemDialog';
+import SelectItemDialog from './SelectItemDialog';
 import WebApiRequest from './WebApiComponent';
 
 const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
     const webApiRequest = new WebApiRequest(props.webAPI, props.config);
+    const selectItemDialog = new SelectItemDialog();
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
@@ -50,6 +51,7 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
                     if (!found) {
                         setCreateEnabledState(true);
                     } else {
+                        props.onChangeRequest(result.lookupValue);
                         setCreateEnabledState(false);
                         console.log(result.lookupValues);
                     }
@@ -104,7 +106,7 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
 
     return (
         <FluentProvider theme={webLightTheme}>
-            {SelectItemDialog(props.lookupValues, setSelectedItemState)}
+            {selectItemDialog.show(props.lookupValues, setSelectedItemState)}
             <div className={stackClasses}>
                 <Input
                     id={id}
