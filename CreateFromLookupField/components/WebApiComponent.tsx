@@ -1,15 +1,46 @@
-import iWebApiProps from '../interfaces/iWebApiProps';
 import iUpdateField from '../interfaces/iUpdateField';
 import iConfig from '../interfaces/iConfig';
-import { IInputs } from '../generated/ManifestTypes';
 
 class WebApiRequest {
     private _webApi: ComponentFramework.WebApi;
     private _config: iConfig;
+    private _lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
+    private _lookupValue: ComponentFramework.LookupValue[] = [];
 
     constructor(webApi: ComponentFramework.WebApi, config: iConfig) {
         this._webApi = webApi;
         this._config = config;
+    }
+    public async retrieveRecords(value: string) {
+        let targetEntityId = '';
+        console.log(`Searching for ${value}`);
+        // Retrieve select for search string form config
+        const selectString = this._config.selectedColumns?.join(',');
+        // const filterString = this._config.filter[0].name + ' eq ' + this._config.filter[0].value;
+        let foundRecords: boolean;
+        const valueToSearch = "'" + value + "'";
+        const searchString = `?$select=${selectString}&$filter=${this._config.lookupColumnName} eq ${valueToSearch}`; // and ${filterString}&$top=5`;
+        try {
+            const result = await this._webApi.retrieveMultipleRecords(this._config.targetEntityName, searchString);
+            if (result && result.entities.length > 0) {
+                console.log(`${result.entities.length} records successfully retrieved`);
+                this._lookupValues = result;
+                targetEntityId = result.entities[0][`${this._config.lookupColumn}`];
+                // define lookupValue
+                this._lookupValue[0] = new Object() as ComponentFramework.LookupValue;
+                this._lookupValue[0] = {
+                    id: targetEntityId,
+                    name: value,
+                    entityType: this._config.targetEntityName,
+                };
+                foundRecords = true;
+            } else {
+                foundRecords = false;
+            }
+            return { hasFound: foundRecords, lookupValues: this._lookupValues };
+        } catch (error) {
+            console.log('Failed to retrieve records');
+        }
     }
 
     public async createRecord(value: string) {
@@ -34,8 +65,6 @@ class WebApiRequest {
                     name: value,
                     entityType: this._config.targetEntityName,
                 };
-                // this.onChange();
-                console.log('kommt aus der neuen Klasse: ' + lookupValue);
             } else {
                 createdRecord = false;
             }

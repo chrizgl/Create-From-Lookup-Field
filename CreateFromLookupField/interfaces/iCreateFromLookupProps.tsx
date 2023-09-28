@@ -10,6 +10,6 @@ export default interface iCreateFromLookupProps {
     isCreateEnabled: boolean;
     lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
     onChangeRequest: (value: ComponentFramework.LookupValue[]) => void;
-    onSearchRequest: (text: string) => Promise<boolean>;
+    // onSearchRequest: (text: string) => Promise<boolean>;
     // onCreateRequest: (text: string) => Promise<boolean>;
 }

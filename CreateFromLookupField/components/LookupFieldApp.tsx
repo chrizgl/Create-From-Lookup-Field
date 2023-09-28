@@ -44,12 +44,15 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
             setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, 1000);
         if (validInputState === true) {
-            props.onSearchRequest(inputValue).then((result) => {
-                found = result;
-                if (!found) {
-                    setCreateEnabledState(true);
-                } else {
-                    setCreateEnabledState(false);
+            webApiRequest.retrieveRecords(inputValue).then((result) => {
+                if (result) {
+                    found = result.hasFound;
+                    if (!found) {
+                        setCreateEnabledState(true);
+                    } else {
+                        setCreateEnabledState(false);
+                        console.log(result.lookupValues);
+                    }
                 }
             });
         }
