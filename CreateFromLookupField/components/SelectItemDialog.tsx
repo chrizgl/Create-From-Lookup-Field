@@ -1,15 +1,5 @@
 import * as React from 'react';
 import {
-    FolderRegular,
-    EditRegular,
-    OpenRegular,
-    DocumentRegular,
-    PeopleRegular,
-    DocumentPdfRegular,
-    VideoRegular,
-} from '@fluentui/react-icons';
-import {
-    PresenceBadgeStatus,
     Avatar,
     Button,
     DataGridBody,
@@ -25,74 +15,70 @@ import {
     PopoverSurface,
     PopoverTrigger,
 } from '@fluentui/react-components';
-import type { PopoverProps, Select } from '@fluentui/react-components';
-import { useStyles } from './Styles';
-import { IInputs, IOutputs } from '../generated/ManifestTypes';
-import * as exp from 'constants';
-
-type PartNumberCell = {
-    label: string;
-};
-
-type LastUpdatedCell = {
-    label: string;
-    timestamp: number;
-};
-
-type RevisionCell = {
-    label: string;
-};
-
-type OwnerCell = {
-    label: string;
-    status: PresenceBadgeStatus;
-};
-
-type Item = {
-    partNumber: PartNumberCell;
-    owner: OwnerCell;
-    lastUpdated: LastUpdatedCell;
-    revision: RevisionCell;
-};
+import { ITableGridItem } from '../interfaces/ITableGrid';
+import { ISelectItemDialogState } from '../interfaces/ISelectItemDialogState';
+import * as moment from 'moment';
 
 class SelectItemDialog {
-    private dataGrid = (setSelectedItemState: any) => {
-        const items: Item[] = [
-            {
-                partNumber: { label: '3380040' },
-                owner: { label: 'Max Mustermann', status: 'available' },
-                lastUpdated: { label: '7h ago', timestamp: 1 },
-                revision: {
-                    label: '10',
+    constructor() {}
+
+    private buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
+        const entities = values.entities;
+        let items: ITableGridItem[] = [];
+        if (entities !== undefined) {
+            for (const entity of entities) {
+                items.push({
+                    partNumber: { label: entity.cgsol_prt_partnumber },
+                    owner: { label: entity.cgsol_owner, status: 'available' },
+                    lastUpdated: { label: moment(entity.modifiedon).format('DD.MM.YYYY hh:mm:ss'), timestamp: 1 },
+                    revision: {
+                        label: entity.cgsol_prt_revision,
+                    },
+                });
+            }
+        } else {
+            items = [
+                {
+                    partNumber: { label: '3380040' },
+                    owner: { label: 'Max Mustermann', status: 'available' },
+                    lastUpdated: { label: '7h ago', timestamp: 1 },
+                    revision: {
+                        label: '10',
+                    },
                 },
-            },
-            {
-                partNumber: { label: '8870030' },
-                owner: { label: 'Erika Mustermann', status: 'busy' },
-                lastUpdated: { label: 'Yesterday at 1:45 PM', timestamp: 2 },
-                revision: {
-                    label: '04',
+                {
+                    partNumber: { label: '8870030' },
+                    owner: { label: 'Erika Mustermann', status: 'busy' },
+                    lastUpdated: { label: 'Yesterday at 1:45 PM', timestamp: 2 },
+                    revision: {
+                        label: '04',
+                    },
                 },
-            },
-            {
-                partNumber: { label: 'T70001' },
-                owner: { label: 'John Doe', status: 'away' },
-                lastUpdated: { label: 'Yesterday at 1:45 PM', timestamp: 2 },
-                revision: {
-                    label: '00',
+                {
+                    partNumber: { label: 'T70001' },
+                    owner: { label: 'John Doe', status: 'away' },
+                    lastUpdated: { label: 'Yesterday at 1:45 PM', timestamp: 2 },
+                    revision: {
+                        label: '00',
+                    },
                 },
-            },
-            {
-                partNumber: { label: '33900020' },
-                owner: { label: 'Jane Doe', status: 'offline' },
-                lastUpdated: { label: 'Tue at 9:30 AM', timestamp: 3 },
-                revision: {
-                    label: '42',
+                {
+                    partNumber: { label: '33900020' },
+                    owner: { label: 'Jane Doe', status: 'offline' },
+                    lastUpdated: { label: 'Tue at 9:30 AM', timestamp: 3 },
+                    revision: {
+                        label: '42',
+                    },
                 },
-            },
-        ];
-        const columns: TableColumnDefinition<Item>[] = [
-            createTableColumn<Item>({
+            ];
+        }
+        return items;
+    };
+
+    public show = (state: ISelectItemDialogState) => {
+        const values = this.buildItems(state.values);
+        const columns: TableColumnDefinition<ITableGridItem>[] = [
+            createTableColumn<ITableGridItem>({
                 columnId: 'partNumber',
                 compare: (a, b) => {
                     return a.partNumber.label.localeCompare(b.partNumber.label);
@@ -104,7 +90,7 @@ class SelectItemDialog {
                     return <TableCellLayout>{item.partNumber.label}</TableCellLayout>;
                 },
             }),
-            createTableColumn<Item>({
+            createTableColumn<ITableGridItem>({
                 columnId: 'owner',
                 compare: (a, b) => {
                     return a.owner.label.localeCompare(b.owner.label);
@@ -122,7 +108,7 @@ class SelectItemDialog {
                     );
                 },
             }),
-            createTableColumn<Item>({
+            createTableColumn<ITableGridItem>({
                 columnId: 'lastUpdated',
                 compare: (a, b) => {
                     return a.lastUpdated.timestamp - b.lastUpdated.timestamp;
@@ -135,7 +121,7 @@ class SelectItemDialog {
                     return item.lastUpdated.label;
                 },
             }),
-            createTableColumn<Item>({
+            createTableColumn<ITableGridItem>({
                 columnId: 'revision',
                 compare: (a, b) => {
                     return a.revision.label.localeCompare(b.revision.label);
@@ -150,12 +136,12 @@ class SelectItemDialog {
         ];
         return (
             <DataGrid
-                items={items}
+                items={values}
                 columns={columns}
                 sortable
                 selectionMode='single'
                 getRowId={(item) => item.partNumber.label + '_' + item.revision.label}
-                onSelectionChange={(e, data) => setSelectedItemState(data)}
+                // onSelectionChange={(e, data) => setSelectedItemState(data)}
                 focusMode='composite'
             >
                 <DataGridHeader>
@@ -163,36 +149,14 @@ class SelectItemDialog {
                         {({ renderHeaderCell }) => <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>}
                     </DataGridRow>
                 </DataGridHeader>
-                <DataGridBody<Item>>
+                <DataGridBody<ITableGridItem>>
                     {({ item, rowId }) => (
-                        <DataGridRow<Item> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
+                        <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
                             {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
                         </DataGridRow>
                     )}
                 </DataGridBody>
             </DataGrid>
-        );
-    };
-
-    public show = (props: ComponentFramework.WebApi.RetrieveMultipleResponse, setSelectedItemState: any) => {
-        if (props.entities !== undefined) {
-            const entities = props.entities ?? undefined;
-            const items = [];
-            for (const entity of entities) {
-                items.push({
-                    partid: entity.cgsol_partid,
-                });
-                console.log(entity.cgsol_partid);
-            }
-        }
-        return (
-            <Popover>
-                <PopoverTrigger disableButtonEnhancement>
-                    <Button>Popover trigger</Button>
-                </PopoverTrigger>
-
-                <PopoverSurface>{this.dataGrid(setSelectedItemState)}</PopoverSurface>
-            </Popover>
         );
     };
 }

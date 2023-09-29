@@ -1,10 +1,8 @@
-import { IInputs } from '../generated/ManifestTypes';
-import iConfig from './iConfig';
-
-export default interface iCreateFromLookupProps {
+import { IConfig } from './IConfig';
+interface ICreateFromLookupProps {
     utils: ComponentFramework.Utility;
     webAPI: ComponentFramework.WebApi;
-    config: iConfig;
+    config: IConfig;
     isDisabled: boolean;
     currentValue: string;
     isCreateEnabled: boolean;
@@ -13,3 +11,5 @@ export default interface iCreateFromLookupProps {
     // onSearchRequest: (text: string) => Promise<boolean>;
     // onCreateRequest: (text: string) => Promise<boolean>;
 }
+
+export { ICreateFromLookupProps };

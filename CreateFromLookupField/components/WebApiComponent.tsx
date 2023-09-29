@@ -1,13 +1,13 @@
-import iUpdateField from '../interfaces/iUpdateField';
-import iConfig from '../interfaces/iConfig';
+import { IUpdateField } from '../interfaces/IUpdateField';
+import { IConfig } from '../interfaces/IConfig';
 
 class WebApiRequest {
     private _webApi: ComponentFramework.WebApi;
-    private _config: iConfig;
+    private _config: IConfig;
     private _lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
     private _lookupValue: ComponentFramework.LookupValue[] = [];
 
-    constructor(webApi: ComponentFramework.WebApi, config: iConfig) {
+    constructor(webApi: ComponentFramework.WebApi, config: IConfig) {
         this._webApi = webApi;
         this._config = config;
     }
@@ -50,7 +50,7 @@ class WebApiRequest {
         const recordData: ComponentFramework.WebApi.Entity = {}; // store record data
         recordData[`${this._config.lookupColumnName}`] = value;
         // Set payload for update fields from config
-        this._config.updateColumns?.forEach((field: iUpdateField) => {
+        this._config.updateColumns?.forEach((field: IUpdateField) => {
             recordData[field.name] = field.value;
         });
         try {

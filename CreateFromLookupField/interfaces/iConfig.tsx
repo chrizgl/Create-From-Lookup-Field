@@ -1,4 +1,4 @@
-export default interface iConfig {
+interface IConfig {
     lookupColumnName: string;
     lookupColumn: string;
     sourceLookupField: string;
@@ -20,3 +20,5 @@ export default interface iConfig {
         },
     ];
 }
+
+export { IConfig };

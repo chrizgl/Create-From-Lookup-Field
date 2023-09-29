@@ -1,4 +1,6 @@
-export default interface iUpdateField {
+interface IUpdateField {
     name: string;
     value: any;
 }
+
+export { IUpdateField };

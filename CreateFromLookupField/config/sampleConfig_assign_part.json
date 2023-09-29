@@ -5,7 +5,18 @@
     "sourceEntityName": "cgsol_assignment",
     "targetEntityName": "cgsol_part",
     "targetEntityMultiple": "cgsol_parts",
-    "selectedColumns": ["cgsol_prt_partnumber", "cgsol_prt_generation", "cgsol_prt_iscurrent", "cgsol_partid"],
+    "selectedColumns": [
+        "cgsol_partid",
+        "cgsol_prt_partnumber",
+        "cgsol_prt_generation",
+        "cgsol_prt_revision",
+        "cgsol_prt_descriptionen",
+        "cgsol_prt_descriptionde",
+        "cgsol_prt_iscurrent",
+        "cgsol_prt_division",
+        "modifiedon",
+        "createdon"
+    ],
     "filter": [
         {
             "name": "cgsol_prt_iscurrent",

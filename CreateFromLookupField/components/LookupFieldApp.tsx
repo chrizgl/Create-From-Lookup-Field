@@ -1,15 +1,27 @@
 import * as React from 'react';
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled } from '@fluentui/react-icons';
-import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
+import {
+    mergeClasses,
+    Button,
+    FluentProvider,
+    webLightTheme,
+    Input,
+    InputProps,
+    useId,
+    Popover,
+    PopoverSurface,
+    PopoverTrigger,
+} from '@fluentui/react-components';
 import type { PopoverProps } from '@fluentui/react-components';
 import { useState } from 'react';
 import { useStyles } from './Styles';
-import iCreateFromLookupProps from '../interfaces/iCreateFromLookupProps';
-import { iCreateFromLookupState } from '../interfaces/iCreateFromLookupState';
+import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
+import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
 import SelectItemDialog from './SelectItemDialog';
 import WebApiRequest from './WebApiComponent';
+import { ISelectItemDialogState } from '../interfaces/ISelectItemDialogState';
 
-const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
+const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const webApiRequest = new WebApiRequest(props.webAPI, props.config);
     const selectItemDialog = new SelectItemDialog();
     const classes = useStyles();
@@ -23,16 +35,19 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
     let createdRecord = false;
     const [inputValue, setInputValue] = useState('');
     const [validInputState, setValidInputState] = useState(false);
-    const [searchState, setSearchState] = useState<iCreateFromLookupState>({
+    const [searchState, setSearchState] = useState<ICreateFromLookupState>({
         overlayHidden: true,
         iconBackground: 'transparent',
     });
     const [createEnabledState, setCreateEnabledState] = useState(false);
-    const [createState, setCreateState] = useState<iCreateFromLookupState>({
+    const [createState, setCreateState] = useState<ICreateFromLookupState>({
         overlayHidden: true,
         iconBackground: 'transparent',
     });
-    const [selectedItemState, setSelectedItemState] = useState('');
+    const [selectedItemState, setSelectedItemState] = useState<ISelectItemDialogState>({
+        values: new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse,
+        visible: false,
+    });
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
             onClickSearchRequest();
@@ -52,8 +67,9 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
                         setCreateEnabledState(true);
                     } else {
                         props.onChangeRequest(result.lookupValue);
+                        setSelectedItemState((state) => ({ ...state, values: result.lookupValues }));
                         setCreateEnabledState(false);
-                        console.log(result.lookupValues);
+                        console.log('records in lookupValues: ' + result.lookupValues.entities.length);
                     }
                 }
             });
@@ -106,7 +122,12 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
 
     return (
         <FluentProvider theme={webLightTheme}>
-            {selectItemDialog.show(props.lookupValues, setSelectedItemState)}
+            <Popover>
+                <PopoverTrigger disableButtonEnhancement>
+                    <Button>Popover trigger</Button>
+                </PopoverTrigger>
+                <PopoverSurface>{selectItemDialog.show(selectedItemState)}</PopoverSurface>
+            </Popover>
             <div className={stackClasses}>
                 <Input
                     id={id}
