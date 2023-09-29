@@ -11,16 +11,27 @@ import {
     TableCellLayout,
     TableColumnDefinition,
     createTableColumn,
-    Popover,
-    PopoverSurface,
-    PopoverTrigger,
+    Dialog,
+    DialogTrigger,
+    DialogSurface,
+    DialogTitle,
+    DialogBody,
+    DialogActions,
+    DialogContent,
+    useRestoreFocusTarget,
 } from '@fluentui/react-components';
 import { ITableGridItem } from '../interfaces/ITableGrid';
+import { ILookupDialog } from '../interfaces/ILookupDialog';
 import { ISelectItemDialogState } from '../interfaces/ISelectItemDialogState';
 import * as moment from 'moment';
 
 class SelectItemDialog {
-    constructor() {}
+    private _lookupValue: ComponentFramework.LookupValue[];
+    private _props: ILookupDialog;
+
+    constructor(props: ILookupDialog) {
+        this._props = { onChangeRequest: props.onChangeRequest };
+    }
 
     private buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
         const entities = values.entities;
@@ -28,54 +39,41 @@ class SelectItemDialog {
         if (entities !== undefined) {
             for (const entity of entities) {
                 items.push({
+                    id: entity.cgsol_prt_partid,
                     partNumber: { label: entity.cgsol_prt_partnumber },
                     owner: { label: entity.cgsol_owner, status: 'available' },
                     lastUpdated: { label: moment(entity.modifiedon).format('DD.MM.YYYY hh:mm:ss'), timestamp: 1 },
                     revision: {
                         label: entity.cgsol_prt_revision,
                     },
+                    generation: entity.cgsol_prt_generation,
+                    descriptionEn: entity.cgsol_prt_descriptionen,
                 });
             }
         } else {
             items = [
                 {
+                    id: '1',
                     partNumber: { label: '3380040' },
                     owner: { label: 'Max Mustermann', status: 'available' },
                     lastUpdated: { label: '7h ago', timestamp: 1 },
                     revision: {
                         label: '10',
                     },
-                },
-                {
-                    partNumber: { label: '8870030' },
-                    owner: { label: 'Erika Mustermann', status: 'busy' },
-                    lastUpdated: { label: 'Yesterday at 1:45 PM', timestamp: 2 },
-                    revision: {
-                        label: '04',
-                    },
-                },
-                {
-                    partNumber: { label: 'T70001' },
-                    owner: { label: 'John Doe', status: 'away' },
-                    lastUpdated: { label: 'Yesterday at 1:45 PM', timestamp: 2 },
-                    revision: {
-                        label: '00',
-                    },
-                },
-                {
-                    partNumber: { label: '33900020' },
-                    owner: { label: 'Jane Doe', status: 'offline' },
-                    lastUpdated: { label: 'Tue at 9:30 AM', timestamp: 3 },
-                    revision: {
-                        label: '42',
-                    },
+                    generation: { label: 1 },
+                    descriptionEn: { label: 'Test' },
                 },
             ];
         }
         return items;
     };
 
-    public show = (state: ISelectItemDialogState) => {
+    private onSelect = (data: any) => {
+        console.log('Selected item: ' + data.entities[0].cgsol_prt_partnumber + ' with id: ' + data.entities[0].cgsol_prt_partid);
+    };
+
+    public show = (state: ISelectItemDialogState, setState: any) => {
+        const restoreFocusTargetAttribute = useRestoreFocusTarget();
         const values = this.buildItems(state.values);
         const columns: TableColumnDefinition<ITableGridItem>[] = [
             createTableColumn<ITableGridItem>({
@@ -135,28 +133,52 @@ class SelectItemDialog {
             }),
         ];
         return (
-            <DataGrid
-                items={values}
-                columns={columns}
-                sortable
-                selectionMode='single'
-                getRowId={(item) => item.partNumber.label + '_' + item.revision.label}
-                // onSelectionChange={(e, data) => setSelectedItemState(data)}
-                focusMode='composite'
+            <Dialog
+                open={state.open}
+                onOpenChange={(event, data) => {
+                    if (!data.open) {
+                        setState(() => ({ ...state, open: false }));
+                        restoreFocusTargetAttribute;
+                    }
+                }}
             >
-                <DataGridHeader>
-                    <DataGridRow selectionCell={{ 'aria-label': 'Select all rows' }}>
-                        {({ renderHeaderCell }) => <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>}
-                    </DataGridRow>
-                </DataGridHeader>
-                <DataGridBody<ITableGridItem>>
-                    {({ item, rowId }) => (
-                        <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
-                            {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
-                        </DataGridRow>
-                    )}
-                </DataGridBody>
-            </DataGrid>
+                <DialogSurface>
+                    <DialogBody>
+                        <DialogTitle>Dialog title</DialogTitle>
+                        <DialogContent>
+                            <DataGrid
+                                items={values}
+                                columns={columns}
+                                sortable
+                                selectionMode='single'
+                                getRowId={(item) => item.id}
+                                focusMode='composite'
+                            >
+                                <DataGridHeader>
+                                    <DataGridRow selectionCell={{ 'aria-label': 'Select all rows' }}>
+                                        {({ renderHeaderCell }) => <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>}
+                                    </DataGridRow>
+                                </DataGridHeader>
+                                <DataGridBody<ITableGridItem>>
+                                    {({ item, rowId }) => (
+                                        <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
+                                            {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
+                                        </DataGridRow>
+                                    )}
+                                </DataGridBody>
+                            </DataGrid>
+                        </DialogContent>
+                        <DialogActions fluid>
+                            <Button appearance='secondary'>Select</Button>
+                            <Button appearance='secondary'>Something Else</Button>
+                            <DialogTrigger disableButtonEnhancement>
+                                <Button appearance='secondary'>Close</Button>
+                            </DialogTrigger>
+                            <Button appearance='primary'>Do Something</Button>
+                        </DialogActions>
+                    </DialogBody>
+                </DialogSurface>
+            </Dialog>
         );
     };
 }

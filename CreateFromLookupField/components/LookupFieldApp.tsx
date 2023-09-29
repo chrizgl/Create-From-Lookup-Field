@@ -11,6 +11,7 @@ import {
     Popover,
     PopoverSurface,
     PopoverTrigger,
+    useRestoreFocusTarget,
 } from '@fluentui/react-components';
 import type { PopoverProps } from '@fluentui/react-components';
 import { useState } from 'react';
@@ -20,10 +21,15 @@ import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
 import SelectItemDialog from './SelectItemDialog';
 import WebApiRequest from './WebApiComponent';
 import { ISelectItemDialogState } from '../interfaces/ISelectItemDialogState';
+import { ILookupDialog } from '../interfaces/ILookupDialog';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
+    const lookupDialogProps: ILookupDialog = {
+        onChangeRequest: props.onChangeRequest,
+    };
+    const restoreFocusTargetAttribute = useRestoreFocusTarget();
     const webApiRequest = new WebApiRequest(props.webAPI, props.config);
-    const selectItemDialog = new SelectItemDialog();
+    const selectItemDialog = new SelectItemDialog(lookupDialogProps);
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
@@ -46,7 +52,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     });
     const [selectedItemState, setSelectedItemState] = useState<ISelectItemDialogState>({
         values: new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse,
-        visible: false,
+        open: false,
     });
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
@@ -67,7 +73,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
                         setCreateEnabledState(true);
                     } else {
                         props.onChangeRequest(result.lookupValue);
-                        setSelectedItemState((state) => ({ ...state, values: result.lookupValues }));
+                        setSelectedItemState((state) => ({ ...state, values: result.lookupValues, open: true }));
                         setCreateEnabledState(false);
                         console.log('records in lookupValues: ' + result.lookupValues.entities.length);
                     }
@@ -122,12 +128,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     return (
         <FluentProvider theme={webLightTheme}>
-            <Popover>
-                <PopoverTrigger disableButtonEnhancement>
-                    <Button>Popover trigger</Button>
-                </PopoverTrigger>
-                <PopoverSurface>{selectItemDialog.show(selectedItemState)}</PopoverSurface>
-            </Popover>
+            {selectItemDialog.show(selectedItemState, setSelectedItemState)}
             <div className={stackClasses}>
                 <Input
                     id={id}

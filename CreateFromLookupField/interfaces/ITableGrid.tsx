@@ -1,6 +1,7 @@
 import { PresenceBadgeStatus } from '@fluentui/react-components';
 
 interface ITableGridItem {
+    id: string;
     partNumber: {
         label: string;
     };
@@ -13,6 +14,12 @@ interface ITableGridItem {
         timestamp: number;
     };
     revision: {
+        label: string;
+    };
+    generation: {
+        label: number;
+    };
+    descriptionEn: {
         label: string;
     };
 }

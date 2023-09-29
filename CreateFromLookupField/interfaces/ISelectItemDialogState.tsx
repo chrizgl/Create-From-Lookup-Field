@@ -2,7 +2,7 @@ import * as exp from 'constants';
 
 interface ISelectItemDialogState {
     values: ComponentFramework.WebApi.RetrieveMultipleResponse;
-    visible: boolean;
+    open: boolean;
 }
 
 export { ISelectItemDialogState };
