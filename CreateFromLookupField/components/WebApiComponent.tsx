@@ -13,7 +13,6 @@ class WebApiRequest {
     }
     public async retrieveRecords(value: string) {
         let targetEntityId = '';
-        console.log(`Searching for ${value}`);
         // Retrieve select for search string form config
         const selectString = this._config.selectedColumns?.join(',');
         // const filterString = this._config.filter[0].name + ' eq ' + this._config.filter[0].value;

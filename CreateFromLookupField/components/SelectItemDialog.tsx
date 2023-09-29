@@ -21,16 +21,17 @@ import {
     useRestoreFocusTarget,
 } from '@fluentui/react-components';
 import { ITableGridItem } from '../interfaces/ITableGrid';
-import { ILookupDialog } from '../interfaces/ILookupDialog';
-import { ISelectItemDialogState } from '../interfaces/ISelectItemDialogState';
+import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
+import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import * as moment from 'moment';
+import { lookup } from 'dns';
 
-class SelectItemDialog {
+class LookupDialog {
     private _lookupValue: ComponentFramework.LookupValue[];
-    private _props: ILookupDialog;
+    private _props: ILookupDialogProps;
 
-    constructor(props: ILookupDialog) {
-        this._props = { onChangeRequest: props.onChangeRequest };
+    constructor(props: ILookupDialogProps) {
+        this._props = { onChangeRequest: props.onChangeRequest, setLookupDialogState: props.setLookupDialogState };
     }
 
     private buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
@@ -39,7 +40,7 @@ class SelectItemDialog {
         if (entities !== undefined) {
             for (const entity of entities) {
                 items.push({
-                    id: entity.cgsol_prt_partid,
+                    id: entity.cgsol_partid,
                     partNumber: { label: entity.cgsol_prt_partnumber },
                     owner: { label: entity.cgsol_owner, status: 'available' },
                     lastUpdated: { label: moment(entity.modifiedon).format('DD.MM.YYYY hh:mm:ss'), timestamp: 1 },
@@ -68,11 +69,7 @@ class SelectItemDialog {
         return items;
     };
 
-    private onSelect = (data: any) => {
-        console.log('Selected item: ' + data.entities[0].cgsol_prt_partnumber + ' with id: ' + data.entities[0].cgsol_prt_partid);
-    };
-
-    public show = (state: ISelectItemDialogState, setState: any) => {
+    public show = (state: ILookupDialogState) => {
         const restoreFocusTargetAttribute = useRestoreFocusTarget();
         const values = this.buildItems(state.values);
         const columns: TableColumnDefinition<ITableGridItem>[] = [
@@ -132,12 +129,26 @@ class SelectItemDialog {
                 },
             }),
         ];
+        const setValue = (id: string) => {
+            const lookupValue: ComponentFramework.LookupValue[] = [];
+            const item = values.find((item) => item.id === id);
+            if (item !== undefined) {
+                lookupValue[0] = {
+                    id: item.id,
+                    name: item.partNumber.label,
+                    entityType: 'cgsol_part',
+                };
+            }
+            this._lookupValue = lookupValue;
+            this._props.onChangeRequest(lookupValue);
+            this._props.setLookupDialogState(() => ({ ...state, open: false }));
+        };
         return (
             <Dialog
                 open={state.open}
                 onOpenChange={(event, data) => {
                     if (!data.open) {
-                        setState(() => ({ ...state, open: false }));
+                        this._props.setLookupDialogState(() => ({ ...state, open: false }));
                         restoreFocusTargetAttribute;
                     }
                 }}
@@ -152,6 +163,7 @@ class SelectItemDialog {
                                 sortable
                                 selectionMode='single'
                                 getRowId={(item) => item.id}
+                                onSelectionChange={(event, data) => setValue(data.selectedItems.entries().next().value[0])}
                                 focusMode='composite'
                             >
                                 <DataGridHeader>
@@ -182,4 +194,4 @@ class SelectItemDialog {
         );
     };
 }
-export default SelectItemDialog;
+export default LookupDialog;

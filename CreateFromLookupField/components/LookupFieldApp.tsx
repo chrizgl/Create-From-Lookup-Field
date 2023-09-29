@@ -20,16 +20,12 @@ import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
 import SelectItemDialog from './SelectItemDialog';
 import WebApiRequest from './WebApiComponent';
-import { ISelectItemDialogState } from '../interfaces/ISelectItemDialogState';
-import { ILookupDialog } from '../interfaces/ILookupDialog';
+import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
+import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
-    const lookupDialogProps: ILookupDialog = {
-        onChangeRequest: props.onChangeRequest,
-    };
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
     const webApiRequest = new WebApiRequest(props.webAPI, props.config);
-    const selectItemDialog = new SelectItemDialog(lookupDialogProps);
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
@@ -50,10 +46,19 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         overlayHidden: true,
         iconBackground: 'transparent',
     });
-    const [selectedItemState, setSelectedItemState] = useState<ISelectItemDialogState>({
+
+    const [lookupDialogState, setLookupDialogState] = useState<ILookupDialogState>({
         values: new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse,
         open: false,
+        selectedItem: [],
     });
+
+    const lookupDialogProps: ILookupDialogProps = {
+        onChangeRequest: props.onChangeRequest,
+        setLookupDialogState: setLookupDialogState,
+    };
+    const lookupDialog = new SelectItemDialog(lookupDialogProps);
+
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
             onClickSearchRequest();
@@ -72,10 +77,9 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
                     if (!found) {
                         setCreateEnabledState(true);
                     } else {
-                        props.onChangeRequest(result.lookupValue);
-                        setSelectedItemState((state) => ({ ...state, values: result.lookupValues, open: true }));
+                        // props.onChangeRequest(result.lookupValue); // included in LookupDialog
+                        setLookupDialogState((state) => ({ ...state, values: result.lookupValues, open: true }));
                         setCreateEnabledState(false);
-                        console.log('records in lookupValues: ' + result.lookupValues.entities.length);
                     }
                 }
             });
@@ -117,7 +121,6 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     const onInputChange = (value: string) => {
         setInputValue(value);
-        console.log(selectedItemState);
         if (value.length > 3) {
             setValidInputState(true);
         } else {
@@ -128,7 +131,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     return (
         <FluentProvider theme={webLightTheme}>
-            {selectItemDialog.show(selectedItemState, setSelectedItemState)}
+            {lookupDialog.show(lookupDialogState)}
             <div className={stackClasses}>
                 <Input
                     id={id}

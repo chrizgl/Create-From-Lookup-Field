@@ -1,8 +1,9 @@
 import * as exp from 'constants';
 
-interface ISelectItemDialogState {
+interface ILookupDialogState {
     values: ComponentFramework.WebApi.RetrieveMultipleResponse;
     open: boolean;
+    selectedItem: ComponentFramework.LookupValue[];
 }
 
-export { ISelectItemDialogState };
+export { ILookupDialogState };
