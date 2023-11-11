@@ -6,11 +6,19 @@ class WebApiRequest {
     private _config: IConfig;
     private _lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
     private _lookupValue: ComponentFramework.LookupValue[] = [];
+    private _utils: ComponentFramework.Utility;
 
-    constructor(webApi: ComponentFramework.WebApi, config: IConfig) {
+    constructor(webApi: ComponentFramework.WebApi, utils: ComponentFramework.Utility, config: IConfig) {
         this._webApi = webApi;
         this._config = config;
+        this._utils = utils;
     }
+
+    public async getEntity() {
+        const result = await this._utils.getEntityMetadata('cgsol_part');
+        return result;
+    }
+
     public async retrieveRecords(value: string) {
         let targetEntityId = '';
         // Retrieve select for search string form config

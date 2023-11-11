@@ -7,6 +7,8 @@ interface ICreateFromLookupProps {
     currentValue: string;
     isCreateEnabled: boolean;
     lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
+    lookupViewId: string;
+    lookupEntityName: string;
     onChangeRequest: (value: ComponentFramework.LookupValue[]) => void;
 }
 

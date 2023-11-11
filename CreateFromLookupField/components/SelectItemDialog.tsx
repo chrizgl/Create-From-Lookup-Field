@@ -20,14 +20,13 @@ import {
     DialogContent,
     useRestoreFocusTarget,
 } from '@fluentui/react-components';
+import { useStyles } from './Styles';
 import { ITableGridItem } from '../interfaces/ITableGrid';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import * as moment from 'moment';
-import { lookup } from 'dns';
 
 class LookupDialog {
-    private _lookupValue: ComponentFramework.LookupValue[];
     private _props: ILookupDialogProps;
 
     constructor(props: ILookupDialogProps) {
@@ -139,7 +138,6 @@ class LookupDialog {
                     entityType: 'cgsol_part',
                 };
             }
-            this._lookupValue = lookupValue;
             this._props.onChangeRequest(lookupValue);
             this._props.setLookupDialogState(() => ({ ...state, open: false }));
         };

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="chrizgl" constructor="CreateFromLookupField" version="6.0.4" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
+  <control namespace="chrizgl" constructor="CreateFromLookupField" version="7.0.0" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
     <external-service-usage enabled="true">
       <!--UNCOMMENT TO ADD EXTERNAL DOMAINS
       <domain></domain>
@@ -11,11 +11,30 @@
     <property name="lookupField" display-name-key="lookupField_Display_Key" description-key="lookupField_Desc_Key" of-type="Lookup.Simple" usage="bound" required="true" />
     <property name="configJSON" display-name-key="ConfigJSON" description-key="ConfigJSON" of-type="Multiple" usage="input" required="true" />
     <property name="ConfigFileName" display-name-key="ConfigFileName" description-key="ConfigFileName" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="lookup" display-name-key="Lookup" description-key="Lookup" of-type="Lookup.Simple" usage="bound" required="true" />
+
+    <property name="width" display-name-key="Width" description-key="Width" of-type="Whole.None" usage="input" required="false" />
+
+    <property description-key="Can Close" display-name-key="Can Close" name="canClose" required="false" usage="input" of-type="Enum">
+      <value name="Yes" display-name-key="Yes">1</value>
+      <value name="No" display-name-key="No">0</value>
+    </property> 
+
+    <property description-key="Hide Header" display-name-key="Hide Header" name="hideHeader" required="false" usage="input" of-type="Enum">
+      <value name="Yes" display-name-key="Yes">1</value>
+      <value name="No" display-name-key="No">0</value>
+    </property> 
+
+    <property description-key="Always Render" display-name-key="Always Render" name="alwaysRender" required="false" usage="input" of-type="Enum">
+      <value name="Yes" display-name-key="Yes">1</value>
+      <value name="No" display-name-key="No">0</value>
+    </property> 
+    
     <resources>
       <code path="index.ts" order="1"/>
+      <css path="css/LookupOnSidePane.css" order="1" />
       <!-- UNCOMMENT TO ADD MORE RESOURCES
-      <css path="css/CreateFromLookupField.css" order="1" />
-      <resx path="strings/CreateFromLookupField.1033.resx" version="1.0.0" />
+      <resx path="strings/LookupOnSidePane.1033.resx" version="1.0.0" />
       -->
     </resources>
     <feature-usage>

@@ -8,12 +8,8 @@ import {
     Input,
     InputProps,
     useId,
-    Popover,
-    PopoverSurface,
-    PopoverTrigger,
     useRestoreFocusTarget,
 } from '@fluentui/react-components';
-import type { PopoverProps } from '@fluentui/react-components';
 import { useState } from 'react';
 import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
@@ -25,7 +21,7 @@ import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
-    const webApiRequest = new WebApiRequest(props.webAPI, props.config);
+    const webApiRequest = new WebApiRequest(props.webAPI, props.utils, props.config);
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
@@ -66,6 +62,13 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     };
 
     const onClickSearchRequest = () => {
+        webApiRequest.getEntity().then((result) => {
+            if (result) {
+                console.log(result);
+            }
+        });
+        console.log('lookupViewId: ' + props.lookupViewId);
+        console.log('lookupEntityName: ' + props.lookupEntityName);
         setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
@@ -77,7 +80,6 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
                     if (!found) {
                         setCreateEnabledState(true);
                     } else {
-                        // props.onChangeRequest(result.lookupValue); // included in LookupDialog
                         setLookupDialogState((state) => ({ ...state, values: result.lookupValues, open: true }));
                         setCreateEnabledState(false);
                     }
@@ -131,7 +133,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     return (
         <FluentProvider theme={webLightTheme}>
-            {lookupDialog.show(lookupDialogState)}
+            <div className={stackClasses}>{lookupDialog.show(lookupDialogState)}</div>
             <div className={stackClasses}>
                 <Input
                     id={id}
