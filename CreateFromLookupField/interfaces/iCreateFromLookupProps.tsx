@@ -1,4 +1,6 @@
+import OpenOnSidePane from '../components/OpenOnSidePane';
 import { IConfig } from './IConfig';
+
 interface ICreateFromLookupProps {
     utils: ComponentFramework.Utility;
     webAPI: ComponentFramework.WebApi;
@@ -6,9 +8,11 @@ interface ICreateFromLookupProps {
     isDisabled: boolean;
     currentValue: string;
     isCreateEnabled: boolean;
+    lookupValue: ComponentFramework.LookupValue[];
     lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
     lookupViewId: string;
     lookupEntityName: string;
+    openOnSidePane: OpenOnSidePane;
     onChangeRequest: (value: ComponentFramework.LookupValue[]) => void;
 }
 

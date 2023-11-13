@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="chrizgl" constructor="CreateFromLookupField" version="7.0.0" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
+  <control namespace="chrizgl" constructor="CreateFromLookupField" version="7.1.0" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
     <external-service-usage enabled="true">
       <!--UNCOMMENT TO ADD EXTERNAL DOMAINS
       <domain></domain>

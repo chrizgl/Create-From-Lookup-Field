@@ -1,5 +1,3 @@
-import * as exp from 'constants';
-
 interface ILookupDialogState {
     values: ComponentFramework.WebApi.RetrieveMultipleResponse;
     open: boolean;

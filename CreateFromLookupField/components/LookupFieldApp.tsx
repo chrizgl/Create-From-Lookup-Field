@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled } from '@fluentui/react-icons';
+import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
 import {
     mergeClasses,
     Button,
@@ -21,7 +21,8 @@ import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
-    const webApiRequest = new WebApiRequest(props.webAPI, props.utils, props.config);
+    const webApiRequest = new WebApiRequest(props.webAPI, props.utils, props.config)
+    const openOnSidePane = props.openOnSidePane;
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
@@ -33,11 +34,15 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     let createdRecord = false;
     const [inputValue, setInputValue] = useState('');
     const [validInputState, setValidInputState] = useState(false);
+
+    // STATE AREA:
     const [searchState, setSearchState] = useState<ICreateFromLookupState>({
         overlayHidden: true,
         iconBackground: 'transparent',
     });
+
     const [createEnabledState, setCreateEnabledState] = useState(false);
+    
     const [createState, setCreateState] = useState<ICreateFromLookupState>({
         overlayHidden: true,
         iconBackground: 'transparent',
@@ -49,6 +54,11 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         selectedItem: [],
     });
 
+    const [openEnabledState, setOpenEnabledState] = useState(false);
+    const [openState, setOpenState] = useState<ICreateFromLookupState>({
+    overlayHidden: true,
+    iconBackground: 'transparent'});
+    
     const lookupDialogProps: ILookupDialogProps = {
         onChangeRequest: props.onChangeRequest,
         setLookupDialogState: setLookupDialogState,
@@ -62,6 +72,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     };
 
     const onClickSearchRequest = () => {
+        console.log('webApiRequest.getEntity()');
         webApiRequest.getEntity().then((result) => {
             if (result) {
                 console.log(result);
@@ -105,6 +116,15 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
             }
         });
     };
+
+    
+    // BUTTON ACTION: Open on Side Pane
+    const onClickOpenRequest = () => {
+        console.log('onClickOpenRequest - Open on Side Pane');
+        openOnSidePane.OpenOnSidePane(props.lookupValue);
+    };
+
+
     // Component Buttons (Icons)
     const showSearchButton = () => {
         if (searchState.overlayHidden) {
@@ -118,6 +138,13 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
             return <AddCircle32Regular className={iconClass}></AddCircle32Regular>;
         } else {
             return <AddCircle32Filled className={overflowClass}></AddCircle32Filled>;
+        }
+    };
+    const showOpenButton = () => {
+        if (openState.overlayHidden) {
+            return <Open32Regular className={iconClass}></Open32Regular>;
+        } else {
+            return <Open32Filled className={overflowClass}></Open32Filled>;
         }
     };
 
@@ -148,6 +175,9 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
                 </div>
                 <div hidden={!createEnabledState || !validInputState}>
                     <Button className={classes.stackitem} icon={showCreateButton()} onClick={onClickCreateRequest}></Button>
+                </div>
+                <div hidden={false}>
+                    <Button className={classes.stackitem} icon={showOpenButton()} onClick={onClickOpenRequest}></Button>
                 </div>
             </div>
         </FluentProvider>
