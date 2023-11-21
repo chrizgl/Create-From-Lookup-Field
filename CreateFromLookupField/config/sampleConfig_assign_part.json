@@ -17,6 +17,32 @@
         "modifiedon",
         "createdon"
     ],
+    "fields": [
+        {
+            "id": "cgsol_prt_partnumber",
+            "type": "Text",
+            "title": "Part Number",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_revision",
+            "type": "Text",
+            "title": "Revision",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_descriptionen",
+            "type": "Text",
+            "title": "Description (EN)",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_division",
+            "type": "Text",
+            "title": "Division",
+            "visible": true
+        }
+    ],
     "filter": [
         {
             "name": "cgsol_prt_iscurrent",

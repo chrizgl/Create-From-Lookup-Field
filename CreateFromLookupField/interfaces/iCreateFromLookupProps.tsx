@@ -1,6 +1,7 @@
 import OpenOnSidePane from '../components/OpenOnSidePane';
 import { IConfig } from './IConfig';
 
+
 interface ICreateFromLookupProps {
     utils: ComponentFramework.Utility;
     webAPI: ComponentFramework.WebApi;

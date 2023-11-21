@@ -1,3 +1,5 @@
+import { ITableGridField } from "./ITableGridField";
+
 interface IConfig {
     lookupColumnName: string;
     lookupColumn: string;
@@ -5,7 +7,13 @@ interface IConfig {
     sourceEntityName: string;
     targetEntityName: string;
     targetEntityMultiple: string;
-    selectedColumns: [string];
+    selectedColumns: string[];
+    fields: {
+        id: string;
+        title: string;
+        type: "Person" | "Numeric" | "Text" | "Timestamp";
+        visible: boolean;
+    }[];
     filter: [
         {
             name: string;
@@ -13,12 +21,10 @@ interface IConfig {
         },
     ];
     orderBy: string;
-    updateColumns: [
-        {
+    updateColumns: {
             name: string;
-            value: any;
-        },
-    ];
+            value: string | boolean | number | true | false;
+        }[];
 }
 
 export { IConfig };

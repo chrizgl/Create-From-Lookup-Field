@@ -7,6 +7,7 @@ class OpenOnSidePane {
     constructor(props: IOpenOnSidePaneProps) {
         this._props = { lookupValue: props.lookupValue, page: props.page, alwaysRender: props.alwaysRender,
             canClose: props.canClose, hideHeader: props.hideHeader, width: props.width};
+
         this.GetPanes();
         }
 

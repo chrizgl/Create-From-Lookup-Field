@@ -21,121 +21,77 @@ import {
     useRestoreFocusTarget,
 } from '@fluentui/react-components';
 import { useStyles } from './Styles';
-import { ITableGridItem } from '../interfaces/ITableGrid';
+import { ITableGridItem } from '../interfaces/ITableGridItem';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
-import * as moment from 'moment';
+import { ITableGridField } from '../interfaces/ITableGridField';
+import { IConfig } from '../interfaces/IConfig';
 
 class LookupDialog {
     private _props: ILookupDialogProps;
+    private _config: IConfig;
 
     constructor(props: ILookupDialogProps) {
-        this._props = { onChangeRequest: props.onChangeRequest, setLookupDialogState: props.setLookupDialogState };
+        this._props = { onChangeRequest: props.onChangeRequest, setLookupDialogState: props.setLookupDialogState, config: props.config };
+        this._config = props.config;
     }
 
+    // Alternative build where ITableGrid is an array of possible fields:
     private buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
         const entities = values.entities;
         let items: ITableGridItem[] = [];
         if (entities !== undefined) {
             for (const entity of entities) {
-                items.push({
-                    id: entity.cgsol_partid,
-                    partNumber: { label: entity.cgsol_prt_partnumber },
-                    owner: { label: entity.cgsol_owner, status: 'available' },
-                    lastUpdated: { label: moment(entity.modifiedon).format('DD.MM.YYYY hh:mm:ss'), timestamp: 1 },
-                    revision: {
-                        label: entity.cgsol_prt_revision,
-                    },
-                    generation: entity.cgsol_prt_generation,
-                    descriptionEn: entity.cgsol_prt_descriptionen,
-                });
+                const fieldMap = new Map<string, ITableGridField>;
+                if (entity !== undefined) {
+                    for (const field of this._config.fields.values()) {
+                        if (field.visible) {
+                            fieldMap.set(field.id, { label: entity[field.id] })
+                            }
+                    }
+                
+                items.push({ id: entity[this._config.lookupColumn], data: Array.from(fieldMap.values())
+                })}
             }
         } else {
+            console.log('No entities');
             items = [
-                {
-                    id: '1',
-                    partNumber: { label: '3380040' },
-                    owner: { label: 'Max Mustermann', status: 'available' },
-                    lastUpdated: { label: '7h ago', timestamp: 1 },
-                    revision: {
-                        label: '10',
-                    },
-                    generation: { label: 1 },
-                    descriptionEn: { label: 'Test' },
-                },
+
             ];
         }
         return items;
     };
-
     public show = (state: ILookupDialogState) => {
         const restoreFocusTargetAttribute = useRestoreFocusTarget();
-        const values = this.buildItems(state.values);
-        const columns: TableColumnDefinition<ITableGridItem>[] = [
-            createTableColumn<ITableGridItem>({
-                columnId: 'partNumber',
-                compare: (a, b) => {
-                    return a.partNumber.label.localeCompare(b.partNumber.label);
-                },
-                renderHeaderCell: () => {
-                    return 'Part number';
-                },
-                renderCell: (item) => {
-                    return <TableCellLayout>{item.partNumber.label}</TableCellLayout>;
-                },
-            }),
-            createTableColumn<ITableGridItem>({
-                columnId: 'owner',
-                compare: (a, b) => {
-                    return a.owner.label.localeCompare(b.owner.label);
-                },
-                renderHeaderCell: () => {
-                    return 'Owner';
-                },
-                renderCell: (item) => {
-                    return (
-                        <TableCellLayout
-                            media={<Avatar aria-label={item.owner.label} name={item.owner.label} badge={{ status: item.owner.status }} />}
-                        >
-                            {item.owner.label}
-                        </TableCellLayout>
-                    );
-                },
-            }),
-            createTableColumn<ITableGridItem>({
-                columnId: 'lastUpdated',
-                compare: (a, b) => {
-                    return a.lastUpdated.timestamp - b.lastUpdated.timestamp;
-                },
-                renderHeaderCell: () => {
-                    return 'Last updated';
-                },
 
-                renderCell: (item) => {
-                    return item.lastUpdated.label;
-                },
-            }),
-            createTableColumn<ITableGridItem>({
-                columnId: 'revision',
-                compare: (a, b) => {
-                    return a.revision.label.localeCompare(b.revision.label);
-                },
-                renderHeaderCell: () => {
-                    return 'Revision';
-                },
-                renderCell: (item) => {
-                    return <TableCellLayout>{item.revision.label}</TableCellLayout>;
-                },
-            }),
-        ];
+        // Build the items from WebApi response:
+        const items = this.buildItems(state.values);
+
+        const columns: TableColumnDefinition<ITableGridField>[] = [];
+        // Iterate over the fields and create the columns:
+        for (const field of this._config.fields.values()) {
+            if (field.visible) {
+            columns.push(
+                createTableColumn<ITableGridField>({
+                    columnId: field.id,
+                    renderHeaderCell: () => {
+                        return field.title;
+                    },
+                    renderCell: (item) => {
+                        return <TableCellLayout>{item.label}</TableCellLayout>;
+                    },
+                }),
+            )}
+        }
+
         const setValue = (id: string) => {
             const lookupValue: ComponentFramework.LookupValue[] = [];
-            const item = values.find((item) => item.id === id);
+            const item = items.find((item) => item.id === id);
             if (item !== undefined) {
                 lookupValue[0] = {
                     id: item.id,
-                    name: item.partNumber.label,
-                    entityType: 'cgsol_part',
+                    name: item.data[0].label,
+                    entityType: this._props.config.targetEntityName,
                 };
             }
             this._props.onChangeRequest(lookupValue);
@@ -156,7 +112,7 @@ class LookupDialog {
                         <DialogTitle>Dialog title</DialogTitle>
                         <DialogContent>
                             <DataGrid
-                                items={values}
+                                items={items}
                                 columns={columns}
                                 sortable
                                 selectionMode='single'

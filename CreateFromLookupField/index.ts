@@ -34,6 +34,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._context = context;
         this._root = createRoot(container!);
         this._isCreateEnabled = false;
+     
         this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
         this._lookupValue = this._context.parameters.lookupField.raw ?? [];
         this._lookupValues = new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse;
@@ -65,7 +66,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             lookupViewId: this._lookupViewId,
             lookupEntityName: this._lookupEntityName,
             openOnSidePane: this._openOnSiedePane,
-            onChangeRequest: this.onChange.bind(this),
+            onChangeRequest: this.onChange.bind(this), // was wird hier wirklich gebinded? 
         };
         this._root.render(createElement(CreateFromLookupApp, props));
         console.log('updateView ended');

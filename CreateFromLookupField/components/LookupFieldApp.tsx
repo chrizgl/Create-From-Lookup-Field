@@ -1,15 +1,6 @@
 import * as React from 'react';
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
-import {
-    mergeClasses,
-    Button,
-    FluentProvider,
-    webLightTheme,
-    Input,
-    InputProps,
-    useId,
-    useRestoreFocusTarget,
-} from '@fluentui/react-components';
+import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import { useState } from 'react';
 import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
@@ -20,8 +11,7 @@ import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
-    const restoreFocusTargetAttribute = useRestoreFocusTarget();
-    const webApiRequest = new WebApiRequest(props.webAPI, props.utils, props.config)
+    const webApiRequest = new WebApiRequest(props.webAPI, props.utils, props.config);
     const openOnSidePane = props.openOnSidePane;
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
@@ -42,7 +32,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     });
 
     const [createEnabledState, setCreateEnabledState] = useState(false);
-    
+
     const [createState, setCreateState] = useState<ICreateFromLookupState>({
         overlayHidden: true,
         iconBackground: 'transparent',
@@ -56,12 +46,14 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     const [openEnabledState, setOpenEnabledState] = useState(false);
     const [openState, setOpenState] = useState<ICreateFromLookupState>({
-    overlayHidden: true,
-    iconBackground: 'transparent'});
-    
+        overlayHidden: true,
+        iconBackground: 'transparent',
+    });
+
     const lookupDialogProps: ILookupDialogProps = {
         onChangeRequest: props.onChangeRequest,
         setLookupDialogState: setLookupDialogState,
+        config: props.config,
     };
     const lookupDialog = new SelectItemDialog(lookupDialogProps);
 
@@ -117,13 +109,11 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         });
     };
 
-    
     // BUTTON ACTION: Open on Side Pane
     const onClickOpenRequest = () => {
         console.log('onClickOpenRequest - Open on Side Pane');
         openOnSidePane.OpenOnSidePane(props.lookupValue);
     };
-
 
     // Component Buttons (Icons)
     const showSearchButton = () => {
