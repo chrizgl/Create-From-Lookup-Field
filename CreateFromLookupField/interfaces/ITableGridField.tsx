@@ -1,8 +1,10 @@
 import { PresenceBadgeStatus } from '@fluentui/react-components';
 
 interface ITableGridField {
-        label: string | undefined;
+    [id: string]: {
+        label: string | number;
         status?: PresenceBadgeStatus;
     }
+}
 
 export { ITableGridField };

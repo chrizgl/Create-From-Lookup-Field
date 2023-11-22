@@ -10,7 +10,34 @@
         "cgsol_doc_revision",
         "cgsol_doc_generation",
         "cgsol_doc_iscurrent",
-        "cgsol_documentid"
+        "cgsol_documentid",
+        "cgsol_doc_descriptionen"
+    ],
+    "fields": [
+        {
+            "id": "cgsol_doc_documentnumber",
+            "type": "Text",
+            "title": "Document Number",
+            "visible": true
+        },
+        {
+            "id": "cgsol_doc_revision",
+            "type": "Text",
+            "title": "Revision",
+            "visible": true
+        },
+        {
+            "id": "cgsol_doc_descriptionen",
+            "type": "Text",
+            "title": "Description (EN)",
+            "visible": true
+        },
+        {
+            "id": "cgsol_doc_generation",
+            "type": "Numeric",
+            "title": "Generation",
+            "visible": true
+        }
     ],
     "filter": [
         {

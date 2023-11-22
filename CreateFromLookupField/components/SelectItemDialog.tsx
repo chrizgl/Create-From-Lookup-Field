@@ -39,25 +39,26 @@ class LookupDialog {
     // Alternative build where ITableGrid is an array of possible fields:
     private buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
         const entities = values.entities;
-        let items: ITableGridItem[] = [];
+        console.log('Entities: ', entities);
+        let items: any[] = [];
         if (entities !== undefined) {
             for (const entity of entities) {
-                const fieldMap = new Map<string, ITableGridField>;
+                const fieldMap = new Map<string, ITableGridField>();
                 if (entity !== undefined) {
                     for (const field of this._config.fields.values()) {
                         if (field.visible) {
-                            fieldMap.set(field.id, { label: entity[field.id] })
-                            }
+                            fieldMap.set(field.id, { label: entity[field.id] });
+                        }
                     }
-                
-                items.push({ id: entity[this._config.lookupColumn], data: Array.from(fieldMap.values())
-                })}
+                    let item = { id: entity[this._config.lookupColumn] };
+                    item = Object.assign(item, Object.fromEntries(fieldMap));
+                    items.push(item);
+                }
+                console.log('Items: ', items);
             }
         } else {
             console.log('No entities');
-            items = [
-
-            ];
+            items = [];
         }
         return items;
     };
@@ -71,17 +72,21 @@ class LookupDialog {
         // Iterate over the fields and create the columns:
         for (const field of this._config.fields.values()) {
             if (field.visible) {
-            columns.push(
-                createTableColumn<ITableGridField>({
-                    columnId: field.id,
-                    renderHeaderCell: () => {
-                        return field.title;
-                    },
-                    renderCell: (item) => {
-                        return <TableCellLayout>{item.label}</TableCellLayout>;
-                    },
-                }),
-            )}
+                columns.push(
+                    createTableColumn<ITableGridField>({
+                        columnId: field.id,
+                        compare: (a: any, b: any) => {
+                            return a.label.localeCompare(b.label);
+                        },
+                        renderHeaderCell: () => {
+                            return field.title;
+                        },
+                        renderCell: (item) => {
+                            return <TableCellLayout>{item[field.id].label}</TableCellLayout>;
+                        },
+                    }),
+                );
+            }
         }
 
         const setValue = (id: string) => {
@@ -90,7 +95,7 @@ class LookupDialog {
             if (item !== undefined) {
                 lookupValue[0] = {
                     id: item.id,
-                    name: item.data[0].label,
+                    name: item[this._config.lookupColumnName].label,
                     entityType: this._props.config.targetEntityName,
                 };
             }
@@ -127,9 +132,13 @@ class LookupDialog {
                                 </DataGridHeader>
                                 <DataGridBody<ITableGridItem>>
                                     {({ item, rowId }) => (
-                                        <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
-                                            {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
-                                        </DataGridRow>
+                                        console.log('Item: ', item),
+                                        console.log('RowId: ', rowId),
+                                        (
+                                            <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
+                                                {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
+                                            </DataGridRow>
+                                        )
                                     )}
                                 </DataGridBody>
                             </DataGrid>

@@ -37,9 +37,9 @@
             "visible": true
         },
         {
-            "id": "cgsol_prt_division",
-            "type": "Text",
-            "title": "Division",
+            "id": "cgsol_prt_generation",
+            "type": "Numberic",
+            "title": "Generation",
             "visible": true
         }
     ],
