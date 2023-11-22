@@ -39,7 +39,6 @@ class LookupDialog {
     // Alternative build where ITableGrid is an array of possible fields:
     private buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
         const entities = values.entities;
-        console.log('Entities: ', entities);
         let items: any[] = [];
         if (entities !== undefined) {
             for (const entity of entities) {
@@ -54,10 +53,8 @@ class LookupDialog {
                     item = Object.assign(item, Object.fromEntries(fieldMap));
                     items.push(item);
                 }
-                console.log('Items: ', items);
             }
         } else {
-            console.log('No entities');
             items = [];
         }
         return items;
@@ -132,8 +129,6 @@ class LookupDialog {
                                 </DataGridHeader>
                                 <DataGridBody<ITableGridItem>>
                                     {({ item, rowId }) => (
-                                        console.log('Item: ', item),
-                                        console.log('RowId: ', rowId),
                                         (
                                             <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
                                                 {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
