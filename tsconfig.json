@@ -4,7 +4,6 @@
         "typeRoots": ["node_modules/@types"],
         "module": "ES2015",
         "moduleResolution": "node",
-        "sourceMap": true,
         "target": "ES2015",
     }
 }
