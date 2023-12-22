@@ -64,4 +64,8 @@ export const useStyles = makeStyles({
     contentHeader: {
         marginTop: '0',
     },
+    dialog: {
+        width: '100%',
+        height: '100%',
+    },
 });

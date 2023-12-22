@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="chrizgl" constructor="CreateFromLookupField" version="7.4.0" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
+  <control namespace="chrizgl" constructor="CreateFromLookupField" version="8.0.0" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
     <external-service-usage enabled="true">
       <!--UNCOMMENT TO ADD EXTERNAL DOMAINS
       <domain></domain>
@@ -18,18 +18,18 @@
     <property description-key="Can Close" display-name-key="Can Close" name="canClose" required="false" usage="input" of-type="Enum">
       <value name="Yes" display-name-key="Yes">1</value>
       <value name="No" display-name-key="No">0</value>
-    </property> 
+    </property>
 
     <property description-key="Hide Header" display-name-key="Hide Header" name="hideHeader" required="false" usage="input" of-type="Enum">
       <value name="Yes" display-name-key="Yes">1</value>
       <value name="No" display-name-key="No">0</value>
-    </property> 
+    </property>
 
     <property description-key="Always Render" display-name-key="Always Render" name="alwaysRender" required="false" usage="input" of-type="Enum">
       <value name="Yes" display-name-key="Yes">1</value>
       <value name="No" display-name-key="No">0</value>
-    </property> 
-    
+    </property>
+
     <resources>
       <code path="index.ts" order="1"/>
       <!-- UNCOMMENT TO ADD MORE RESOURCES

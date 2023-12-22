@@ -78,8 +78,31 @@ class LookupDialog {
                         renderHeaderCell: () => {
                             return field.title;
                         },
+                        // je nach Typ des Feldes wird ein anderes Layout gerendert:
                         renderCell: (item) => {
-                            return <TableCellLayout>{item[field.id].label}</TableCellLayout>;
+                            switch (field.type) {
+                                case 'Person': {
+                                    return (
+                                        <TableCellLayout>
+                                            <Avatar name={item[field.id].label?.toString()} />
+                                        </TableCellLayout>
+                                    );
+                                }
+                                case 'Text': {
+                                    return <TableCellLayout>{item[field.id].label?.toString()}</TableCellLayout>;
+                                }
+                                case 'Timestamp': {
+                                    if (item[field.id].label) {
+                                        const date = new Date(item[field.id].label as number);
+                                        return <TableCellLayout>{date.toLocaleDateString()}</TableCellLayout>;
+                                    } else {
+                                        return <TableCellLayout></TableCellLayout>;
+                                    }
+                                }
+                                case 'Numeric': {
+                                    return <TableCellLayout>{item[field.id].label?.toString()}</TableCellLayout>;
+                                }
+                            }
                         },
                     }),
                 );
@@ -129,11 +152,9 @@ class LookupDialog {
                                 </DataGridHeader>
                                 <DataGridBody<ITableGridItem>>
                                     {({ item, rowId }) => (
-                                        (
-                                            <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
-                                                {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
-                                            </DataGridRow>
-                                        )
+                                        <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
+                                            {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
+                                        </DataGridRow>
                                     )}
                                 </DataGridBody>
                             </DataGrid>

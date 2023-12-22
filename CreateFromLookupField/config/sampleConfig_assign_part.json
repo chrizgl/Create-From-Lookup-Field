@@ -14,8 +14,10 @@
         "cgsol_prt_descriptionde",
         "cgsol_prt_iscurrent",
         "cgsol_prt_division",
+        "cgsol_prt_releasedatearas",
         "modifiedon",
-        "createdon"
+        "createdon",
+        "ownerid"
     ],
     "fields": [
         {
@@ -37,9 +39,15 @@
             "visible": true
         },
         {
-            "id": "cgsol_prt_generation",
-            "type": "Numberic",
-            "title": "Generation",
+            "id": "cgsol_prt_releasedatearas",
+            "type": "Timestamp",
+            "title": "Release Date (ARAS)",
+            "visible": true
+        },
+        {
+            "id": "ownerid",
+            "type": "Person",
+            "title": "Owner",
             "visible": true
         }
     ],

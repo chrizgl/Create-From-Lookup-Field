@@ -1,14 +1,14 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
 import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
-import { useState } from 'react';
 import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
-import SelectItemDialog from './SelectItemDialog';
-import WebApiRequest from './WebApiComponent';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
+import SelectItemDialog from './SelectItemDialog';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
+import WebApiRequest from './WebApiComponent';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const webApiRequest = new WebApiRequest(props.webAPI, props.utils, props.config);
@@ -18,6 +18,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
     const inputClass = mergeClasses(classes.input, classes.stackitem);
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
+    const dialogClass = mergeClasses(classes.dialog, classes.stackitem);
 
     const id = useId();
     let found = true;
@@ -150,7 +151,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     return (
         <FluentProvider theme={webLightTheme}>
-            <div className={stackClasses}>{lookupDialog.show(lookupDialogState)}</div>
+            <div className={dialogClass}>{lookupDialog.show(lookupDialogState)}</div>
             <div className={stackClasses}>
                 <Input
                     id={id}

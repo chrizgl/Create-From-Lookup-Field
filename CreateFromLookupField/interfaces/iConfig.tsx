@@ -1,4 +1,4 @@
-import { ITableGridField } from "./ITableGridField";
+import { ITableGridField } from './ITableGridField';
 
 interface IConfig {
     lookupColumnName: string;
@@ -11,7 +11,7 @@ interface IConfig {
     fields: {
         id: string;
         title: string;
-        type: "Person" | "Numeric" | "Text" | "Timestamp";
+        type: 'Person' | 'Numeric' | 'Text' | 'Timestamp';
         visible: boolean;
     }[];
     filter: [
@@ -22,9 +22,9 @@ interface IConfig {
     ];
     orderBy: string;
     updateColumns: {
-            name: string;
-            value: string | boolean | number | true | false;
-        }[];
+        name: string;
+        value: string | boolean | number | true | false;
+    }[];
 }
 
 export { IConfig };
