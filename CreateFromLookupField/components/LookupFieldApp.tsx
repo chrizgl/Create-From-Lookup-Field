@@ -65,7 +65,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     };
 
     const onClickSearchRequest = () => {
-        console.log('webApiRequest.getEntity()');
+        console.log('webApiRequest.getEntity() - TEST');
         webApiRequest.getEntity().then((result) => {
             if (result) {
                 console.log(result);
