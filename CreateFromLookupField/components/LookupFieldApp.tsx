@@ -151,7 +151,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     return (
         <FluentProvider theme={webLightTheme}>
-            <div className={dialogClass}>{lookupDialog.show(lookupDialogState)}</div>
+            <div className={stackClasses}>{lookupDialog.show(lookupDialogState)}</div>
             <div className={stackClasses}>
                 <Input
                     id={id}

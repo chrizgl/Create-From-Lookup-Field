@@ -34,7 +34,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         this._context = context;
         this._root = createRoot(container!);
         this._isCreateEnabled = false;
-     
+
         this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
         this._lookupValue = this._context.parameters.lookupField.raw ?? [];
         this._lookupValues = new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse;
@@ -43,12 +43,12 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
 
         this._openOnSidePaneProps = {
             page: (<any>this._context).page,
-            alwaysRender:  this._context.parameters.alwaysRender.raw == '1' ? true : false,
+            alwaysRender: this._context.parameters.alwaysRender.raw == '1' ? true : false,
             canClose: this._context.parameters.canClose.raw == '1' ? true : false,
             hideHeader: this._context.parameters.hideHeader.raw == '1' ? true : false,
             width: this._context.parameters.width.raw!,
             lookupValue: this._lookupValue,
-        }
+        };
         this._openOnSiedePane = new OpenOnSidePane(this._openOnSidePaneProps);
     }
 
@@ -66,10 +66,10 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             lookupViewId: this._lookupViewId,
             lookupEntityName: this._lookupEntityName,
             openOnSidePane: this._openOnSiedePane,
-            onChangeRequest: this.onChange.bind(this), // was wird hier wirklich gebinded? 
+            onChangeRequest: this.onChange.bind(this), // was wird hier wirklich gebinded?
         };
         this._root.render(createElement(CreateFromLookupApp, props));
-        console.log('updateView ended');
+        console.log('updateView ended (TEST)');
     }
 
     public getOutputs(): IOutputs {

@@ -21,6 +21,7 @@ import {
     useRestoreFocusTarget,
 } from '@fluentui/react-components';
 import { useStyles } from './Styles';
+import { mergeClasses } from '@fluentui/react-components';
 import { ITableGridItem } from '../interfaces/ITableGridItem';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
@@ -60,6 +61,8 @@ class LookupDialog {
         return items;
     };
     public show = (state: ILookupDialogState) => {
+        const classes = useStyles();
+        const dialogClass = mergeClasses(classes.dialog, classes.stackitem);
         const restoreFocusTargetAttribute = useRestoreFocusTarget();
 
         // Build the items from WebApi response:

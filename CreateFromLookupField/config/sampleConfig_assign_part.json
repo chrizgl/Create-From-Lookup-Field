@@ -49,6 +49,30 @@
             "type": "Person",
             "title": "Owner",
             "visible": true
+        },
+        {
+            "id": "modifiedon",
+            "type": "Timestamp",
+            "title": "Modified On",
+            "visible": true
+        },
+        {
+            "id": "createdon",
+            "type": "Timestamp",
+            "title": "Created On",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_generation",
+            "type": "Number",
+            "title": "Generation",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_iscurrent",
+            "type": "Number",
+            "title": "Is Current",
+            "visible": true
         }
     ],
     "filter": [
