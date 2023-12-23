@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react'; // avoid re-rendering
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
 import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import { useStyles } from './Styles';
@@ -10,9 +10,16 @@ import SelectItemDialog from './SelectItemDialog';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import WebApiRequest from './WebApiComponent';
 
+const SEARCH_DELAY = 1000;
+
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
-    const webApiRequest = new WebApiRequest(props.webAPI, props.utils, props.config);
+    const webApiRequest = useMemo(
+        () => new WebApiRequest(props.webAPI, props.utils, props.config),
+        [props.webAPI, props.utils, props.config],
+    );
     const openOnSidePane = props.openOnSidePane;
+
+    // Styling specific code:
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
@@ -20,8 +27,6 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
 
     const id = useId();
-    let found = true;
-    let createdRecord = false;
     const [inputValue, setInputValue] = useState('');
     const [validInputState, setValidInputState] = useState(false);
 
@@ -62,51 +67,44 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
             onClickSearchRequest();
         }
     };
+    const handleSearch = useCallback(async () => {
+        console.log('handleSearch');
+        const result = await webApiRequest.getEntity();
+        if (result) {
+            console.log('WebApi Result from handleSearch: ' + result);
+        }
+    }, [webApiRequest]);
+
+    const handleCreate = useCallback(async () => {
+        const result = await webApiRequest.createRecord(inputValue);
+        if (result) {
+            const recordCreated = result.isCreated;
+            if (recordCreated) {
+                props.onChangeRequest(result.lookupValue);
+                setCreateEnabledState(false);
+            } else {
+                setCreateEnabledState(true);
+            }
+        }
+    }, [webApiRequest, inputValue, props]);
 
     const onClickSearchRequest = () => {
-        console.log('webApiRequest.getEntity()');
-        webApiRequest.getEntity().then((result) => {
-            if (result) {
-                console.log(result);
-            }
-        });
-        console.log('lookupViewId: ' + props.lookupViewId);
-        console.log('lookupEntityName: ' + props.lookupEntityName);
+        console.log('onClickSearchRequest is called');
         setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-        }, 1000);
-        if (validInputState === true) {
-            webApiRequest.retrieveRecords(inputValue).then((result) => {
-                if (result) {
-                    found = result.hasFound;
-                    if (!found) {
-                        setCreateEnabledState(true);
-                    } else {
-                        setLookupDialogState((state) => ({ ...state, values: result.lookupValues, open: true }));
-                        setCreateEnabledState(false);
-                    }
-                }
-            });
-        }
+            if (validInputState) {
+                handleSearch();
+            }
+        }, SEARCH_DELAY);
     };
 
     const onClickCreateRequest = () => {
         setCreateState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setCreateState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-        }, 1000);
-        webApiRequest.createRecord(inputValue).then((result) => {
-            if (result) {
-                createdRecord = result.isCreated;
-                if (createdRecord === true) {
-                    props.onChangeRequest(result.lookupValue);
-                    setCreateEnabledState(false);
-                } else {
-                    setCreateEnabledState(true);
-                }
-            }
-        });
+            handleCreate();
+        }, SEARCH_DELAY);
     };
 
     // BUTTON ACTION: Open on Side Pane
