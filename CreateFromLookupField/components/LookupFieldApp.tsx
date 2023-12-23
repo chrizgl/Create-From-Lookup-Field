@@ -18,7 +18,6 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
     const inputClass = mergeClasses(classes.input, classes.stackitem);
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
-    const dialogClass = mergeClasses(classes.dialog, classes.stackitem);
 
     const id = useId();
     let found = true;
@@ -56,7 +55,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         setLookupDialogState: setLookupDialogState,
         config: props.config,
     };
-    const lookupDialog = new SelectItemDialog(lookupDialogProps);
+    const lookupDialog = SelectItemDialog(lookupDialogProps);
 
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
@@ -113,7 +112,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     // BUTTON ACTION: Open on Side Pane
     const onClickOpenRequest = () => {
         console.log('onClickOpenRequest - Open on Side Pane');
-        openOnSidePane.OpenOnSidePane(props.lookupValue);
+        openOnSidePane.openOnSidePane(props.lookupValue);
     };
 
     // Component Buttons (Icons)

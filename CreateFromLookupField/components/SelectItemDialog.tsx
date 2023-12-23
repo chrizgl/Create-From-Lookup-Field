@@ -28,29 +28,31 @@ import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import { ITableGridField } from '../interfaces/ITableGridField';
 import { IConfig } from '../interfaces/IConfig';
 
-class LookupDialog {
-    private _props: ILookupDialogProps;
-    private _config: IConfig;
+const LookupDialog = (props: ILookupDialogProps) => {
+    const _props = {
+        onChangeRequest: props.onChangeRequest,
+        setLookupDialogState: props.setLookupDialogState,
+        config: props.config,
+    };
+    const _config = props.config;
 
-    constructor(props: ILookupDialogProps) {
-        this._props = { onChangeRequest: props.onChangeRequest, setLookupDialogState: props.setLookupDialogState, config: props.config };
-        this._config = props.config;
-    }
+    const classes = useStyles();
+    const dialogClass = mergeClasses(classes.dialog, classes.stackitem);
+    const restoreFocusTargetAttribute = useRestoreFocusTarget();
 
-    // Alternative build where ITableGrid is an array of possible fields:
-    private buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
+    const buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
         const entities = values.entities;
         let items: any[] = [];
         if (entities !== undefined) {
             for (const entity of entities) {
                 const fieldMap = new Map<string, ITableGridField>();
                 if (entity !== undefined) {
-                    for (const field of this._config.fields.values()) {
+                    for (const field of _config.fields.values()) {
                         if (field.visible) {
                             fieldMap.set(field.id, { label: entity[field.id] });
                         }
                     }
-                    let item = { id: entity[this._config.lookupColumn] };
+                    let item = { id: entity[_config.lookupColumn] };
                     item = Object.assign(item, Object.fromEntries(fieldMap));
                     items.push(item);
                 }
@@ -60,17 +62,11 @@ class LookupDialog {
         }
         return items;
     };
-    public show = (state: ILookupDialogState) => {
-        const classes = useStyles();
-        const dialogClass = mergeClasses(classes.dialog, classes.stackitem);
-        const restoreFocusTargetAttribute = useRestoreFocusTarget();
-
-        // Build the items from WebApi response:
-        const items = this.buildItems(state.values);
+    const show = (state: ILookupDialogState) => {
+        const items = buildItems(state.values);
 
         const columns: TableColumnDefinition<ITableGridField>[] = [];
-        // Iterate over the fields and create the columns:
-        for (const field of this._config.fields.values()) {
+        for (const field of _config.fields.values()) {
             if (field.visible) {
                 columns.push(
                     createTableColumn<ITableGridField>({
@@ -81,7 +77,6 @@ class LookupDialog {
                         renderHeaderCell: () => {
                             return field.title;
                         },
-                        // je nach Typ des Feldes wird ein anderes Layout gerendert:
                         renderCell: (item) => {
                             switch (field.type) {
                                 case 'Person': {
@@ -118,19 +113,19 @@ class LookupDialog {
             if (item !== undefined) {
                 lookupValue[0] = {
                     id: item.id,
-                    name: item[this._config.lookupColumnName].label,
-                    entityType: this._props.config.targetEntityName,
+                    name: item[_config.lookupColumnName].label,
+                    entityType: _props.config.targetEntityName,
                 };
             }
-            this._props.onChangeRequest(lookupValue);
-            this._props.setLookupDialogState(() => ({ ...state, open: false }));
+            _props.onChangeRequest(lookupValue);
+            _props.setLookupDialogState(() => ({ ...state, open: false }));
         };
         return (
             <Dialog
                 open={state.open}
                 onOpenChange={(event, data) => {
                     if (!data.open) {
-                        this._props.setLookupDialogState(() => ({ ...state, open: false }));
+                        _props.setLookupDialogState(() => ({ ...state, open: false }));
                         restoreFocusTargetAttribute;
                     }
                 }}
@@ -175,5 +170,6 @@ class LookupDialog {
             </Dialog>
         );
     };
-}
+    return { show };
+};
 export default LookupDialog;

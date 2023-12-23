@@ -12,7 +12,7 @@ interface ICreateFromLookupProps {
     lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
     lookupViewId: string;
     lookupEntityName: string;
-    openOnSidePane: OpenOnSidePane;
+    openOnSidePane: any;
     onChangeRequest: (value: ComponentFramework.LookupValue[]) => void;
 }
 

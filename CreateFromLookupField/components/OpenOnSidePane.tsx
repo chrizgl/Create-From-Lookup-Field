@@ -1,129 +1,134 @@
-import { IOpenOnSidePaneProps } from "../interfaces/IOpenOnSidePaneProps";
+import { IOpenOnSidePaneProps } from '../interfaces/IOpenOnSidePaneProps';
 
-class OpenOnSidePane {
-    private _props: IOpenOnSidePaneProps;
-    private _panes: any;
+const OpenOnSidePane = (props: IOpenOnSidePaneProps) => {
+    const _props = {
+        page: props.page,
+        lookupValue: props.lookupValue,
+        alwaysRender: props.alwaysRender,
+        canClose: props.canClose,
+        hideHeader: props.hideHeader,
+        width: props.width,
+    };
 
-    constructor(props: IOpenOnSidePaneProps) {
-        this._props = { lookupValue: props.lookupValue, page: props.page, alwaysRender: props.alwaysRender,
-            canClose: props.canClose, hideHeader: props.hideHeader, width: props.width};
+    let _panes: any;
 
-        this.GetPanes();
-        }
+    const getPanes = () => {
+        _panes = (Xrm as any).App!.sidePanes;
+    };
 
-    public GetPanes() {
-        this._panes = (Xrm as any).App!.sidePanes;
-    }
-
-    public OpenOnSidePane(lookupValue: ComponentFramework.LookupValue[]) {
-        this._props.lookupValue = lookupValue;
-        // IF THE COLUMN IS NULL
-        if (this.HasValue()) {
-            // VERIFY IF THE RECORD IS OPENED ON PANE
-
-            if (!this.IsOpened()) {
-                this._panes
+    const openOnSidePane = (lookupValue: ComponentFramework.LookupValue[]) => {
+        _props.lookupValue = lookupValue;
+        getPanes();
+        console.log('_props.lookupValue: ' + _props.lookupValue[0].entityType + ':' + _props.lookupValue[0].id) +
+            ' - ' +
+            _props.lookupValue[0].name!;
+        if (hasValue()) {
+            if (!isOpened()) {
+                _panes
                     .createPane({
-                        title: this._props.lookupValue![0].name!.toUpperCase(),
-                        imageSrc: this.RetrieveEntityImage(),
-                        alwaysRender: this._props.alwaysRender,
-                        canClose: this._props.canClose,
-                        hideHeader: this._props.hideHeader,
-                        paneId: this._props.lookupValue![0].entityType + ':' + this._props.lookupValue![0].id,
-                        width: this._props.width,
+                        title: _props.lookupValue![0].name!.toUpperCase(),
+                        imageSrc: retrieveEntityImage(),
+                        alwaysRender: _props.alwaysRender,
+                        canClose: _props.canClose,
+                        hideHeader: _props.hideHeader,
+                        paneId: _props.lookupValue![0].entityType + ':' + _props.lookupValue![0].id,
+                        width: _props.width,
                     })
                     .then((pane: any) => {
                         pane.navigate({
                             pageType: 'entityrecord',
-                            entityName: this._props.lookupValue![0].entityType,
-                            entityId: this._props.lookupValue![0].id,
+                            entityName: _props.lookupValue![0].entityType,
+                            entityId: _props.lookupValue![0].id,
                         });
                     });
             } else {
-                this.Close();
+                closePane();
             }
         }
 
-        if (this._panes.state == 0) this._panes.state = 1;
+        if (_panes.state === 0) _panes.state = 1;
 
-        this.GetPanes();
-    }
+        getPanes();
+    };
 
-    public HasValue(): boolean {
-        return this._props.lookupValue.length === 1
-            ? true
-            : false;
-    }
+    const hasValue = (): boolean => {
+        return _props.lookupValue.length === 1;
+    };
 
-    public IsOpened(): boolean {
-        return this._panes.getPane(this._props.lookupValue![0].entityType + ":" + this._props.lookupValue![0].id) != undefined
-            ? true
-            : false;
-    }
+    const isOpened = (): boolean => {
+        const result = _panes.getPane(_props.lookupValue![0].entityType + ':' + _props.lookupValue![0].id) != undefined ? true : false;
+        console.log('isOpened: ' + result);
+        return result;
+    };
 
-    public Close(): any {
-        const pane = this._panes.getPane(this._props.lookupValue![0].entityType + ":" + this._props.lookupValue![0].id);
-        if (pane !== undefined)
-            pane.close();
-    }
+    const closePane = (): any => {
+        const pane = _panes.getPane(_props.lookupValue![0].entityType + ':' + _props.lookupValue![0].id);
+        if (pane !== undefined) pane.close();
+    };
 
-    private RetrieveEntityImage(): any {
+    const retrieveEntityImage = (): any => {
         let icon: string | undefined;
         const req = new XMLHttpRequest();
-        const baseUrl = (this._props.page.getClientUrl());
-        const caller = this;
-        req.open("GET", baseUrl + "/api/data/v9.1/EntityDefinitions(LogicalName='" + this._props.lookupValue![0].entityType + "')?$select=IconSmallName,ObjectTypeCode", false);
-		req.setRequestHeader("OData-MaxVersion", "4.0");
-        req.setRequestHeader("OData-MaxVersion", "4.0");
-        req.setRequestHeader("OData-Version", "4.0");
-        req.setRequestHeader("Accept", "application/json");
-        req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        const baseUrl = _props.page.getClientUrl();
+        req.open(
+            'GET',
+            baseUrl +
+                "/api/data/v9.1/EntityDefinitions(LogicalName='" +
+                _props.lookupValue![0].entityType +
+                "')?$select=IconSmallName,ObjectTypeCode",
+            false,
+        );
+        req.setRequestHeader('OData-MaxVersion', '4.0');
+        req.setRequestHeader('OData-MaxVersion', '4.0');
+        req.setRequestHeader('OData-Version', '4.0');
+        req.setRequestHeader('Accept', 'application/json');
+        req.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
         req.onreadystatechange = function () {
             if (this.readyState === 4) {
                 req.onreadystatechange = null;
                 if (this.status === 200) {
                     const result = JSON.parse(this.response);
                     if (result.ObjectTypeCode >= 10000 && result.IconSmallName != null)
-                        icon = baseUrl + "/WebResources/" + result.IconSmallName.toString();
-                    else
-                        icon = baseUrl + caller.GetURL(result.ObjectTypeCode);
+                        icon = baseUrl + '/WebResources/' + result.IconSmallName.toString();
+                    else icon = baseUrl + getURL(result.ObjectTypeCode);
                 }
             }
         };
         req.send();
 
         return icon;
-    }
+    };
 
-private GetURL(objectTypeCode: number) {
+    const getURL = (objectTypeCode: number) => {
+        //default icon
+        let url = '/_imgs/svg_' + objectTypeCode.toString() + '.svg';
 
-    //default icon
-    let url = "/_imgs/svg_" + objectTypeCode.toString() + ".svg";
+        if (!urlExists(url)) {
+            url = '/_imgs/ico_16_' + objectTypeCode.toString() + '.gif';
 
-    if (!this.UrlExists(url)) {
-        url = "/_imgs/ico_16_" + objectTypeCode.toString() + ".gif";
+            if (!urlExists(url)) {
+                url = '/_imgs/ico_16_' + objectTypeCode.toString() + '.png';
 
-        if (!this.UrlExists(url)) {
-            url = "/_imgs/ico_16_"
-                + objectTypeCode.toString() +
-                ".png";
+                //default icon
 
-            //default icon
-
-            if (!this.UrlExists(url)) {
-                url = "/_imgs/ico_16_customEntity.gif";
+                if (!urlExists(url)) {
+                    url = '/_imgs/ico_16_customEntity.gif';
+                }
             }
         }
-    }
 
-    return url;
-}
+        return url;
+    };
 
-private UrlExists(url: string) {
-    const http = new XMLHttpRequest();
-    http.open('HEAD', url, false);
-    http.send();
-    return http.status != 404 && http.status != 500;
-}
-}
+    const urlExists = (url: string) => {
+        const http = new XMLHttpRequest();
+        http.open('HEAD', url, false);
+        http.send();
+        return http.status != 404 && http.status != 500;
+    };
+
+    return {
+        openOnSidePane,
+    };
+};
 export default OpenOnSidePane;

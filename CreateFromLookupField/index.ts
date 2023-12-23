@@ -19,7 +19,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _lookupViewId: string;
     private _lookupEntityName: string;
 
-    private _openOnSiedePane: OpenOnSidePane;
+    private _openOnSiedePane: any;
     private _openOnSidePaneProps: IOpenOnSidePaneProps;
 
     constructor() {}
@@ -49,7 +49,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             width: this._context.parameters.width.raw!,
             lookupValue: this._lookupValue,
         };
-        this._openOnSiedePane = new OpenOnSidePane(this._openOnSidePaneProps);
+        this._openOnSiedePane = OpenOnSidePane(this._openOnSidePaneProps);
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
