@@ -71,7 +71,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         console.log('handleSearch');
         const result = await webApiRequest.getEntity();
         if (result) {
-            console.log('WebApi Result from handleSearch: ' + result);
+            console.log('WebApi Result from handleSearch: ' + result._entityType);
         }
     }, [webApiRequest]);
 
