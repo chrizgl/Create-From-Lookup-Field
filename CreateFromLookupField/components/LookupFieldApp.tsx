@@ -6,9 +6,9 @@ import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
-import SelectItemDialog from './SelectItemDialog';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
-import WebApiRequest from './WebApiComponent';
+import SelectItemDialog from './SelectItemDialog';
+import WebApiRequest from './WebApiManager';
 
 const SEARCH_DELAY = 1000;
 
@@ -69,6 +69,8 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     const handleSearch = useCallback(async () => {
         console.log('handleSearch called');
+        console.log('lookupViewId: ' + props.lookupViewId);
+        console.log('lookupEntityName: ' + props.lookupEntityName);
         const result = await webApiRequest.getEntity();
         if (result) {
             foundRef.current = true;
@@ -79,7 +81,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
                 setCreateEnabledState(false);
             }
         }
-    }, [webApiRequest]);
+    }, [props.lookupEntityName, props.lookupViewId, webApiRequest]);
 
     const handleCreate = useCallback(async () => {
         const result = await webApiRequest.createRecord(inputValue);
