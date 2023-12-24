@@ -1,67 +1,63 @@
 import { IUpdateField } from '../interfaces/IUpdateField';
-import { IConfig } from '../interfaces/IConfig';
+import { IWebApi } from '../interfaces/IWebApi';
 
-class WebApiRequest {
-    private _webApi: ComponentFramework.WebApi;
-    private _config: IConfig;
-    private _lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
-    private _lookupValue: ComponentFramework.LookupValue[] = [];
-    private _utils: ComponentFramework.Utility;
+const WebApiRequest = (props: IWebApi) => {
+    const _webApi = props.webApi;
+    const _config = props.config;
+    const _utils = props.utils;
+    let _lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
+    const _lookupValue: ComponentFramework.LookupValue[] = [];
 
-    constructor(webApi: ComponentFramework.WebApi, utils: ComponentFramework.Utility, config: IConfig) {
-        this._webApi = webApi;
-        this._config = config;
-        this._utils = utils;
-    }
+    const getEntity = async () => {
+        const result = await _utils.getEntityMetadata('cgsol_part');
+        if (result) {
+            return result;
+        }
+    };
 
-    public async getEntity() {
-        const result = await this._utils.getEntityMetadata('cgsol_part');
-        return result;
-    }
-
-    public async retrieveRecords(value: string) {
+    const retrieveRecords = async (value: string) => {
         let targetEntityId = '';
         // Retrieve select for search string form config
-        const selectString = this._config.selectedColumns?.join(',');
+        const selectString = _config.selectedColumns?.join(',');
         // const filterString = this._config.filter[0].name + ' eq ' + this._config.filter[0].value;
         let foundRecords: boolean;
         const valueToSearch = "'" + value + "'";
-        const searchString = `?$select=${selectString}&$filter=${this._config.lookupColumnName} eq ${valueToSearch}`; // and ${filterString}&$top=5`;
+        const searchString = `?$select=${selectString}&$filter=${_config.lookupColumnName} eq ${valueToSearch}`; // and ${filterString}&$top=5`;
         try {
-            const result = await this._webApi.retrieveMultipleRecords(this._config.targetEntityName, searchString);
+            const result = await _webApi.retrieveMultipleRecords(_config.targetEntityName, searchString);
             if (result && result.entities.length > 0) {
                 console.log(`${result.entities.length} records successfully retrieved`);
-                this._lookupValues = result;
-                targetEntityId = result.entities[0][`${this._config.lookupColumn}`];
+                _lookupValues = result;
+                targetEntityId = result.entities[0][`${_config.lookupColumn}`];
                 // define lookupValue
-                this._lookupValue[0] = new Object() as ComponentFramework.LookupValue;
-                this._lookupValue[0] = {
+                _lookupValue[0] = new Object() as ComponentFramework.LookupValue;
+                _lookupValue[0] = {
                     id: targetEntityId,
                     name: value,
-                    entityType: this._config.targetEntityName,
+                    entityType: _config.targetEntityName,
                 };
                 foundRecords = true;
             } else {
                 foundRecords = false;
             }
-            return { hasFound: foundRecords, lookupValue: this._lookupValue, lookupValues: this._lookupValues };
+            return { hasFound: foundRecords, lookupValue: _lookupValue, lookupValues: _lookupValues };
         } catch (error) {
             console.log('Failed to retrieve records');
         }
-    }
+    };
 
-    public async createRecord(value: string) {
+    const createRecord = async (value: string) => {
         let createdRecord = false;
         let createdRecordId: any; // replace any with correct type later
         const lookupValue: ComponentFramework.LookupValue[] = [];
         const recordData: ComponentFramework.WebApi.Entity = {}; // store record data
-        recordData[`${this._config.lookupColumnName}`] = value;
+        recordData[`${_config.lookupColumnName}`] = value;
         // Set payload for update fields from config
-        this._config.updateColumns?.forEach((field: IUpdateField) => {
+        _config.updateColumns?.forEach((field: IUpdateField) => {
             recordData[field.name] = field.value;
         });
         try {
-            const resp = await this._webApi.createRecord(this._config.targetEntityName, recordData);
+            const resp = await _webApi.createRecord(_config.targetEntityName, recordData);
             if (resp) {
                 createdRecordId = resp.id;
                 console.log(`Item created with id = ${createdRecordId}.`);
@@ -70,7 +66,7 @@ class WebApiRequest {
                 lookupValue[0] = {
                     id: createdRecordId,
                     name: value,
-                    entityType: this._config.targetEntityName,
+                    entityType: _config.targetEntityName,
                 };
             } else {
                 createdRecord = false;
@@ -82,6 +78,7 @@ class WebApiRequest {
         } catch (error) {
             console.log(error);
         }
-    }
-}
+    };
+    return { getEntity, retrieveRecords, createRecord };
+};
 export default WebApiRequest;

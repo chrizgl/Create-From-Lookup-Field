@@ -54,10 +54,13 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         console.log('updateView called');
-        const props: ICreateFromLookupProps = {
+        const webApiProps = {
             utils: context.utils,
-            webAPI: context.webAPI,
+            webApi: context.webAPI,
             config: this._config,
+        };
+        const props: ICreateFromLookupProps = {
+            webApiProps: webApiProps,
             isDisabled: false,
             isCreateEnabled: this._isCreateEnabled,
             currentValue: this._currentValue,

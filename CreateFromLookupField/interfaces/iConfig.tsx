@@ -1,5 +1,3 @@
-import { ITableGridField } from './ITableGridField';
-
 interface IConfig {
     lookupColumnName: string;
     lookupColumn: string;

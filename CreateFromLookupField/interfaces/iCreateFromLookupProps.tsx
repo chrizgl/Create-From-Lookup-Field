@@ -1,10 +1,7 @@
-import OpenOnSidePane from '../components/OpenOnSidePane';
-import { IConfig } from './IConfig';
+import { IWebApi } from './IWebApi';
 
 interface ICreateFromLookupProps {
-    utils: ComponentFramework.Utility;
-    webAPI: ComponentFramework.WebApi;
-    config: IConfig;
+    webApiProps: IWebApi;
     isDisabled: boolean;
     currentValue: string;
     isCreateEnabled: boolean;

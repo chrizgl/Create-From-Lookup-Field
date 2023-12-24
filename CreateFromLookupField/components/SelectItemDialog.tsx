@@ -26,7 +26,6 @@ import { ITableGridItem } from '../interfaces/ITableGridItem';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import { ITableGridField } from '../interfaces/ITableGridField';
-import { IConfig } from '../interfaces/IConfig';
 
 const LookupDialog = (props: ILookupDialogProps) => {
     const _props = {
@@ -37,7 +36,6 @@ const LookupDialog = (props: ILookupDialogProps) => {
     const _config = props.config;
 
     const classes = useStyles();
-    const dialogClass = mergeClasses(classes.dialog, classes.stackitem);
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
 
     const buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {

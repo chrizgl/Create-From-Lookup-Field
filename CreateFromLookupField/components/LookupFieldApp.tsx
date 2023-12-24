@@ -13,10 +13,7 @@ import WebApiRequest from './WebApiComponent';
 const SEARCH_DELAY = 1000;
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
-    const webApiRequest = useMemo(
-        () => new WebApiRequest(props.webAPI, props.utils, props.config),
-        [props.webAPI, props.utils, props.config],
-    );
+    const webApiRequest = WebApiRequest(props.webApiProps);
     const openOnSidePane = props.openOnSidePane;
 
     // Styling specific code:
@@ -58,7 +55,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const lookupDialogProps: ILookupDialogProps = {
         onChangeRequest: props.onChangeRequest,
         setLookupDialogState: setLookupDialogState,
-        config: props.config,
+        config: props.webApiProps.config,
     };
     const lookupDialog = SelectItemDialog(lookupDialogProps);
 
@@ -67,11 +64,20 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
             onClickSearchRequest();
         }
     };
+
+    const foundRef = React.useRef(false);
+
     const handleSearch = useCallback(async () => {
-        console.log('handleSearch');
+        console.log('handleSearch called');
         const result = await webApiRequest.getEntity();
         if (result) {
-            console.log('WebApi Result from handleSearch: ' + result._entityType);
+            foundRef.current = true;
+            if (!foundRef.current) {
+                setCreateEnabledState(true);
+            } else {
+                setLookupDialogState((state) => ({ ...state, values: result.lookupValues, open: true }));
+                setCreateEnabledState(false);
+            }
         }
     }, [webApiRequest]);
 
@@ -89,11 +95,12 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     }, [webApiRequest, inputValue, props]);
 
     const onClickSearchRequest = () => {
-        console.log('onClickSearchRequest is called');
+        console.log('new onClickSearchRequest is called');
         setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
             if (validInputState) {
+                console.log('onClickSearchRequest - validInputState');
                 handleSearch();
             }
         }, SEARCH_DELAY);
