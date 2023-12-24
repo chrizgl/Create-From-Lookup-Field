@@ -65,23 +65,19 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         }
     };
 
-    const foundRef = React.useRef(false);
-
     const handleSearch = useCallback(async () => {
-        console.log('handleSearch called');
-        console.log('lookupViewId: ' + props.lookupViewId);
-        console.log('lookupEntityName: ' + props.lookupEntityName);
-        const result = await webApiRequest.getEntity();
-        if (result) {
-            foundRef.current = true;
-            if (!foundRef.current) {
-                setCreateEnabledState(true);
-            } else {
-                setLookupDialogState((state) => ({ ...state, values: result.lookupValues, open: true }));
-                setCreateEnabledState(false);
+        webApiRequest.retrieveRecords(inputValue).then((result) => {
+            if (result) {
+                const foundRef = result.hasFound;
+                if (!foundRef) {
+                    setCreateEnabledState(true);
+                } else {
+                    setLookupDialogState((state) => ({ ...state, values: result.lookupValues, open: true }));
+                    setCreateEnabledState(false);
+                }
             }
-        }
-    }, [props.lookupEntityName, props.lookupViewId, webApiRequest]);
+        });
+    }, [inputValue, webApiRequest]);
 
     const handleCreate = useCallback(async () => {
         const result = await webApiRequest.createRecord(inputValue);
@@ -97,23 +93,23 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     }, [webApiRequest, inputValue, props]);
 
     const onClickSearchRequest = () => {
-        console.log('new onClickSearchRequest is called');
         setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
+
             if (validInputState) {
                 console.log('onClickSearchRequest - validInputState');
                 handleSearch();
             }
-        }, SEARCH_DELAY);
+        });
     };
 
     const onClickCreateRequest = () => {
         setCreateState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setCreateState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-            handleCreate();
         }, SEARCH_DELAY);
+        handleCreate();
     };
 
     // BUTTON ACTION: Open on Side Pane
