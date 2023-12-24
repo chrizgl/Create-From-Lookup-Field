@@ -96,12 +96,11 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-
-            if (validInputState) {
-                console.log('onClickSearchRequest - validInputState');
-                handleSearch();
-            }
-        });
+        }, SEARCH_DELAY);
+        if (validInputState) {
+            console.log('onClickSearchRequest - validInputState');
+            handleSearch();
+        }
     };
 
     const onClickCreateRequest = () => {
