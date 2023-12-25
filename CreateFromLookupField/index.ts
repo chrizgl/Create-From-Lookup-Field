@@ -1,21 +1,19 @@
 import { IInputs, IOutputs } from './generated/ManifestTypes';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import { ICreateFromLookupProps } from './interfaces/ICreateFromLookupProps';
-import { IConfig } from './interfaces/IConfig';
-import { IOpenOnSidePaneProps } from './interfaces/IOpenOnSidePaneProps';
+import { IConfig } from './interfaces/_IConfig';
 import CreateFromLookupApp from './components/LookupFieldApp';
+import { ICreateFromLookupProps } from './interfaces/_ICreateFromLookupProps';
 import OpenOnSidePane from './components/OpenOnSidePane';
+import { IOpenOnSidePaneProps } from './interfaces/IOpenOnSidePaneProps';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _notifyOutputChanged: () => void;
     private _root: Root;
     private _context: ComponentFramework.Context<IInputs>;
     private _currentValue: string;
-    private _isCreateEnabled: boolean;
     private _config: IConfig;
     private _lookupValue: ComponentFramework.LookupValue[] = [];
-    private _lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
     private _lookupViewId: string;
     private _lookupEntityName: string;
 
@@ -30,22 +28,21 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
         state: ComponentFramework.Dictionary,
         container: HTMLDivElement,
     ) {
+        // Add control initialization code
         this._notifyOutputChanged = notifyOutputChanged;
         this._context = context;
         this._root = createRoot(container!);
-        this._isCreateEnabled = false;
 
         this._config = JSON.parse(this._context.parameters.configJSON.raw ?? '');
         this._lookupValue = this._context.parameters.lookupField.raw ?? [];
-        this._lookupValues = new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse;
         this._lookupViewId = this._context.parameters.lookupField.getViewId();
         this._lookupEntityName = this._context.parameters.lookupField.getTargetEntityType();
 
         this._openOnSidePaneProps = {
             page: (<any>this._context).page,
-            alwaysRender: this._context.parameters.alwaysRender.raw == '1' ? true : false,
-            canClose: this._context.parameters.canClose.raw == '1' ? true : false,
-            hideHeader: this._context.parameters.hideHeader.raw == '1' ? true : false,
+            alwaysRender: this._context.parameters.alwaysRender.raw == '1',
+            canClose: this._context.parameters.canClose.raw == '1',
+            hideHeader: this._context.parameters.hideHeader.raw == '1',
             width: this._context.parameters.width.raw!,
             lookupValue: this._lookupValue,
         };
@@ -53,26 +50,20 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
-        console.log('updateView called');
-        const webApiProps = {
+        const props: ICreateFromLookupProps = {
             utils: context.utils,
             webApi: context.webAPI,
             config: this._config,
-        };
-        const props: ICreateFromLookupProps = {
-            webApiProps: webApiProps,
-            isDisabled: false,
-            isCreateEnabled: this._isCreateEnabled,
             currentValue: this._currentValue,
             lookupValue: this._lookupValue,
-            lookupValues: this._lookupValues,
             lookupViewId: this._lookupViewId,
             lookupEntityName: this._lookupEntityName,
             openOnSidePane: this._openOnSiedePane,
             onChangeRequest: this.onChange.bind(this), // was wird hier wirklich gebinded?
         };
         this._root.render(createElement(CreateFromLookupApp, props));
-        console.log('updateView ended (TEST)');
+        console.log('lookupViewId: ' + this._lookupViewId);
+        console.log('lookupEntityName: ' + this._lookupEntityName);
     }
 
     public getOutputs(): IOutputs {

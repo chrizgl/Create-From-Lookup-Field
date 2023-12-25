@@ -1,12 +1,11 @@
-import { IWebApi } from './IWebApi';
+import { IConfig } from './_IConfig';
 
 interface ICreateFromLookupProps {
-    webApiProps: IWebApi;
-    isDisabled: boolean;
-    currentValue: string;
-    isCreateEnabled: boolean;
+    utils: ComponentFramework.Utility;
+    webApi: ComponentFramework.WebApi;
+    config: IConfig;
     lookupValue: ComponentFramework.LookupValue[];
-    lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
+    currentValue: string;
     lookupViewId: string;
     lookupEntityName: string;
     openOnSidePane: any;

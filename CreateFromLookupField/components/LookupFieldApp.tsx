@@ -3,17 +3,17 @@ import { useState, useCallback, useMemo } from 'react'; // avoid re-rendering
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
 import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import { useStyles } from './Styles';
-import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
+import { ICreateFromLookupProps } from '../interfaces/_ICreateFromLookupProps';
 import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import SelectItemDialog from './SelectItemDialog';
-import WebApiRequest from './WebApiManager';
+import WebApiRequest from './WebApiComponent';
 
 const SEARCH_DELAY = 1000;
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
-    const webApiRequest = WebApiRequest(props.webApiProps);
+    const webApiRequest = WebApiRequest({ utils: props.utils, webApi: props.webApi, config: props.config });
     const openOnSidePane = props.openOnSidePane;
 
     // Styling specific code:
@@ -55,7 +55,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const lookupDialogProps: ILookupDialogProps = {
         onChangeRequest: props.onChangeRequest,
         setLookupDialogState: setLookupDialogState,
-        config: props.webApiProps.config,
+        config: props.config,
     };
     const lookupDialog = SelectItemDialog(lookupDialogProps);
 
@@ -156,7 +156,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
             <div className={stackClasses}>
                 <Input
                     id={id}
-                    readOnly={props.isDisabled}
+                    readOnly={false}
                     className={inputClass}
                     value={inputValue}
                     onChange={(e) => onInputChange(e.target.value)}

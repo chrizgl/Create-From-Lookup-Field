@@ -1,10 +1,11 @@
 import { IUpdateField } from '../interfaces/IUpdateField';
-import { IWebApi } from '../interfaces/IWebApi';
+import { IWebApiComponentProps } from '../interfaces/IWebApiComponentProps';
 
-const WebApiRequest = (props: IWebApi) => {
+const WebApiComponent = (props: IWebApiComponentProps) => {
     const _webApi = props.webApi;
     const _config = props.config;
     const _utils = props.utils;
+
     let _lookupValues: ComponentFramework.WebApi.RetrieveMultipleResponse;
     const _lookupValue: ComponentFramework.LookupValue[] = [];
 
@@ -16,6 +17,7 @@ const WebApiRequest = (props: IWebApi) => {
     };
 
     const retrieveRecords = async (value: string) => {
+        console.log('Retrieving records...');
         let targetEntityId = '';
         // Retrieve select for search string form config
         const selectString = _config.selectedColumns?.join(',');
@@ -81,4 +83,4 @@ const WebApiRequest = (props: IWebApi) => {
     };
     return { getEntity, retrieveRecords, createRecord };
 };
-export default WebApiRequest;
+export default WebApiComponent;
