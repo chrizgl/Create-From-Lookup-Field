@@ -1,9 +1,9 @@
 import { IInputs, IOutputs } from './generated/ManifestTypes';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import { IConfig } from './interfaces/_IConfig';
+import { IConfig } from './interfaces/IConfig';
 import CreateFromLookupApp from './components/LookupFieldApp';
-import { ICreateFromLookupProps } from './interfaces/_ICreateFromLookupProps';
+import { ICreateFromLookupProps } from './interfaces/ICreateFromLookupProps';
 import OpenOnSidePane from './components/OpenOnSidePane';
 import { IOpenOnSidePaneProps } from './interfaces/IOpenOnSidePaneProps';
 

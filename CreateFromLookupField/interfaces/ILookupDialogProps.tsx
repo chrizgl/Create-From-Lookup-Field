@@ -1,5 +1,5 @@
 import { ILookupDialogState } from './ILookupDialogState';
-import { IConfig } from './_IConfig';
+import { IConfig } from './IConfig';
 
 interface ILookupDialogProps {
     onChangeRequest: (value: ComponentFramework.LookupValue[]) => void;

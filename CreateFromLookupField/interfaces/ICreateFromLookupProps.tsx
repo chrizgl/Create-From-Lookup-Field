@@ -1,4 +1,4 @@
-import { IConfig } from './_IConfig';
+import { IConfig } from './IConfig';
 
 interface ICreateFromLookupProps {
     utils: ComponentFramework.Utility;

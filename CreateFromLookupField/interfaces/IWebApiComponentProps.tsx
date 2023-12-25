@@ -1,4 +1,4 @@
-import { IConfig } from './_IConfig';
+import { IConfig } from './IConfig';
 
 interface IWebApiComponentProps {
     utils: ComponentFramework.Utility;

@@ -3,7 +3,7 @@ import { useState, useCallback, useMemo } from 'react'; // avoid re-rendering
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
 import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import { useStyles } from './Styles';
-import { ICreateFromLookupProps } from '../interfaces/_ICreateFromLookupProps';
+import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
@@ -150,6 +150,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         }
     };
 
+    // Der Haupt-Render
     return (
         <FluentProvider theme={webLightTheme}>
             <div className={stackClasses}>{lookupDialog.show(lookupDialogState)}</div>
