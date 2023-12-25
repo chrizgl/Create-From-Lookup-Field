@@ -49,8 +49,7 @@ const WebApiComponent = (props: IWebApiComponentProps) => {
     };
 
     const createRecord = async (value: string) => {
-        let createdRecord = false;
-        let createdRecordId: any; // replace any with correct type later
+        let createdRecordId: string; // replace any with correct type later
         const lookupValue: ComponentFramework.LookupValue[] = [];
         const recordData: ComponentFramework.WebApi.Entity = {}; // store record data
         recordData[`${_config.lookupColumnName}`] = value;
@@ -63,20 +62,21 @@ const WebApiComponent = (props: IWebApiComponentProps) => {
             if (resp) {
                 createdRecordId = resp.id;
                 console.log(`Item created with id = ${createdRecordId}.`);
-                createdRecord = true;
-                lookupValue[0] = new Object() as ComponentFramework.LookupValue;
                 lookupValue[0] = {
                     id: createdRecordId,
                     name: value,
                     entityType: _config.targetEntityName,
                 };
+                return {
+                    isCreated: true,
+                    lookupValue: lookupValue,
+                };
             } else {
-                createdRecord = false;
+                return {
+                    isCreated: false,
+                    lookupValue: null,
+                };
             }
-            return {
-                isCreated: createdRecord,
-                lookupValue: lookupValue ?? null,
-            };
         } catch (error) {
             console.log(error);
         }

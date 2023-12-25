@@ -13,8 +13,9 @@ import WebApiRequest from './WebApiComponent';
 const SEARCH_DELAY = 1000;
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
-    const webApiRequest = WebApiRequest({ utils: props.utils, webApi: props.webApi, config: props.config });
-    const openOnSidePane = props.openOnSidePane;
+    const _props = useMemo(() => props, [props]);
+    const webApiRequest = WebApiRequest({ utils: _props.utils, webApi: _props.webApi, config: _props.config });
+    const openOnSidePane = _props.openOnSidePane;
 
     // Styling specific code:
     const classes = useStyles();
@@ -53,9 +54,9 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     });
 
     const lookupDialogProps: ILookupDialogProps = {
-        onChangeRequest: props.onChangeRequest,
+        onChangeRequest: _props.onChangeRequest,
         setLookupDialogState: setLookupDialogState,
-        config: props.config,
+        config: _props.config,
     };
     const lookupDialog = SelectItemDialog(lookupDialogProps);
 
@@ -82,15 +83,14 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const handleCreate = useCallback(async () => {
         const result = await webApiRequest.createRecord(inputValue);
         if (result) {
-            const recordCreated = result.isCreated;
-            if (recordCreated) {
-                props.onChangeRequest(result.lookupValue);
+            if (result.lookupValue) {
+                _props.onChangeRequest(result.lookupValue);
                 setCreateEnabledState(false);
             } else {
                 setCreateEnabledState(true);
             }
         }
-    }, [webApiRequest, inputValue, props]);
+    }, [webApiRequest, inputValue, _props]);
 
     const onClickSearchRequest = () => {
         setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
@@ -114,7 +114,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     // BUTTON ACTION: Open on Side Pane
     const onClickOpenRequest = () => {
         console.log('onClickOpenRequest - Open on Side Pane');
-        openOnSidePane.openOnSidePane(props.lookupValue);
+        openOnSidePane.openOnSidePane(_props.lookupValue);
     };
 
     // Component Buttons (Icons)

@@ -27,6 +27,7 @@ import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import { ITableGridField } from '../interfaces/ITableGridField';
 
+// TODO: Anhand vom Lookup-Dialog kann ich mir das Prinzip für die WebApi-Component ableiten.
 const LookupDialog = (props: ILookupDialogProps) => {
     const _props = {
         onChangeRequest: props.onChangeRequest,
@@ -35,7 +36,6 @@ const LookupDialog = (props: ILookupDialogProps) => {
     };
     const _config = props.config;
 
-    const classes = useStyles();
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
 
     const buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
