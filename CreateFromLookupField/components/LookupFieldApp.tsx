@@ -163,15 +163,20 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
                     onChange={(e) => onInputChange(e.target.value)}
                     onKeyUp={onInputKey}
                 />
-                <div hidden={!validInputState}>
-                    <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest}></Button>
-                </div>
-                <div hidden={!createEnabledState || !validInputState}>
-                    <Button className={classes.stackitem} icon={showCreateButton()} onClick={onClickCreateRequest}></Button>
-                </div>
-                <div hidden={false}>
-                    <Button className={classes.stackitem} icon={showOpenButton()} onClick={onClickOpenRequest}></Button>
-                </div>
+
+                {validInputState && (
+                    <>
+                        <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest} />
+                        {createEnabledState && (
+                            <Button className={classes.stackitem} icon={showCreateButton()} onClick={onClickCreateRequest} />
+                        )}
+                    </>
+                )}
+                {_props.lookupValue && (
+                    <>
+                        <Button className={classes.stackitem} icon={showOpenButton()} onClick={onClickOpenRequest} />
+                    </>
+                )}
             </div>
         </FluentProvider>
     );
