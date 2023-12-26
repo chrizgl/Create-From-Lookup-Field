@@ -4,7 +4,7 @@ export const useStyles = makeStyles({
     stack: {
         // must be merged with stackHorizontal or stackVertical
         display: 'flex',
-        flexWrap: 'wrap',
+        flexWrap: 'nowrap',
         width: 'fit-content',
         height: 'fit-content',
         boxSizing: 'border-box',
@@ -29,8 +29,8 @@ export const useStyles = makeStyles({
         },
     },
     stackitem: {
-        height: 'max-content',
-        width: 'max-content',
+        height: 'fit-content',
+        width: 'fit-content',
         alignSelf: 'right',
         flexShrink: 1,
     },
@@ -60,18 +60,9 @@ export const useStyles = makeStyles({
     input: {
         ...shorthands.border('0px', 'solid', tokens.colorNeutralStroke1),
         backgroundColor: '#f5f5f5',
+        width: '200px',
     },
     contentHeader: {
         marginTop: '0',
-    },
-    row: {
-        width: '100%',
-    },
-    column: {
-        width: '200px',
-    },
-    dialog: {
-        width: '800px',
-        height: '100%',
     },
 });

@@ -37,12 +37,6 @@ const LookupDialog = (props: ILookupDialogProps) => {
     const _config = props.config;
 
     const classes = useStyles();
-    const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
-    const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
-    const inputClass = mergeClasses(classes.input, classes.stackitem);
-    const iconClass = mergeClasses(classes.icon, classes.stackitem);
-    const columnClass = mergeClasses(classes.column, classes.stackitem);
-    const rowClass = mergeClasses(classes.row, classes.stackHorizontal);
 
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
 
@@ -158,11 +152,7 @@ const LookupDialog = (props: ILookupDialogProps) => {
                                 </DataGridHeader>
                                 <DataGridBody<ITableGridItem>>
                                     {({ item, rowId }) => (
-                                        <DataGridRow<ITableGridItem>
-                                            className={rowClass}
-                                            key={rowId}
-                                            selectionCell={{ 'aria-label': 'Select row' }}
-                                        >
+                                        <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
                                             {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
                                         </DataGridRow>
                                     )}
