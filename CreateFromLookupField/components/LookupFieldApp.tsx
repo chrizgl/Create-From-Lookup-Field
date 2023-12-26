@@ -23,6 +23,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
     const inputClass = mergeClasses(classes.input, classes.stackitem);
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
+    const dialogClass = mergeClasses(classes.dialog, classes.stackitemBadgeVertical);
 
     const id = useId();
     const [inputValue, setInputValue] = useState('');

@@ -19,13 +19,13 @@ import {
     DialogActions,
     DialogContent,
     useRestoreFocusTarget,
+    mergeClasses,
 } from '@fluentui/react-components';
-import { useStyles } from './Styles';
-import { mergeClasses } from '@fluentui/react-components';
 import { ITableGridItem } from '../interfaces/ITableGridItem';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import { ITableGridField } from '../interfaces/ITableGridField';
+import { useStyles } from './Styles';
 
 // TODO: Anhand vom Lookup-Dialog kann ich mir das Prinzip für die WebApi-Component ableiten.
 const LookupDialog = (props: ILookupDialogProps) => {
@@ -35,6 +35,14 @@ const LookupDialog = (props: ILookupDialogProps) => {
         config: props.config,
     };
     const _config = props.config;
+
+    const classes = useStyles();
+    const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
+    const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
+    const inputClass = mergeClasses(classes.input, classes.stackitem);
+    const iconClass = mergeClasses(classes.icon, classes.stackitem);
+    const columnClass = mergeClasses(classes.column, classes.stackitem);
+    const rowClass = mergeClasses(classes.row, classes.stackHorizontal);
 
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
 
@@ -70,7 +78,9 @@ const LookupDialog = (props: ILookupDialogProps) => {
                     createTableColumn<ITableGridField>({
                         columnId: field.id,
                         compare: (a: any, b: any) => {
-                            return a.label.localeCompare(b.label);
+                            const aLabel = a[field.id].label ?? '';
+                            const bLabel = b[field.id].label ?? '';
+                            return aLabel.toString().localeCompare(bLabel.toString());
                         },
                         renderHeaderCell: () => {
                             return field.title;
@@ -148,7 +158,11 @@ const LookupDialog = (props: ILookupDialogProps) => {
                                 </DataGridHeader>
                                 <DataGridBody<ITableGridItem>>
                                     {({ item, rowId }) => (
-                                        <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
+                                        <DataGridRow<ITableGridItem>
+                                            className={rowClass}
+                                            key={rowId}
+                                            selectionCell={{ 'aria-label': 'Select row' }}
+                                        >
                                             {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
                                         </DataGridRow>
                                     )}
