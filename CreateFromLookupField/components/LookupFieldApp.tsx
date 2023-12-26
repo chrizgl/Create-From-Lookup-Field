@@ -4,7 +4,7 @@ import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled,
 import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
-import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
+import { ICreateFromLookupState } from '../interfaces/_ICreateFromLookupState';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import SelectItemDialog from './SelectItemDialog';

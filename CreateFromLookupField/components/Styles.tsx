@@ -5,7 +5,7 @@ export const useStyles = makeStyles({
         // must be merged with stackHorizontal or stackVertical
         display: 'flex',
         flexWrap: 'nowrap',
-        width: 'fit-content',
+        width: '100%',
         height: 'fit-content',
         boxSizing: 'border-box',
         '> *': {
@@ -30,7 +30,7 @@ export const useStyles = makeStyles({
     },
     stackitem: {
         height: 'fit-content',
-        width: 'fit-content',
+        width: '100%',
         alignSelf: 'right',
         flexShrink: 1,
     },
