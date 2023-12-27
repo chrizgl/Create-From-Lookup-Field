@@ -20,6 +20,7 @@ import {
     DialogContent,
     useRestoreFocusTarget,
     mergeClasses,
+    dialogActionsClassNames,
 } from '@fluentui/react-components';
 import { ITableGridItem } from '../interfaces/ITableGridItem';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
@@ -28,15 +29,16 @@ import { ITableGridField } from '../interfaces/ITableGridField';
 import { useStyles } from './Styles';
 
 // TODO: Anhand vom Lookup-Dialog kann ich mir das Prinzip für die WebApi-Component ableiten.
-const LookupDialog = (props: ILookupDialogProps) => {
-    const _props = {
-        onChangeRequest: props.onChangeRequest,
-        setLookupDialogState: props.setLookupDialogState,
-        config: props.config,
-    };
+const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
+    // Your component logic here
+
+    const _props = props;
+
     const _config = props.config;
 
     const classes = useStyles();
+    const stackHorizontal = mergeClasses(classes.stack, classes.stackHorizontal);
+    const stackVertical = mergeClasses(classes.stack, classes.stackVertical);
 
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
 
@@ -62,7 +64,8 @@ const LookupDialog = (props: ILookupDialogProps) => {
         }
         return items;
     };
-    const show = (state: ILookupDialogState) => {
+    const show = (): React.JSX.Element => {
+        const state = _props.lookupDialogState;
         const items = buildItems(state.values);
 
         const columns: TableColumnDefinition<ITableGridField>[] = [];
@@ -134,44 +137,50 @@ const LookupDialog = (props: ILookupDialogProps) => {
             >
                 <DialogSurface>
                     <DialogBody>
-                        <DialogTitle>Dialog title</DialogTitle>
+                        <DialogTitle>Select item</DialogTitle>
                         <DialogContent>
-                            <DataGrid
-                                items={items}
-                                columns={columns}
-                                sortable
-                                selectionMode='single'
-                                getRowId={(item) => item.id}
-                                onSelectionChange={(event, data) => setValue(data.selectedItems.entries().next().value[0])}
-                                focusMode='composite'
-                            >
-                                <DataGridHeader>
-                                    <DataGridRow selectionCell={{ 'aria-label': 'Select all rows' }}>
-                                        {({ renderHeaderCell }) => <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>}
-                                    </DataGridRow>
-                                </DataGridHeader>
-                                <DataGridBody<ITableGridItem>>
-                                    {({ item, rowId }) => (
-                                        <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
-                                            {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
+                            <div className={classes.dialogBody}>
+                                <DataGrid
+                                    className={classes.gridBody}
+                                    items={items}
+                                    columns={columns}
+                                    sortable
+                                    selectionMode='single'
+                                    getRowId={(item) => item.id}
+                                    onSelectionChange={(event, data) => {
+                                        setValue(data.selectedItems.entries().next().value[0]);
+                                    }}
+                                    focusMode='composite'
+                                >
+                                    <DataGridHeader>
+                                        <DataGridRow selectionCell={{ 'aria-label': 'Select all rows' }}>
+                                            {({ renderHeaderCell }) => (
+                                                <DataGridHeaderCell className={classes.gridHeaderCell}>
+                                                    {renderHeaderCell()}
+                                                </DataGridHeaderCell>
+                                            )}
                                         </DataGridRow>
-                                    )}
-                                </DataGridBody>
-                            </DataGrid>
+                                    </DataGridHeader>
+                                    <DataGridBody<ITableGridItem>>
+                                        {({ item, rowId }) => (
+                                            <DataGridRow<ITableGridItem> key={rowId} selectionCell={{ 'aria-label': 'Select row' }}>
+                                                {({ renderCell }) => <DataGridCell>{renderCell(item)}</DataGridCell>}
+                                            </DataGridRow>
+                                        )}
+                                    </DataGridBody>
+                                </DataGrid>
+                            </div>
                         </DialogContent>
                         <DialogActions fluid>
-                            <Button appearance='secondary'>Select</Button>
-                            <Button appearance='secondary'>Something Else</Button>
                             <DialogTrigger disableButtonEnhancement>
                                 <Button appearance='secondary'>Close</Button>
                             </DialogTrigger>
-                            <Button appearance='primary'>Do Something</Button>
                         </DialogActions>
                     </DialogBody>
                 </DialogSurface>
             </Dialog>
         );
     };
-    return { show };
+    return show();
 };
 export default LookupDialog;

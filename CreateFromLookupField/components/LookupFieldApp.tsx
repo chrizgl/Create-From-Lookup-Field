@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { useState, useCallback, useMemo } from 'react'; // avoid re-rendering
+import { useState, useCallback, useMemo, useEffect } from 'react'; // avoid re-rendering
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
 import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
-import { ICreateFromLookupState } from '../interfaces/_ICreateFromLookupState';
+import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import SelectItemDialog from './SelectItemDialog';
 import WebApiRequest from './WebApiComponent';
+import LookupDialog from './SelectItemDialog';
 
 const SEARCH_DELAY = 1000;
 
@@ -47,6 +48,11 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         selectedItem: [],
     });
 
+    useEffect(() => {
+        // Dieser Code wird ausgeführt, wenn sich `lookupDialogState` ändert
+        // console.log('lookupDialogState has changed', lookupDialogState);
+    }, [lookupDialogState]); // Abhängigkeiten: Führen Sie diesen Effekt aus, wenn sich `lookupDialogState` ändert
+
     const [openEnabledState, setOpenEnabledState] = useState(false);
     const [openState, setOpenState] = useState<ICreateFromLookupState>({
         overlayHidden: true,
@@ -56,6 +62,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const lookupDialogProps: ILookupDialogProps = {
         onChangeRequest: _props.onChangeRequest,
         setLookupDialogState: setLookupDialogState,
+        lookupDialogState: lookupDialogState,
         config: _props.config,
     };
     const lookupDialog = SelectItemDialog(lookupDialogProps);
@@ -98,7 +105,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
             setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, SEARCH_DELAY);
         if (validInputState) {
-            console.log('onClickSearchRequest - validInputState');
+            // console.log('onClickSearchRequest - validInputState');
             handleSearch();
         }
     };
@@ -113,7 +120,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     // BUTTON ACTION: Open on Side Pane
     const onClickOpenRequest = () => {
-        console.log('onClickOpenRequest - Open on Side Pane');
+        // console.log('onClickOpenRequest - Open on Side Pane');
         openOnSidePane.openOnSidePane(_props.lookupValue);
     };
 
@@ -153,7 +160,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     // Der Haupt-Render
     return (
         <FluentProvider theme={webLightTheme}>
-            <div className={stackClasses}>{lookupDialog.show(lookupDialogState)}</div>
+            <LookupDialog {...lookupDialogProps} />
             <div className={stackClasses}>
                 <Input
                     id={id}

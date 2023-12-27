@@ -20,6 +20,8 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _openOnSiedePane: any;
     private _openOnSidePaneProps: IOpenOnSidePaneProps;
 
+    private _counter: number;
+
     constructor() {}
 
     public init(
@@ -47,9 +49,12 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             lookupValue: this._lookupValue,
         };
         this._openOnSiedePane = OpenOnSidePane(this._openOnSidePaneProps);
+        this._counter = 0;
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
+        this._counter++;
+        console.log('updateView call no.: ' + this._counter);
         const props: ICreateFromLookupProps = {
             utils: context.utils,
             webApi: context.webAPI,
@@ -62,8 +67,8 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             onChangeRequest: this.onChange.bind(this), // was wird hier wirklich gebinded?
         };
         this._root.render(createElement(CreateFromLookupApp, props));
-        console.log('lookupViewId: ' + this._lookupViewId);
-        console.log('lookupEntityName: ' + this._lookupEntityName);
+        // console.log('lookupViewId: ' + this._lookupViewId);
+        // console.log('lookupEntityName: ' + this._lookupEntityName);
     }
 
     public getOutputs(): IOutputs {

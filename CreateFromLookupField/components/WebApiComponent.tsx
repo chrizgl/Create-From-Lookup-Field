@@ -1,4 +1,4 @@
-import { IUpdateField } from '../interfaces/IUpdateField';
+import { IUpdateField } from '../interfaces/_IUpdateField';
 import { IWebApiComponentProps } from '../interfaces/IWebApiComponentProps';
 
 const WebApiComponent = (props: IWebApiComponentProps) => {
@@ -17,7 +17,7 @@ const WebApiComponent = (props: IWebApiComponentProps) => {
     };
 
     const retrieveRecords = async (value: string) => {
-        console.log('Retrieving records...');
+        // console.log('Retrieving records...');
         let targetEntityId = '';
         // Retrieve select for search string form config
         const selectString = _config.selectedColumns?.join(',');
@@ -28,7 +28,7 @@ const WebApiComponent = (props: IWebApiComponentProps) => {
         try {
             const result = await _webApi.retrieveMultipleRecords(_config.targetEntityName, searchString);
             if (result && result.entities.length > 0) {
-                console.log(`${result.entities.length} records successfully retrieved`);
+                // console.log(`${result.entities.length} records successfully retrieved`);
                 _lookupValues = result;
                 targetEntityId = result.entities[0][`${_config.lookupColumn}`];
                 // define lookupValue
@@ -44,7 +44,7 @@ const WebApiComponent = (props: IWebApiComponentProps) => {
             }
             return { hasFound: foundRecords, lookupValue: _lookupValue, lookupValues: _lookupValues };
         } catch (error) {
-            console.log('Failed to retrieve records');
+            // console.log('Failed to retrieve records');
         }
     };
 
@@ -61,7 +61,7 @@ const WebApiComponent = (props: IWebApiComponentProps) => {
             const resp = await _webApi.createRecord(_config.targetEntityName, recordData);
             if (resp) {
                 createdRecordId = resp.id;
-                console.log(`Item created with id = ${createdRecordId}.`);
+                // console.log(`Item created with id = ${createdRecordId}.`);
                 lookupValue[0] = {
                     id: createdRecordId,
                     name: value,
@@ -78,7 +78,7 @@ const WebApiComponent = (props: IWebApiComponentProps) => {
                 };
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     };
     return { getEntity, retrieveRecords, createRecord };
