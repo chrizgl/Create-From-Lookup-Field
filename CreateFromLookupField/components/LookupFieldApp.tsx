@@ -7,9 +7,9 @@ import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
-import SelectItemDialog from './SelectItemDialog';
 import WebApiRequest from './WebApiComponent';
 import LookupDialog from './SelectItemDialog';
+import LookupFieldProvider from './LookupFieldProvider';
 
 const SEARCH_DELAY = 1000;
 
@@ -48,12 +48,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         selectedItem: [],
     });
 
-    useEffect(() => {
-        // Dieser Code wird ausgeführt, wenn sich `lookupDialogState` ändert
-        // console.log('lookupDialogState has changed', lookupDialogState);
-    }, [lookupDialogState]); // Abhängigkeiten: Führen Sie diesen Effekt aus, wenn sich `lookupDialogState` ändert
-
-    const [openEnabledState, setOpenEnabledState] = useState(false);
+    // const [openEnabledState, setOpenEnabledState] = useState(false);
     const [openState, setOpenState] = useState<ICreateFromLookupState>({
         overlayHidden: true,
         iconBackground: 'transparent',
@@ -65,7 +60,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         lookupDialogState: lookupDialogState,
         config: _props.config,
     };
-    const lookupDialog = SelectItemDialog(lookupDialogProps);
+    // const lookupDialog = SelectItemDialog(lookupDialogProps);
 
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
@@ -87,6 +82,16 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         });
     }, [inputValue, webApiRequest]);
 
+    const onClickSearchRequest = () => {
+        setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
+        setTimeout(() => {
+            setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
+        }, SEARCH_DELAY);
+        if (validInputState) {
+            // console.log('onClickSearchRequest - validInputState');
+            handleSearch();
+        }
+    };
     const handleCreate = useCallback(async () => {
         const result = await webApiRequest.createRecord(inputValue);
         if (result) {
@@ -98,17 +103,6 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
             }
         }
     }, [webApiRequest, inputValue, _props]);
-
-    const onClickSearchRequest = () => {
-        setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
-        setTimeout(() => {
-            setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-        }, SEARCH_DELAY);
-        if (validInputState) {
-            // console.log('onClickSearchRequest - validInputState');
-            handleSearch();
-        }
-    };
 
     const onClickCreateRequest = () => {
         setCreateState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
@@ -160,7 +154,9 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     // Der Haupt-Render
     return (
         <FluentProvider theme={webLightTheme}>
-            <LookupDialog {...lookupDialogProps} />
+            <LookupFieldProvider>
+                <LookupDialog {...lookupDialogProps} />
+            </LookupFieldProvider>
             <div className={stackClasses}>
                 <Input
                     id={id}
