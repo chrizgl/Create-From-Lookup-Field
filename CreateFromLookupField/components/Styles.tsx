@@ -75,8 +75,8 @@ export const useStyles = makeStyles({
     },
     dialogBody: {
         display: 'inherit',
-        width: '700px',
-        height: '300px',
+        width: '900px',
+        height: '400px',
 
         alignSelf: 'flex-end', // Changed from 'right' to 'flex-end'
     },
