@@ -1,87 +1,127 @@
 import * as React from 'react';
-import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled } from '@fluentui/react-icons';
+import { useState, useCallback, useMemo, useEffect } from 'react'; // avoid re-rendering
+import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
 import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
-import { useState } from 'react';
 import { useStyles } from './Styles';
-import { iCreateFromLookupProps } from '../interfaces/iCreateFromLookupProps';
-import { iCreateFromLookupState } from '../interfaces/iCreateFromLookupState';
+import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
+import { ICreateFromLookupState } from '../interfaces/ICreateFromLookupState';
+import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
+import { ILookupDialogState } from '../interfaces/ILookupDialogState';
+import SelectItemDialog from './SelectItemDialog';
+import WebApiRequest from './WebApiComponent';
+import LookupDialog from './SelectItemDialog';
 
-//
+const SEARCH_DELAY = 1000;
 
-const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
+const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
+    const _props = useMemo(() => props, [props]);
+    const webApiRequest = WebApiRequest({ utils: _props.utils, webApi: _props.webApi, config: _props.config });
+    const openOnSidePane = _props.openOnSidePane;
+
+    // Styling specific code:
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
     const inputClass = mergeClasses(classes.input, classes.stackitem);
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
+
     const id = useId();
-    let found = true;
-    let createdRecord = false;
     const [inputValue, setInputValue] = useState('');
     const [validInputState, setValidInputState] = useState(false);
-    const [searchState, setSearchState] = useState<iCreateFromLookupState>({
-        currentValue: '',
+
+    // STATE AREA:
+    const [searchState, setSearchState] = useState<ICreateFromLookupState>({
         overlayHidden: true,
         iconBackground: 'transparent',
     });
+
     const [createEnabledState, setCreateEnabledState] = useState(false);
-    const [createState, setCreateState] = useState<iCreateFromLookupState>({
-        currentValue: '',
+
+    const [createState, setCreateState] = useState<ICreateFromLookupState>({
         overlayHidden: true,
         iconBackground: 'transparent',
     });
+
+    const [lookupDialogState, setLookupDialogState] = useState<ILookupDialogState>({
+        values: new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse,
+        open: false,
+        selectedItem: [],
+    });
+
+    useEffect(() => {
+        // Dieser Code wird ausgeführt, wenn sich `lookupDialogState` ändert
+        // console.log('lookupDialogState has changed', lookupDialogState);
+    }, [lookupDialogState]); // Abhängigkeiten: Führen Sie diesen Effekt aus, wenn sich `lookupDialogState` ändert
+
+    const [openEnabledState, setOpenEnabledState] = useState(false);
+    const [openState, setOpenState] = useState<ICreateFromLookupState>({
+        overlayHidden: true,
+        iconBackground: 'transparent',
+    });
+
+    const lookupDialogProps: ILookupDialogProps = {
+        onChangeRequest: _props.onChangeRequest,
+        setLookupDialogState: setLookupDialogState,
+        lookupDialogState: lookupDialogState,
+        config: _props.config,
+    };
+    const lookupDialog = SelectItemDialog(lookupDialogProps);
+
     const onInputKey: InputProps['onKeyUp'] = (key) => {
         if (key.key === 'Enter') {
             onClickSearchRequest();
-            onRequest();
         }
     };
 
-    const onRequest = () => {
-        props.onRequest(inputValue);
-    };
-    //
-    // noch habe ich eine eigene Funktionen für Search und Create, eventuell ginge hier ne Klasse und instanzieren?
-    //
-    const onClickSearchRequest = () => {
-        console.log('onClickSearchRequest ' + inputValue);
-
-        console.log('validInput =' + validInputState);
-        setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
-        setTimeout(() => {
-            setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-        }, 1000);
-        if (validInputState === true) {
-            props.onSearchRequest(inputValue).then((result) => {
-                console.log('onClickSearchRequest result ' + result);
-                found = result;
-                console.log('found ' + found);
-                if (!found) {
+    const handleSearch = useCallback(async () => {
+        webApiRequest.retrieveRecords(inputValue).then((result) => {
+            if (result) {
+                const foundRef = result.hasFound;
+                if (!foundRef) {
                     setCreateEnabledState(true);
                 } else {
+                    setLookupDialogState((state) => ({ ...state, values: result.lookupValues, open: true }));
                     setCreateEnabledState(false);
                 }
-            });
-        }
-    };
+            }
+        });
+    }, [inputValue, webApiRequest]);
 
-    const onClickCreateRequest = () => {
-        console.log('onClickCreateRequest ' + inputValue);
-
-        setCreateState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
-        setTimeout(() => {
-            setCreateState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-        }, 1000);
-        props.onCreateRequest(inputValue).then((result) => {
-            console.log('onClickCreateRequest result ' + result);
-            createdRecord = result;
-            console.log('createdRecord ' + createdRecord);
-            if (createdRecord === true) {
+    const handleCreate = useCallback(async () => {
+        const result = await webApiRequest.createRecord(inputValue);
+        if (result) {
+            if (result.lookupValue) {
+                _props.onChangeRequest(result.lookupValue);
                 setCreateEnabledState(false);
             } else {
                 setCreateEnabledState(true);
             }
-        });
+        }
+    }, [webApiRequest, inputValue, _props]);
+
+    const onClickSearchRequest = () => {
+        setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
+        setTimeout(() => {
+            setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
+        }, SEARCH_DELAY);
+        if (validInputState) {
+            // console.log('onClickSearchRequest - validInputState');
+            handleSearch();
+        }
+    };
+
+    const onClickCreateRequest = () => {
+        setCreateState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
+        setTimeout(() => {
+            setCreateState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
+        }, SEARCH_DELAY);
+        handleCreate();
+    };
+
+    // BUTTON ACTION: Open on Side Pane
+    const onClickOpenRequest = () => {
+        // console.log('onClickOpenRequest - Open on Side Pane');
+        openOnSidePane.openOnSidePane(_props.lookupValue);
     };
 
     // Component Buttons (Icons)
@@ -99,36 +139,51 @@ const CreateFromLookupApp = (props: iCreateFromLookupProps): JSX.Element => {
             return <AddCircle32Filled className={overflowClass}></AddCircle32Filled>;
         }
     };
+    const showOpenButton = () => {
+        if (openState.overlayHidden) {
+            return <Open32Regular className={iconClass}></Open32Regular>;
+        } else {
+            return <Open32Filled className={overflowClass}></Open32Filled>;
+        }
+    };
 
     const onInputChange = (value: string) => {
         setInputValue(value);
-        console.log('onInputChange ' + value);
         if (value.length > 3) {
             setValidInputState(true);
         } else {
             setValidInputState(false);
             setCreateEnabledState(false);
         }
-        console.log('validInput ' + validInputState);
     };
 
+    // Der Haupt-Render
     return (
         <FluentProvider theme={webLightTheme}>
+            <LookupDialog {...lookupDialogProps} />
             <div className={stackClasses}>
                 <Input
                     id={id}
-                    readOnly={props.isDisabled}
+                    readOnly={false}
                     className={inputClass}
                     value={inputValue}
                     onChange={(e) => onInputChange(e.target.value)}
                     onKeyUp={onInputKey}
                 />
-                <div hidden={!validInputState}>
-                    <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest}></Button>
-                </div>
-                <div hidden={!createEnabledState || !validInputState}>
-                    <Button className={classes.stackitem} icon={showCreateButton()} onClick={onClickCreateRequest}></Button>
-                </div>
+
+                {validInputState && (
+                    <>
+                        <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest} />
+                        {createEnabledState && (
+                            <Button className={classes.stackitem} icon={showCreateButton()} onClick={onClickCreateRequest} />
+                        )}
+                    </>
+                )}
+                {_props.lookupValue && (
+                    <>
+                        <Button className={classes.stackitem} icon={showOpenButton()} onClick={onClickOpenRequest} />
+                    </>
+                )}
             </div>
         </FluentProvider>
     );

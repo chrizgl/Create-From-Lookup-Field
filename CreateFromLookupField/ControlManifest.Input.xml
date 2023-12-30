@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
+<<<<<<< HEAD
   <control namespace="chrizgl" constructor="CreateFromLookupField" version="2.6.0" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
+=======
+  <control namespace="chrizgl" constructor="CreateFromLookupField" version="9.0.0" display-name-key="CreateFromLookupField" description-key="CreateFromLookupField description" control-type="standard">
+>>>>>>> functionalReact
     <external-service-usage enabled="true">
       <!--UNCOMMENT TO ADD EXTERNAL DOMAINS
       <domain></domain>
@@ -8,20 +12,32 @@
       -->
     </external-service-usage>
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="searchInputField" display-name-key="Search_Input_Field" description-key="Text field to enter lookUp value" of-type-group="strings" usage="bound" required="true" />
-    <property name="sourceEntityId" display-name-key="Source_Entity_Id" description-key="The id of the current (source) record." of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="sourceEntityName" display-name-key="Source_Entity_Name" description-key="The logical name of the source entity." of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="targetEntityName" display-name-key="Target_Entity_Name" description-key="The logical name of the target entity." of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="lookUpColumn" display-name-key="lookUpValue_Display_Key" description-key="lookUp Column to connect with" of-type="Lookup.Simple" usage="bound" required="true" />
+    <property name="lookupField" display-name-key="lookupField_Display_Key" description-key="lookupField_Desc_Key" of-type="Lookup.Simple" usage="bound" required="true" />
     <property name="configJSON" display-name-key="ConfigJSON" description-key="ConfigJSON" of-type="Multiple" usage="input" required="true" />
-    <type-group name="strings">
-      <type>SingleLine.Text</type>
-    </type-group>
+    <property name="ConfigFileName" display-name-key="ConfigFileName" description-key="ConfigFileName" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="lookup" display-name-key="Lookup" description-key="Lookup" of-type="Lookup.Simple" usage="bound" required="true" />
+
+    <property name="width" display-name-key="Width" description-key="Width" of-type="Whole.None" usage="input" required="false" />
+
+    <property description-key="Can Close" display-name-key="Can Close" name="canClose" required="false" usage="input" of-type="Enum">
+      <value name="Yes" display-name-key="Yes">1</value>
+      <value name="No" display-name-key="No">0</value>
+    </property>
+
+    <property description-key="Hide Header" display-name-key="Hide Header" name="hideHeader" required="false" usage="input" of-type="Enum">
+      <value name="Yes" display-name-key="Yes">1</value>
+      <value name="No" display-name-key="No">0</value>
+    </property>
+
+    <property description-key="Always Render" display-name-key="Always Render" name="alwaysRender" required="false" usage="input" of-type="Enum">
+      <value name="Yes" display-name-key="Yes">1</value>
+      <value name="No" display-name-key="No">0</value>
+    </property>
+
     <resources>
       <code path="index.ts" order="1"/>
       <!-- UNCOMMENT TO ADD MORE RESOURCES
-      <css path="css/CreateFromLookupField.css" order="1" />
-      <resx path="strings/CreateFromLookupField.1033.resx" version="1.0.0" />
+      <resx path="strings/LookupOnSidePane.1033.resx" version="1.0.0" />
       -->
     </resources>
     <feature-usage>

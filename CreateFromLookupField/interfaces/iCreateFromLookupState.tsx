@@ -1,5 +1,6 @@
-export interface iCreateFromLookupState {
-    currentValue: string;
+interface ICreateFromLookupState {
     overlayHidden: boolean;
     iconBackground: string;
 }
+
+export { ICreateFromLookupState };

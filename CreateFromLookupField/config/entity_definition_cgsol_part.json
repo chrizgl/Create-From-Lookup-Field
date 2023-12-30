@@ -1,0 +1,1929 @@
+{
+    "_entityDescriptor": {
+        "Initialized": 2,
+        "Id": {
+            "guid": "193bbf38-5663-4ab4-9144-26fb5bef9fa4"
+        },
+        "EntityLogicalName": "cgsol_part",
+        "EntityIcon": "",
+        "DisplayName": "Part",
+        "EntitySetName": "cgsol_parts",
+        "PrimaryKeyName": "cgsol_partid",
+        "ObjectTypeCode": 11125,
+        "PrimaryIdAttribute": "cgsol_partid",
+        "PrimaryNameAttribute": "cgsol_prt_partnumber",
+        "EntityColor": "#1f458f",
+        "ActivityTypeMask": 0,
+        "AutoRouteToOwnerQueue": false,
+        "DisplayCollectionName": "Parts",
+        "CanTriggerWorkflow": true,
+        "CanCreateForms": true,
+        "Description": "project-relevant item numbers and revisions",
+        "EntityHelpUrlEnabled": false,
+        "EntityHelpUrl": "",
+        "IsDocumentManagementEnabled": true,
+        "IsOneNoteIntegrationEnabled": false,
+        "IsMSTeamsIntegrationEnabled": false,
+        "IsDocumentRecommendationsEnabled": false,
+        "IsInteractionCentricEnabled": false,
+        "IsKnowledgeManagementEnabled": false,
+        "IsActivity": false,
+        "IsActivityParty": false,
+        "HasEmailAddresses": false,
+        "IsChildEntity": false,
+        "IsCollaboration": false,
+        "IsConnectionsEnabled": false,
+        "IsCustomEntity": true,
+        "IsBusinessProcessEnabled": true,
+        "IsCustomizable": true,
+        "IsOptimisticConcurrencyEnabled": true,
+        "IsImportable": true,
+        "IsIntersect": false,
+        "IsMailMergeEnabled": true,
+        "IsEnabledForCharts": true,
+        "IsValidForAdvancedFind": true,
+        "IsVisibleInMobileClient": false,
+        "IsReadOnlyInMobileClient": false,
+        "IsOfflineInMobileClient": false,
+        "IsQuickCreateEnabled": true,
+        "EntityClientSetting": {
+            "AllowMainFormDialogForCreate": false,
+            "AllowMainFormDialogForEdit": false
+        },
+        "OwnershipType": 1,
+        "HasStateCode": true,
+        "IsStateModelAware": true,
+        "EnforceStateTransitions": false,
+        "Privileges": [
+            {
+                "CanBeBasic": true,
+                "CanBeDeep": true,
+                "CanBeGlobal": true,
+                "CanBeLocal": true,
+                "CanBeEntityReference": false,
+                "CanBeParentEntityReference": false,
+                "CanBeRecordFilter": false,
+                "Name": "prvCreatecgsol_Part",
+                "PrivilegeId": "b79ac47e-607b-4ea9-9c7b-5e3396f3e09f",
+                "PrivilegeType": 1
+            },
+            {
+                "CanBeBasic": true,
+                "CanBeDeep": true,
+                "CanBeGlobal": true,
+                "CanBeLocal": true,
+                "CanBeEntityReference": false,
+                "CanBeParentEntityReference": false,
+                "CanBeRecordFilter": false,
+                "Name": "prvReadcgsol_Part",
+                "PrivilegeId": "55675f7b-01b3-4597-b50a-39af6b80fa4c",
+                "PrivilegeType": 2
+            },
+            {
+                "CanBeBasic": true,
+                "CanBeDeep": true,
+                "CanBeGlobal": true,
+                "CanBeLocal": true,
+                "CanBeEntityReference": false,
+                "CanBeParentEntityReference": false,
+                "CanBeRecordFilter": false,
+                "Name": "prvWritecgsol_Part",
+                "PrivilegeId": "bcf363c2-1be9-4e05-b98b-b8ccb295e577",
+                "PrivilegeType": 3
+            },
+            {
+                "CanBeBasic": true,
+                "CanBeDeep": true,
+                "CanBeGlobal": true,
+                "CanBeLocal": true,
+                "CanBeEntityReference": false,
+                "CanBeParentEntityReference": false,
+                "CanBeRecordFilter": false,
+                "Name": "prvDeletecgsol_Part",
+                "PrivilegeId": "d5fe65af-b2e8-4965-92e8-5f74e84d4766",
+                "PrivilegeType": 4
+            },
+            {
+                "CanBeBasic": true,
+                "CanBeDeep": true,
+                "CanBeGlobal": true,
+                "CanBeLocal": true,
+                "CanBeEntityReference": false,
+                "CanBeParentEntityReference": false,
+                "CanBeRecordFilter": false,
+                "Name": "prvAssigncgsol_Part",
+                "PrivilegeId": "d79a6749-8b5b-4bd2-9eab-7b73bc78a544",
+                "PrivilegeType": 5
+            },
+            {
+                "CanBeBasic": true,
+                "CanBeDeep": true,
+                "CanBeGlobal": true,
+                "CanBeLocal": true,
+                "CanBeEntityReference": false,
+                "CanBeParentEntityReference": false,
+                "CanBeRecordFilter": false,
+                "Name": "prvSharecgsol_Part",
+                "PrivilegeId": "1d0681d4-7516-4c46-8ca0-02ab944790af",
+                "PrivilegeType": 6
+            },
+            {
+                "CanBeBasic": true,
+                "CanBeDeep": true,
+                "CanBeGlobal": true,
+                "CanBeLocal": true,
+                "CanBeEntityReference": false,
+                "CanBeParentEntityReference": false,
+                "CanBeRecordFilter": false,
+                "Name": "prvAppendcgsol_Part",
+                "PrivilegeId": "05bf5c79-45d9-4117-a234-ed74e7726c61",
+                "PrivilegeType": 7
+            },
+            {
+                "CanBeBasic": true,
+                "CanBeDeep": true,
+                "CanBeGlobal": true,
+                "CanBeLocal": true,
+                "CanBeEntityReference": false,
+                "CanBeParentEntityReference": false,
+                "CanBeRecordFilter": false,
+                "Name": "prvAppendTocgsol_Part",
+                "PrivilegeId": "28bbb089-2eb5-428b-9bb9-156be462138e",
+                "PrivilegeType": 8
+            }
+        ],
+        "IconVectorName": "",
+        "IsBPFEntity": false,
+        "DataProviderId": null,
+        "IsEnabledInUnifiedInterface": true,
+        "VersionNumber": 11050599,
+        "OverallVersionNumber": 11050599,
+        "AttributeNames": [
+            "cgsol_partid",
+            "cgsol_prt_basequantity",
+            "cgsol_prt_basequantityname",
+            "cgsol_prt_baseunit",
+            "cgsol_prt_baseunitname",
+            "cgsol_prt_containsplastic",
+            "cgsol_prt_containsplasticname",
+            "cgsol_prt_cousedivision",
+            "cgsol_prt_cousedivisionname",
+            "cgsol_prt_customgroup",
+            "cgsol_prt_descriptionde",
+            "cgsol_prt_descriptionen",
+            "cgsol_prt_designstatus",
+            "cgsol_prt_designstatusdate",
+            "cgsol_prt_designstatusname",
+            "cgsol_prt_designstatusreason",
+            "cgsol_prt_designstatusreasonname",
+            "cgsol_prt_division",
+            "cgsol_prt_divisionname",
+            "cgsol_prt_generation",
+            "cgsol_prt_hasartwork",
+            "cgsol_prt_hasartworkname",
+            "cgsol_prt_hasassignment",
+            "cgsol_prt_hasassignmentname",
+            "cgsol_prt_includedocuments",
+            "cgsol_prt_includedocumentsname",
+            "cgsol_prt_incurrentscope",
+            "cgsol_prt_incurrentscopename",
+            "cgsol_prt_inpackagingitaly",
+            "cgsol_prt_inpackagingitalyname",
+            "cgsol_prt_isconfi",
+            "cgsol_prt_isconfiname",
+            "cgsol_prt_iscurrent",
+            "cgsol_prt_iscurrentname",
+            "cgsol_prt_isdesignrelevant",
+            "cgsol_prt_isdesignrelevantname",
+            "cgsol_prt_isfulldefined",
+            "cgsol_prt_isfulldefinedname",
+            "cgsol_prt_labelingtype",
+            "cgsol_prt_labelingtypename",
+            "cgsol_prt_makeorbuy",
+            "cgsol_prt_makeorbuyname",
+            "cgsol_prt_materialkey",
+            "cgsol_prt_materialstatussap",
+            "cgsol_prt_materialstatussapname",
+            "cgsol_prt_materialtype",
+            "cgsol_prt_materialtypename",
+            "cgsol_prt_oemplp",
+            "cgsol_prt_oemplpname",
+            "cgsol_prt_packagingrank",
+            "cgsol_prt_packagingtype",
+            "cgsol_prt_packagingtypename",
+            "cgsol_prt_partcategory",
+            "cgsol_prt_partcategoryname",
+            "cgsol_prt_partnumber",
+            "cgsol_prt_predecessor",
+            "cgsol_prt_predecessorname",
+            "cgsol_prt_preperationstatus",
+            "cgsol_prt_preperationstatusdate",
+            "cgsol_prt_preperationstatusname",
+            "cgsol_prt_preperationstatusreason",
+            "cgsol_prt_preperationstatusreasonname",
+            "cgsol_prt_productrank",
+            "cgsol_prt_propcolor",
+            "cgsol_prt_propcomment",
+            "cgsol_prt_propfefco",
+            "cgsol_prt_propfefconame",
+            "cgsol_prt_propfefcovariation",
+            "cgsol_prt_propidheight",
+            "cgsol_prt_propidlength",
+            "cgsol_prt_propidwidth",
+            "cgsol_prt_propmaterial",
+            "cgsol_prt_propmaterialcategory",
+            "cgsol_prt_propmaterialcategoryname",
+            "cgsol_prt_propodheight",
+            "cgsol_prt_propodlength",
+            "cgsol_prt_propodwidth",
+            "cgsol_prt_proprecyclability",
+            "cgsol_prt_proprecyclabilityname",
+            "cgsol_prt_proprecyclatecontent",
+            "cgsol_prt_propthickness",
+            "cgsol_prt_propweight",
+            "cgsol_prt_psbcft",
+            "cgsol_prt_psbcftname",
+            "cgsol_prt_researchstatus",
+            "cgsol_prt_researchstatusdate",
+            "cgsol_prt_researchstatusname",
+            "cgsol_prt_researchstatusreason",
+            "cgsol_prt_researchstatusreasonname",
+            "cgsol_prt_revision",
+            "cgsol_prt_revisiontype",
+            "cgsol_prt_revisiontypename",
+            "cgsol_prt_successor",
+            "cgsol_prt_successorname",
+            "cgsol_prt_tocustomize",
+            "cgsol_prt_tocustomizename",
+            "cgsol_prt_unit",
+            "cgsol_prt_unitname",
+            "createdby",
+            "createdbyname",
+            "createdbyyominame",
+            "createdon",
+            "createdonbehalfby",
+            "createdonbehalfbyname",
+            "createdonbehalfbyyominame",
+            "importsequencenumber",
+            "modifiedby",
+            "modifiedbyname",
+            "modifiedbyyominame",
+            "modifiedon",
+            "modifiedonbehalfby",
+            "modifiedonbehalfbyname",
+            "modifiedonbehalfbyyominame",
+            "overriddencreatedon",
+            "ownerid",
+            "owneridname",
+            "owneridtype",
+            "owneridyominame",
+            "owningbusinessunit",
+            "owningbusinessunitname",
+            "owningteam",
+            "owninguser",
+            "processid",
+            "stageid",
+            "statecode",
+            "statecodename",
+            "statuscode",
+            "statuscodename",
+            "timezoneruleversionnumber",
+            "traversedpath",
+            "utcconversiontimezonecode",
+            "versionnumber"
+        ],
+        "IsAuditEnabled": {
+            "Value": false,
+            "CanBeChanged": true
+        },
+        "OneToManyRelationships": {
+            "cgsol_part_ActivityPointers": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 0,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 4,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "activitypointer",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_ActivityPointers",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_ActivityPointers",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_adx_alertsubscriptions": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "adx_alertsubscription",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_adx_alertsubscriptions",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_adx_alertsubscription",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_adx_alertsubscriptions",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_msfp_surveyinvites": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "msfp_surveyinvite",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_msfp_surveyinvites",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_msfp_surveyinvite",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_msfp_surveyinvites",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_adx_inviteredemptions": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "adx_inviteredemption",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_adx_inviteredemptions",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_adx_inviteredemption",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_adx_inviteredemptions",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_msfp_alerts": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "msfp_alert",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_msfp_alerts",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_msfp_alert",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_msfp_alerts",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_msfp_surveyresponses": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "msfp_surveyresponse",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_msfp_surveyresponses",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_msfp_surveyresponse",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_msfp_surveyresponses",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_adx_portalcomments": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "adx_portalcomment",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_adx_portalcomments",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_adx_portalcomment",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_adx_portalcomments",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_chats": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "chat",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_chats",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_chat",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_chats",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_SyncErrors": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "syncerror",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_SyncErrors",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_SyncErrors",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_DuplicateMatchingRecord": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "duplicaterecordid",
+                "ReferencingEntity": "duplicaterecord",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_DuplicateMatchingRecord",
+                "ReferencingEntityNavigationPropertyName": "duplicaterecordid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_DuplicateMatchingRecord",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_DuplicateBaseRecord": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "baserecordid",
+                "ReferencingEntity": "duplicaterecord",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_DuplicateBaseRecord",
+                "ReferencingEntityNavigationPropertyName": "baserecordid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_DuplicateBaseRecord",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_SharePointDocumentLocations": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 1,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "sharepointdocumentlocation",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_SharePointDocumentLocations",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_SharePointDocumentLocations",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_SharePointDocuments": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 0,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 60,
+                    "AvailableOffline": false,
+                    "IsCustomizable": true,
+                    "MenuId": "navSPDocuments",
+                    "ViewId": {
+                        "guid": "0016f9f3-41cc-4276-9d11-04308d15858d"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 1,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "sharepointdocument",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_SharePointDocuments",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_SharePointDocuments",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_AsyncOperations": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "asyncoperation",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_AsyncOperations",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_AsyncOperations",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_MailboxTrackingFolders": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "mailboxtrackingfolder",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_MailboxTrackingFolders",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_MailboxTrackingFolders",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_UserEntityInstanceDatas": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "objectid",
+                "ReferencingEntity": "userentityinstancedata",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_UserEntityInstanceDatas",
+                "ReferencingEntityNavigationPropertyName": "objectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_UserEntityInstanceDatas",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_ProcessSession": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "processsession",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_ProcessSession",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_ProcessSession",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_BulkDeleteFailures": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "bulkdeletefailure",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_BulkDeleteFailures",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": false,
+                "SchemaName": "cgsol_part_BulkDeleteFailures",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_PrincipalObjectAttributeAccesses": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "objectid",
+                "ReferencingEntity": "principalobjectattributeaccess",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_PrincipalObjectAttributeAccesses",
+                "ReferencingEntityNavigationPropertyName": "objectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": false,
+                "SchemaName": "cgsol_part_PrincipalObjectAttributeAccesses",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_Appointments": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "appointment",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_Appointments",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_appointment",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_Appointments",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_Emails": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "email",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_Emails",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_email",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_Emails",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_Faxes": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "fax",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_Faxes",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_fax",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_Faxes",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_Letters": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "letter",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_Letters",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_letter",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_Letters",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_PhoneCalls": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "phonecall",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_PhoneCalls",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_phonecall",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_PhoneCalls",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_Tasks": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "task",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_Tasks",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_task",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_Tasks",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_RecurringAppointmentMasters": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "recurringappointmentmaster",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_RecurringAppointmentMasters",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_recurringappointmentmaster",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_RecurringAppointmentMasters",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_SocialActivities": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "regardingobjectid",
+                "ReferencingEntity": "socialactivity",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_SocialActivities",
+                "ReferencingEntityNavigationPropertyName": "regardingobjectid_cgsol_part_socialactivity",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_SocialActivities",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_part_Annotations": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "objectid",
+                "ReferencingEntity": "annotation",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_part_Annotations",
+                "ReferencingEntityNavigationPropertyName": "objectid_cgsol_part",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_part_Annotations",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "bpf_cgsol_part_cgsol_maintainprocess": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 0,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 10000,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "bpf_cgsol_partid",
+                "ReferencingEntity": "cgsol_maintainprocess",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "bpf_cgsol_part_cgsol_maintainprocess",
+                "ReferencingEntityNavigationPropertyName": "bpf_cgsol_partid",
+                "IsCustomRelationship": true,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "bpf_cgsol_part_cgsol_maintainprocess",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_AssignmentToPart_n1": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 0,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 10000,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 1,
+                    "Delete": 1,
+                    "Merge": 0,
+                    "Reparent": 1,
+                    "Share": 1,
+                    "Unshare": 1
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "cgsol_asn_childpart",
+                "ReferencingEntity": "cgsol_assignment",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_AssignmentToPart_n1",
+                "ReferencingEntityNavigationPropertyName": "cgsol_asn_ChildPart",
+                "IsCustomRelationship": true,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_AssignmentToPart_n1",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_DocAssignToPart_n1": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 0,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 10000,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 4,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "cgsol_docasn_part",
+                "ReferencingEntity": "cgsol_docassign",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_DocAssignToPart_n1",
+                "ReferencingEntityNavigationPropertyName": "cgsol_docasn_Part",
+                "IsCustomRelationship": true,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_DocAssignToPart_n1",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_PartToAssignment_1n": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 0,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 10000,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 4,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "cgsol_asn_parentpart",
+                "ReferencingEntity": "cgsol_assignment",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_PartToAssignment_1n",
+                "ReferencingEntityNavigationPropertyName": "cgsol_asn_ParentPart",
+                "IsCustomRelationship": true,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_PartToAssignment_1n",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_PartToPredecessor_n1": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 10000,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 4,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "cgsol_prt_predecessor",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_PartToPredecessor_n1",
+                "ReferencingEntityNavigationPropertyName": "cgsol_prt_Predecessor",
+                "IsCustomRelationship": true,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_PartToPredecessor_n1",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_PartToSuccessor_n1": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 0,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 10000,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 4,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "cgsol_prt_successor",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_PartToSuccessor_n1",
+                "ReferencingEntityNavigationPropertyName": "cgsol_prt_Successor",
+                "IsCustomRelationship": true,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_PartToSuccessor_n1",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            }
+        },
+        "HasActivities": true,
+        "HasNotes": true,
+        "ManyToOneRelationships": {
+            "lk_cgsol_part_createdby": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "systemuserid",
+                "ReferencedEntity": "systemuser",
+                "ReferencingAttribute": "createdby",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "lk_cgsol_part_createdby",
+                "ReferencingEntityNavigationPropertyName": "createdby",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "lk_cgsol_part_createdby",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "lk_cgsol_part_createdonbehalfby": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "systemuserid",
+                "ReferencedEntity": "systemuser",
+                "ReferencingAttribute": "createdonbehalfby",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "lk_cgsol_part_createdonbehalfby",
+                "ReferencingEntityNavigationPropertyName": "createdonbehalfby",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "lk_cgsol_part_createdonbehalfby",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "lk_cgsol_part_modifiedby": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "systemuserid",
+                "ReferencedEntity": "systemuser",
+                "ReferencingAttribute": "modifiedby",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "lk_cgsol_part_modifiedby",
+                "ReferencingEntityNavigationPropertyName": "modifiedby",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "lk_cgsol_part_modifiedby",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "lk_cgsol_part_modifiedonbehalfby": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "systemuserid",
+                "ReferencedEntity": "systemuser",
+                "ReferencingAttribute": "modifiedonbehalfby",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "lk_cgsol_part_modifiedonbehalfby",
+                "ReferencingEntityNavigationPropertyName": "modifiedonbehalfby",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "lk_cgsol_part_modifiedonbehalfby",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "user_cgsol_part": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "systemuserid",
+                "ReferencedEntity": "systemuser",
+                "ReferencingAttribute": "owninguser",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "user_cgsol_part",
+                "ReferencingEntityNavigationPropertyName": "owninguser",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "user_cgsol_part",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "team_cgsol_part": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "teamid",
+                "ReferencedEntity": "team",
+                "ReferencingAttribute": "owningteam",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "team_cgsol_part",
+                "ReferencingEntityNavigationPropertyName": "owningteam",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "team_cgsol_part",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "owner_cgsol_part": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "ownerid",
+                "ReferencedEntity": "owner",
+                "ReferencingAttribute": "ownerid",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "owner_cgsol_part",
+                "ReferencingEntityNavigationPropertyName": "ownerid",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "owner_cgsol_part",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "business_unit_cgsol_part": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "businessunitid",
+                "ReferencedEntity": "businessunit",
+                "ReferencingAttribute": "owningbusinessunit",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "business_unit_cgsol_part",
+                "ReferencingEntityNavigationPropertyName": "owningbusinessunit",
+                "IsCustomRelationship": false,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": false,
+                "SchemaName": "business_unit_cgsol_part",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "processstage_cgsol_Part": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "AvailableOffline": true,
+                    "IsCustomizable": false,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 0,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "processstageid",
+                "ReferencedEntity": "processstage",
+                "ReferencingAttribute": "stageid",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "processstage_cgsol_Part",
+                "ReferencingEntityNavigationPropertyName": "stageid",
+                "IsCustomRelationship": false,
+                "IsCustomizable": false,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "processstage_cgsol_Part",
+                "SecurityTypes": 0,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_PartToPredecessor_n1": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 2,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 10000,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 4,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "cgsol_prt_predecessor",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_PartToPredecessor_n1",
+                "ReferencingEntityNavigationPropertyName": "cgsol_prt_Predecessor",
+                "IsCustomRelationship": true,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_PartToPredecessor_n1",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_PartToPsbCft_n1": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 0,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 10000,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 4,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_psbcftlistid",
+                "ReferencedEntity": "cgsol_psbcftlist",
+                "ReferencingAttribute": "cgsol_prt_psbcft",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_PartToPsbCft_n1",
+                "ReferencingEntityNavigationPropertyName": "cgsol_prt_PsbCft",
+                "IsCustomRelationship": true,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_PartToPsbCft_n1",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            },
+            "cgsol_PartToSuccessor_n1": {
+                "AssociatedMenuConfiguration": {
+                    "Behavior": 0,
+                    "Group": 0,
+                    "Label": null,
+                    "Order": 10000,
+                    "AvailableOffline": true,
+                    "IsCustomizable": true,
+                    "ViewId": {
+                        "guid": "00000000-0000-0000-0000-000000000000"
+                    }
+                },
+                "CascadeConfiguration": {
+                    "Assign": 0,
+                    "Delete": 4,
+                    "Merge": 0,
+                    "Reparent": 0,
+                    "Share": 0,
+                    "Unshare": 0
+                },
+                "ReferencedAttribute": "cgsol_partid",
+                "ReferencedEntity": "cgsol_part",
+                "ReferencingAttribute": "cgsol_prt_successor",
+                "ReferencingEntity": "cgsol_part",
+                "IsHierarchical": false,
+                "ReferencedEntityNavigationPropertyName": "cgsol_PartToSuccessor_n1",
+                "ReferencingEntityNavigationPropertyName": "cgsol_prt_Successor",
+                "IsCustomRelationship": true,
+                "IsCustomizable": true,
+                "IsValidForAdvancedFind": true,
+                "SchemaName": "cgsol_PartToSuccessor_n1",
+                "SecurityTypes": 1,
+                "IsManaged": false,
+                "RelationshipType": 0
+            }
+        },
+        "ManyToManyRelationships": {}
+    },
+    "_entityType": "cgsol_part",
+    "_attributes": [],
+    "_activityTypeMask": 0,
+    "_autoRouteToOwnerQueue": false,
+    "_canTriggerWorkflow": true,
+    "_description": "project-relevant item numbers and revisions",
+    "_displayCollectionName": "Parts",
+    "_displayName": "Part",
+    "_enforceStateTransitions": false,
+    "_entityColor": "#1f458f",
+    "_entitySetName": "cgsol_parts",
+    "_hasActivities": true,
+    "_iconVectorName": "",
+    "_isActivity": false,
+    "_isActivityParty": false,
+    "_isBusinessProcessEnabled": true,
+    "_isBPFEntity": false,
+    "_isChildEntity": false,
+    "_isConnectionsEnabled": false,
+    "_isCustomEntity": true,
+    "_isCustomizable": true,
+    "_isDocumentManagementEnabled": true,
+    "_isDocumentRecommendationsEnabled": false,
+    "_isEnabledForCharts": true,
+    "_isImportable": true,
+    "_isInteractionCentricEnabled": false,
+    "_isKnowledgeManagementEnabled": false,
+    "_isMailMergeEnabled": true,
+    "_isOneNoteIntegrationEnabled": false,
+    "_entityHelpUrl": "",
+    "_isMSTeamsIntegrationEnabled": false,
+    "_isOptimisticConcurrencyEnabled": true,
+    "_isQuickCreateEnabled": true,
+    "_entityClientSetting": {
+        "AllowMainFormDialogForCreate": false,
+        "AllowMainFormDialogForEdit": false
+    },
+    "_isReadOnlyInMobileClient": false,
+    "_isStateModelAware": true,
+    "_isValidForAdvancedFind": true,
+    "_isVisibleInMobileClient": false,
+    "_isEnabledInUnifiedInterface": true,
+    "_logicalName": "cgsol_part",
+    "_objectTypeCode": 11125,
+    "_ownershipType": 1,
+    "_primaryIdAttribute": "cgsol_partid",
+    "_primaryNameAttribute": "cgsol_prt_partnumber"
+}

@@ -1,12 +1,15 @@
-import { IInputs } from '../generated/ManifestTypes';
+import { IConfig } from './IConfig';
 
-export interface iCreateFromLookupProps {
-    input: string | undefined;
+interface ICreateFromLookupProps {
     utils: ComponentFramework.Utility;
-    isDisabled: boolean;
+    webApi: ComponentFramework.WebApi;
+    config: IConfig;
+    lookupValue: ComponentFramework.LookupValue[];
     currentValue: string;
-    isCreateEnabled: boolean;
-    onRequest: (text: string) => void;
-    onSearchRequest: (text: string) => Promise<boolean>;
-    onCreateRequest: (text: string) => Promise<boolean>;
+    lookupViewId: string;
+    lookupEntityName: string;
+    openOnSidePane: any;
+    onChangeRequest: (value: ComponentFramework.LookupValue[]) => void;
 }
+
+export { ICreateFromLookupProps };

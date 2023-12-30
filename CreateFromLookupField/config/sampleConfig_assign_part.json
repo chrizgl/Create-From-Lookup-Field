@@ -1,0 +1,95 @@
+{
+    "lookupColumnName": "cgsol_prt_partnumber",
+    "lookupColumn": "cgsol_partid",
+    "sourceLookupField": "cgsol_asn_childpart",
+    "sourceEntityName": "cgsol_assignment",
+    "targetEntityName": "cgsol_part",
+    "targetEntityMultiple": "cgsol_parts",
+    "selectedColumns": [
+        "cgsol_partid",
+        "cgsol_prt_partnumber",
+        "cgsol_prt_generation",
+        "cgsol_prt_revision",
+        "cgsol_prt_descriptionen",
+        "cgsol_prt_descriptionde",
+        "cgsol_prt_iscurrent",
+        "cgsol_prt_division",
+        "cgsol_prt_releasedatearas",
+        "modifiedon",
+        "createdon",
+        "ownerid"
+    ],
+    "fields": [
+        {
+            "id": "cgsol_prt_partnumber",
+            "type": "Text",
+            "title": "Part Number",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_revision",
+            "type": "Text",
+            "title": "Revision",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_descriptionen",
+            "type": "Text",
+            "title": "Description (EN)",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_releasedatearas",
+            "type": "Timestamp",
+            "title": "Release Date (ARAS)",
+            "visible": true
+        },
+        {
+            "id": "ownerid",
+            "type": "Person",
+            "title": "Owner",
+            "visible": true
+        },
+        {
+            "id": "modifiedon",
+            "type": "Timestamp",
+            "title": "Modified On",
+            "visible": true
+        },
+        {
+            "id": "createdon",
+            "type": "Timestamp",
+            "title": "Created On",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_generation",
+            "type": "Number",
+            "title": "Generation",
+            "visible": true
+        },
+        {
+            "id": "cgsol_prt_iscurrent",
+            "type": "Number",
+            "title": "Is Current",
+            "visible": true
+        }
+    ],
+    "filter": [
+        {
+            "name": "cgsol_prt_iscurrent",
+            "value": true
+        }
+    ],
+    "orderBy": "cgsol_prt_generation",
+    "updateColumns": [
+        {
+            "name": "cgsol_prt_generation",
+            "value": 0
+        },
+        {
+            "name": "cgsol_prt_iscurrent",
+            "value": true
+        }
+    ]
+}

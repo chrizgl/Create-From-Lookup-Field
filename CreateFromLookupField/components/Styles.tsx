@@ -60,5 +60,38 @@ export const useStyles = makeStyles({
     input: {
         ...shorthands.border('0px', 'solid', tokens.colorNeutralStroke1),
         backgroundColor: '#f5f5f5',
+        width: '200px',
+    },
+    contentHeader: {
+        marginTop: '0',
+    },
+    dialog: {
+        display: 'block', // Changed from 'static' to 'block'
+        maxWidth: '90%',
+        maxHeight: '90%',
+        minWidth: '70%',
+        minHeight: '70%',
+        alignSelf: 'center',
+    },
+    dialogBody: {
+        display: 'inherit',
+        width: '900px',
+        height: '400px',
+
+        alignSelf: 'flex-end', // Changed from 'right' to 'flex-end'
+    },
+    dialogContent: {
+        width: '100%',
+        height: '100%',
+    },
+    gridHeaderCell: {
+        width: 'max-content',
+        height: 'max-content',
+        minWidth: '100px',
+    },
+    gridBody: {
+        width: 'fit-content',
+        height: 'fit-content',
+        overflowX: 'auto',
     },
 });
