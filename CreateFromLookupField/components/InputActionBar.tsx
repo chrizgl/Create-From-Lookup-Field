@@ -6,14 +6,11 @@ import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import WebApiRequest from './WebApiComponent';
 import InputActionBarContext from './InputActionBarContext';
-import { ILookupDialogState } from '../interfaces/ILookupDialogState';
-import { IButtonState } from '../interfaces/IButtonState';
-import { IconButton } from '@fluentui/react';
 
 const SEARCH_DELAY = 1000;
 
 const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
-    const _props = useMemo(() => props, [props]);
+    const _props = props;
     const webApiRequest = WebApiRequest({ utils: _props.utils, webApi: _props.webApi, config: _props.config });
     const openOnSidePane = _props.openOnSidePane; // Styling specific code:
 
@@ -21,6 +18,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     if (!contextValue) {
         throw new Error('InputActionBarContext is undefined');
     }
+    const id = useId();
     const inputValue = contextValue.inputValue;
     const setInputValue = contextValue.setInputValue;
     const validInputState = contextValue.validInputState;
