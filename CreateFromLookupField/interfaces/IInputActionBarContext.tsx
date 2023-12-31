@@ -14,7 +14,7 @@ interface IInputActionBarContext {
     setCreateState: React.Dispatch<React.SetStateAction<IButtonState>>;
     // the current state of the open button and it's setter:
     openState: IButtonState;
-    setOpenState: (value: IButtonState) => void;
+    setOpenState: React.Dispatch<React.SetStateAction<IButtonState>>;
     // the current state of the valid input and it's setter:
     validInputState: boolean;
     setValidInputState: (value: boolean) => void;
@@ -24,7 +24,7 @@ interface IInputActionBarContext {
 
     // the current state of the lookup dialog and it's setter:
     lookupDialogState: ILookupDialogState;
-    setLookupDialogState: (value: SetStateAction<ILookupDialogState>) => void;
+    setLookupDialogState: React.Dispatch<React.SetStateAction<ILookupDialogState>>;
 }
 
 export { IInputActionBarContext };

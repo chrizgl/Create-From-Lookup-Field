@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useMemo, useContext, useState } from 'react'; // avoid re-rendering
+import { useCallback, useMemo, useRef, useContext, useState } from 'react'; // avoid re-rendering
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
 import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
 import { useStyles } from './Styles';
@@ -14,7 +14,7 @@ const SEARCH_DELAY = 1000;
 const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     const _props = props;
     const webApiRequest = WebApiRequest({ utils: _props.utils, webApi: _props.webApi, config: _props.config });
-    const openOnSidePane = _props.openOnSidePane; // Styling specific code:
+    const openOnSidePane = _props.openOnSidePane;
 
     const contextValue = useContext(InputActionBarContext);
     if (!contextValue) {
@@ -46,7 +46,8 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
         console.log('handleSearch inputValue: ' + inputValue);
         webApiRequest.retrieveRecords(inputValue).then((result) => {
             if (result) {
-                console.log('handleSearch result: ' + result.hasFound);
+                console.log('has found: ' + result.hasFound);
+                console.log('lookup values: ' + result.lookupValues);
                 const foundRef = result.hasFound;
                 if (!foundRef) {
                     setCreateEnabledState(true);

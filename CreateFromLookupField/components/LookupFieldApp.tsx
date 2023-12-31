@@ -9,6 +9,7 @@ import LookupDialogProvider from './LookupDialogProvider';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const _props = props;
+    console.log('CreateFromLookupApp: ' + _props.lookupValue);
 
     const lookupDialogProps: ILookupDialogProps = {
         onChangeRequest: _props.onChangeRequest,
@@ -17,12 +18,12 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
 
     return (
         <FluentProvider theme={webLightTheme}>
-            <LookupDialogProvider>
-                <InputActionBarProvider>
+            <InputActionBarProvider>
+                <LookupDialogProvider>
                     <LookupDialog {...lookupDialogProps} />
                     <InputActionBar {..._props} />
-                </InputActionBarProvider>
-            </LookupDialogProvider>
+                </LookupDialogProvider>
+            </InputActionBarProvider>
         </FluentProvider>
     );
 };
