@@ -10,6 +10,9 @@ import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import WebApiRequest from './WebApiComponent';
 import LookupDialog from './SelectItemDialog';
 import LookupFieldProvider from './InputActionBarProvider';
+import InputActionBar from './InputActionBar';
+import InputActionBarContext from './InputActionBarContext';
+import InputActionBarProvider from './InputActionBarProvider';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const _props = useMemo(() => props, [props]);
@@ -22,6 +25,13 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
 
+    const contextValue = useContext(InputActionBarContext);
+    if (!contextValue) {
+        throw new Error('InputActionBarContext is not defined');
+    }
+    const lookupDialogState = contextValue.lookupDialogState;
+    const setLookupDialogState = contextValue.setLookupDialogState;
+
     const lookupDialogProps: ILookupDialogProps = {
         onChangeRequest: _props.onChangeRequest,
         setLookupDialogState: setLookupDialogState,
@@ -33,19 +43,9 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
         <FluentProvider theme={webLightTheme}>
             <LookupDialog {...lookupDialogProps} />
             <div className={stackClasses}>
-                <LookupFieldProvider>
-                    <InputWithLookupContext />
-                </LookupFieldProvider>
-                {validInputState && (
-                    <>
-                        <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest} />
-                    </>
-                )}
-                {_props.lookupValue && (
-                    <>
-                        <Button className={classes.stackitem} icon={showOpenButton()} onClick={onClickOpenRequest} />
-                    </>
-                )}
+                <InputActionBarProvider>
+                    <InputActionBar {..._props} />
+                </InputActionBarProvider>
             </div>
         </FluentProvider>
     );

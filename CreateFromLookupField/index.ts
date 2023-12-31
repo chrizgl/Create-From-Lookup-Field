@@ -57,9 +57,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         this._counter++;
         console.log('updateView call no.: ' + this._counter);
-        const LookupFieldProviderProps = {
-            onChangeRequest: this.onChange.bind(this),
-        };
+
         const props: ICreateFromLookupProps = {
             utils: context.utils,
             webApi: context.webAPI,
@@ -69,6 +67,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             lookupViewId: this._lookupViewId,
             lookupEntityName: this._lookupEntityName,
             openOnSidePane: this._openOnSiedePane,
+            onChangeRequest: this.onChange.bind(this),
         };
         this._root.render(createElement(CreateFromLookupApp, props));
         // console.log('lookupViewId: ' + this._lookupViewId);

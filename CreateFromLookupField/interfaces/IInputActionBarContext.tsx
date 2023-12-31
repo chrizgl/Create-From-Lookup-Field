@@ -1,4 +1,6 @@
+import { SetStateAction } from 'react';
 import { IButtonState } from './IButtonState';
+import { ILookupDialogState } from './ILookupDialogState';
 
 interface IInputActionBarContext {
     // the current value of the input field and it's setter:
@@ -19,6 +21,10 @@ interface IInputActionBarContext {
     // the current visibility state of the create button and it's setter:
     createEnabledState: boolean;
     setCreateEnabledState: (value: boolean) => void;
+
+    // the current state of the lookup dialog and it's setter:
+    lookupDialogState: ILookupDialogState;
+    setLookupDialogState: (value: SetStateAction<ILookupDialogState>) => void;
 }
 
 export { IInputActionBarContext };

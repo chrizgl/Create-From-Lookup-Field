@@ -8,6 +8,7 @@ import WebApiRequest from './WebApiComponent';
 import InputActionBarContext from './InputActionBarContext';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import { IButtonState } from '../interfaces/IButtonState';
+import { IconButton } from '@fluentui/react';
 
 const SEARCH_DELAY = 1000;
 
@@ -32,12 +33,8 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     const setCreateState = contextValue.setCreateState;
     const createEnabledState = contextValue.createEnabledState;
     const setCreateEnabledState = contextValue.setCreateEnabledState;
-
-    const [lookupDialogState, setLookupDialogState] = useState<ILookupDialogState>({
-        values: new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse,
-        open: false,
-        selectedItem: [],
-    });
+    const lookupDialogState = contextValue.lookupDialogState;
+    const setLookupDialogState = contextValue.setLookupDialogState;
 
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
@@ -56,7 +53,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
                 }
             }
         });
-    }, [setCreateEnabledState, webApiRequest]);
+    }, [setCreateEnabledState, setLookupDialogState, webApiRequest]);
 
     const handleCreate = useCallback(async () => {
         const result = await webApiRequest.createRecord(inputValue);
@@ -120,6 +117,19 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
 
     return (
         <div className={stackClasses}>
+            <Input
+                className={classes.stackitem}
+                placeholder='Search or Create'
+                onChange={(e, data) => {
+                    setInputValue(data.value);
+                    if (data.value.length > 0) {
+                        setValidInputState(true);
+                    } else {
+                        setValidInputState(false);
+                    }
+                }}
+                value={inputValue}
+            />
             {validInputState && (
                 <>
                     <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest} />

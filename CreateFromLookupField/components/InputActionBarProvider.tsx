@@ -4,6 +4,7 @@ import LookupFieldContext from './InputActionBarContext';
 import { IInputActionBarProvider } from '../interfaces/IInputActionBarProvider';
 import { IInputActionBarContext } from '../interfaces/IInputActionBarContext';
 import { IButtonState } from '../interfaces/IButtonState';
+import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 
 const InputActionBarProvider = ({ children }: IInputActionBarProvider) => {
     const [inputValue, setInputValue] = useState<string>('');
@@ -24,6 +25,12 @@ const InputActionBarProvider = ({ children }: IInputActionBarProvider) => {
         iconBackground: 'transparent',
     });
 
+    const [lookupDialogState, setLookupDialogState] = useState<ILookupDialogState>({
+        values: new Object() as ComponentFramework.WebApi.RetrieveMultipleResponse,
+        open: false,
+        selectedItem: [],
+    });
+
     const [createEnabledState, setCreateEnabledState] = useState(false);
 
     const contextValue: IInputActionBarContext = {
@@ -39,6 +46,8 @@ const InputActionBarProvider = ({ children }: IInputActionBarProvider) => {
         setCreateState,
         createEnabledState,
         setCreateEnabledState,
+        lookupDialogState,
+        setLookupDialogState,
     };
 
     return <LookupFieldContext.Provider value={contextValue}>{children}</LookupFieldContext.Provider>;
