@@ -58,17 +58,6 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
         });
     }, [setCreateEnabledState, webApiRequest]);
 
-    const onClickSearchRequest = () => {
-        setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
-        setTimeout(() => {
-            setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-        }, SEARCH_DELAY);
-        if (validInputState) {
-            // console.log('onClickSearchRequest - validInputState');
-            handleSearch();
-        }
-    };
-
     const handleCreate = useCallback(async () => {
         const result = await webApiRequest.createRecord(inputValue);
         if (result) {
@@ -87,6 +76,17 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
             setCreateState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, SEARCH_DELAY);
         handleCreate();
+    };
+
+    const onClickSearchRequest = () => {
+        setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
+        setTimeout(() => {
+            setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
+        }, SEARCH_DELAY);
+        if (validInputState) {
+            // console.log('onClickSearchRequest - validInputState');
+            handleSearch();
+        }
     };
 
     // BUTTON ACTION: Open on Side Pane
@@ -123,6 +123,9 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
             {validInputState && (
                 <>
                     <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest} />
+                    {createEnabledState && (
+                        <Button className={classes.stackitem} icon={showCreateButton()} onClick={onClickCreateRequest} />
+                    )}
                 </>
             )}
             {_props.lookupValue && (
