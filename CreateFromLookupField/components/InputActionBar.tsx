@@ -15,14 +15,14 @@ const SEARCH_DELAY = 1000;
 const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     const _props = useMemo(() => props, [props]);
     const webApiRequest = WebApiRequest({ utils: _props.utils, webApi: _props.webApi, config: _props.config });
-    const openOnSidePane = _props.openOnSidePane;
-    const inputValue = '';
-    // Styling specific code:
+    const openOnSidePane = _props.openOnSidePane; // Styling specific code:
 
     const contextValue = useContext(InputActionBarContext);
     if (!contextValue) {
         throw new Error('InputActionBarContext is undefined');
     }
+    const inputValue = contextValue.inputValue;
+    const setInputValue = contextValue.setInputValue;
     const validInputState = contextValue.validInputState;
     const setValidInputState = contextValue.setValidInputState;
     const searchState = contextValue.searchState;
@@ -53,7 +53,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
                 }
             }
         });
-    }, [setCreateEnabledState, setLookupDialogState, webApiRequest]);
+    }, [inputValue, setCreateEnabledState, setLookupDialogState, webApiRequest]);
 
     const handleCreate = useCallback(async () => {
         const result = await webApiRequest.createRecord(inputValue);
@@ -65,24 +65,40 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
                 setCreateEnabledState(true);
             }
         }
-    }, [webApiRequest, _props, setCreateEnabledState]);
+    }, [webApiRequest, inputValue, _props, setCreateEnabledState]);
 
     const onClickCreateRequest = () => {
-        setCreateState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
+        setCreateState({ overlayHidden: false, iconBackground: 'lightgreen' });
         setTimeout(() => {
-            setCreateState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
+            setCreateState({ overlayHidden: true, iconBackground: 'transparent' });
         }, SEARCH_DELAY);
         handleCreate();
     };
 
     const onClickSearchRequest = () => {
-        setSearchState((state) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
+        setSearchState({ overlayHidden: false, iconBackground: 'lightgreen' });
         setTimeout(() => {
-            setSearchState((state) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
+            setSearchState({ overlayHidden: true, iconBackground: 'transparent' });
         }, SEARCH_DELAY);
         if (validInputState) {
             // console.log('onClickSearchRequest - validInputState');
             handleSearch();
+        }
+    };
+
+    const onInputChange = (value: string) => {
+        setInputValue(value);
+        if (value.length > 3) {
+            setValidInputState(true);
+        } else {
+            setValidInputState(false);
+            setCreateEnabledState(false);
+        }
+    };
+
+    const onInputKey: InputProps['onKeyUp'] = (key) => {
+        if (key.key === 'Enter') {
+            onClickSearchRequest();
         }
     };
 
@@ -119,7 +135,6 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
         <div className={stackClasses}>
             <Input
                 className={classes.stackitem}
-                placeholder='Search or Create'
                 onChange={(e, data) => {
                     setInputValue(data.value);
                     if (data.value.length > 0) {
