@@ -11,7 +11,7 @@ interface IInputActionBarContext {
     setSearchState: React.Dispatch<React.SetStateAction<IButtonState>>;
     // the current state of the create button and it's setter:
     createState: IButtonState;
-    setCreateState: (value: IButtonState) => void;
+    setCreateState: React.Dispatch<React.SetStateAction<IButtonState>>;
     // the current state of the open button and it's setter:
     openState: IButtonState;
     setOpenState: (value: IButtonState) => void;

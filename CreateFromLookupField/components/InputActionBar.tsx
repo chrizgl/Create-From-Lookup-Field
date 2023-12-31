@@ -43,8 +43,10 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     const inputClass = mergeClasses(classes.input, classes.stackitem);
 
     const handleSearch = useCallback(async () => {
+        console.log('handleSearch inputValue: ' + inputValue);
         webApiRequest.retrieveRecords(inputValue).then((result) => {
             if (result) {
+                console.log('handleSearch result: ' + result.hasFound);
                 const foundRef = result.hasFound;
                 if (!foundRef) {
                     setCreateEnabledState(true);
@@ -69,9 +71,9 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     }, [webApiRequest, inputValue, _props, setCreateEnabledState]);
 
     const onClickCreateRequest = () => {
-        setCreateState({ overlayHidden: false, iconBackground: 'lightgreen' });
+        setCreateState((state: IButtonState) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
-            setCreateState({ overlayHidden: true, iconBackground: 'transparent' });
+            setCreateState((state: IButtonState) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, SEARCH_DELAY);
         handleCreate();
     };
@@ -89,6 +91,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
 
     const onInputChange = (value: string) => {
         setInputValue(value);
+        console.log('onInputChange value: ' + value);
         if (value.length > 3) {
             setValidInputState(true);
         } else {
@@ -98,7 +101,6 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     };
 
     const onInputKey: InputProps['onKeyUp'] = (key) => {
-        console.log('onInputKey - key: ' + key.key);
         if (key.key === 'Enter') {
             onClickSearchRequest();
         }
@@ -106,7 +108,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
 
     // BUTTON ACTION: Open on Side Pane
     const onClickOpenRequest = () => {
-        console.log('onClickOpenRequest - Open on Side Pane: ' + _props.lookupValue);
+        console.log('onClickOpenRequest value: ' + _props.lookupValue);
         openOnSidePane.openOnSidePane(_props.lookupValue);
     };
 
