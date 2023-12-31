@@ -40,6 +40,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
+    const inputClass = mergeClasses(classes.input, classes.stackitem);
 
     const handleSearch = useCallback(async () => {
         webApiRequest.retrieveRecords(inputValue).then((result) => {
@@ -134,16 +135,12 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     return (
         <div className={stackClasses}>
             <Input
-                className={classes.stackitem}
-                onChange={(e, data) => {
-                    setInputValue(data.value);
-                    if (data.value.length > 0) {
-                        setValidInputState(true);
-                    } else {
-                        setValidInputState(false);
-                    }
-                }}
+                id={id}
+                readOnly={false}
+                className={inputClass}
                 value={inputValue}
+                onChange={(e) => onInputChange(e.target.value)}
+                onKeyUp={onInputKey}
             />
             {validInputState && (
                 <>
