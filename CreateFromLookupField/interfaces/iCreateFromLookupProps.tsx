@@ -9,7 +9,7 @@ interface ICreateFromLookupProps {
     lookupViewId: string;
     lookupEntityName: string;
     openOnSidePane: any;
-    onChangeRequest: (value: ComponentFramework.LookupValue[]) => void;
+
 }
 
 export { ICreateFromLookupProps };

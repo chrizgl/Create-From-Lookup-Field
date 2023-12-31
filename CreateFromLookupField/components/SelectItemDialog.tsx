@@ -27,6 +27,7 @@ import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import { ITableGridField } from '../interfaces/ITableGridField';
 import { useStyles } from './Styles';
+import LookupFieldContext from './InputActionBarContext';
 
 // TODO: Anhand vom Lookup-Dialog kann ich mir das Prinzip für die WebApi-Component ableiten.
 const LookupDialog: React.FC<ILookupDialogProps> = (props) => {

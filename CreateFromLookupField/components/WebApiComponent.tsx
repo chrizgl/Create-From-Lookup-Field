@@ -1,4 +1,4 @@
-import { IUpdateField } from '../interfaces/_IUpdateField';
+import { IUpdateField } from '../interfaces/IUpdateField';
 import { IWebApiComponentProps } from '../interfaces/IWebApiComponentProps';
 
 const WebApiComponent = (props: IWebApiComponentProps) => {

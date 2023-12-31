@@ -6,6 +6,7 @@ import CreateFromLookupApp from './components/LookupFieldApp';
 import { ICreateFromLookupProps } from './interfaces/ICreateFromLookupProps';
 import OpenOnSidePane from './components/OpenOnSidePane';
 import { IOpenOnSidePaneProps } from './interfaces/IOpenOnSidePaneProps';
+import LookupFieldProvider from './components/InputActionBarProvider';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _notifyOutputChanged: () => void;
@@ -21,6 +22,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _openOnSidePaneProps: IOpenOnSidePaneProps;
 
     private _counter: number;
+    private _lookupFieldProvider: any;
 
     constructor() {}
 
@@ -55,6 +57,9 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         this._counter++;
         console.log('updateView call no.: ' + this._counter);
+        const LookupFieldProviderProps = {
+            onChangeRequest: this.onChange.bind(this),
+        };
         const props: ICreateFromLookupProps = {
             utils: context.utils,
             webApi: context.webAPI,
@@ -64,7 +69,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             lookupViewId: this._lookupViewId,
             lookupEntityName: this._lookupEntityName,
             openOnSidePane: this._openOnSiedePane,
-            onChangeRequest: this.onChange.bind(this), // was wird hier wirklich gebinded?
         };
         this._root.render(createElement(CreateFromLookupApp, props));
         // console.log('lookupViewId: ' + this._lookupViewId);
