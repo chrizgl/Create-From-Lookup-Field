@@ -7,6 +7,7 @@ import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import WebApiRequest from './WebApiComponent';
 import InputActionBarContext from './InputActionBarContext';
 import { IInputActionBarContext } from '../interfaces/IInputActionBarContext';
+import { IButtonState } from '../interfaces/IButtonState';
 
 const SEARCH_DELAY = 1000;
 
@@ -76,9 +77,9 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     };
 
     const onClickSearchRequest = () => {
-        setSearchState({ overlayHidden: false, iconBackground: 'lightgreen' });
+        setSearchState((state: IButtonState) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
-            setSearchState({ overlayHidden: true, iconBackground: 'transparent' });
+            setSearchState((state: IButtonState) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, SEARCH_DELAY);
         if (validInputState) {
             console.log('onClickSearchRequest - validInputState');

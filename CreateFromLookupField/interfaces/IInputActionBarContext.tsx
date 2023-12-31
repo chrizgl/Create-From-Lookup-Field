@@ -8,7 +8,7 @@ interface IInputActionBarContext {
     setInputValue: (value: string) => void;
     // the current state of the search button and it's setter:
     searchState: IButtonState;
-    setSearchState: (value: IButtonState) => void;
+    setSearchState: React.Dispatch<React.SetStateAction<IButtonState>>;
     // the current state of the create button and it's setter:
     createState: IButtonState;
     setCreateState: (value: IButtonState) => void;
