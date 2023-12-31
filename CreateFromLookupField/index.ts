@@ -3,7 +3,7 @@ import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { IConfig } from './interfaces/IConfig';
 import CreateFromLookupApp from './components/LookupFieldApp';
-import { ICreateFromLookupProps } from './interfaces/fiCreateFromLookupProps';
+import { ICreateFromLookupProps } from './interfaces/ICreateFromLookupProps';
 import OpenOnSidePane from './components/OpenOnSidePane';
 import { IOpenOnSidePaneProps } from './interfaces/IOpenOnSidePaneProps';
 import LookupFieldProvider from './components/InputActionBarProvider';
@@ -22,7 +22,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _openOnSidePaneProps: IOpenOnSidePaneProps;
 
     private _counter: number;
-    private _lookupFieldProvider: any;
 
     constructor() {}
 

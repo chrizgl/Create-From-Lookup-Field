@@ -6,6 +6,7 @@ import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import WebApiRequest from './WebApiComponent';
 import InputActionBarContext from './InputActionBarContext';
+import { IInputActionBarContext } from '../interfaces/IInputActionBarContext';
 
 const SEARCH_DELAY = 1000;
 
@@ -80,7 +81,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
             setSearchState({ overlayHidden: true, iconBackground: 'transparent' });
         }, SEARCH_DELAY);
         if (validInputState) {
-            // console.log('onClickSearchRequest - validInputState');
+            console.log('onClickSearchRequest - validInputState');
             handleSearch();
         }
     };
@@ -96,6 +97,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     };
 
     const onInputKey: InputProps['onKeyUp'] = (key) => {
+        console.log('onInputKey - key: ' + key.key);
         if (key.key === 'Enter') {
             onClickSearchRequest();
         }
@@ -103,7 +105,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
 
     // BUTTON ACTION: Open on Side Pane
     const onClickOpenRequest = () => {
-        // console.log('onClickOpenRequest - Open on Side Pane');
+        console.log('onClickOpenRequest - Open on Side Pane: ' + _props.lookupValue);
         openOnSidePane.openOnSidePane(_props.lookupValue);
     };
 

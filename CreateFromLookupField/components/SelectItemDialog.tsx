@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import {
     Avatar,
     Button,
@@ -20,28 +21,27 @@ import {
     DialogContent,
     useRestoreFocusTarget,
     mergeClasses,
-    dialogActionsClassNames,
 } from '@fluentui/react-components';
 import { ITableGridItem } from '../interfaces/ITableGridItem';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
-import { ILookupDialogState } from '../interfaces/ILookupDialogState';
 import { ITableGridField } from '../interfaces/ITableGridField';
 import { useStyles } from './Styles';
-import LookupFieldContext from './InputActionBarContext';
+import LookupDialogContext from './LookupDialogContext';
+import { ILookupDialogContext } from '../interfaces/ILookupDialogContext';
 
 // TODO: Anhand vom Lookup-Dialog kann ich mir das Prinzip für die WebApi-Component ableiten.
 const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
-    // Your component logic here
-
     const _props = props;
-
     const _config = props.config;
-
     const classes = useStyles();
-    const stackHorizontal = mergeClasses(classes.stack, classes.stackHorizontal);
-    const stackVertical = mergeClasses(classes.stack, classes.stackVertical);
-
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
+
+    const contextValue = useContext(LookupDialogContext);
+    if (!contextValue) {
+        throw new Error('LookupDialogContext is undefined');
+    }
+    const lookupDialogState = contextValue.lookupDialogState;
+    const setLookupDialogState = contextValue.setLookupDialogState;
 
     const buildItems = (values: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
         const entities = values.entities;
@@ -66,7 +66,7 @@ const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
         return items;
     };
     const show = (): React.JSX.Element => {
-        const state = _props.lookupDialogState;
+        const state = lookupDialogState;
         const items = buildItems(state.values);
 
         const columns: TableColumnDefinition<ITableGridField>[] = [];
@@ -124,14 +124,14 @@ const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
                 };
             }
             _props.onChangeRequest(lookupValue);
-            _props.setLookupDialogState(() => ({ ...state, open: false }));
+            setLookupDialogState(() => ({ ...state, open: false }));
         };
         return (
             <Dialog
                 open={state.open}
                 onOpenChange={(event, data) => {
                     if (!data.open) {
-                        _props.setLookupDialogState(() => ({ ...state, open: false }));
+                        setLookupDialogState(() => ({ ...state, open: false }));
                         restoreFocusTargetAttribute;
                     }
                 }}
