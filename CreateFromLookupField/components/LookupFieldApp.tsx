@@ -5,21 +5,33 @@ import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import LookupDialog from './SelectItemDialog';
 import InputActionBar from './InputActionBar';
 import InputActionBarProvider from './InputActionBarProvider';
+import SearchField from './SearchField';
+import { useStyles } from './Styles';
+import { mergeClasses } from '@fluentui/react-components';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const _props = props;
-    console.log('CreateFromLookupApp: ' + _props.lookupValue);
+    const classes = useStyles();
+    const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
 
     const lookupDialogProps: ILookupDialogProps = {
         onChangeRequest: _props.onChangeRequest,
         config: _props.config,
     };
+    const webApiComponentProps = {
+        utils: _props.utils,
+        webApi: _props.webApi,
+        config: _props.config,
+    };
 
     return (
         <FluentProvider theme={webLightTheme}>
-            <InputActionBarProvider>
+            <InputActionBarProvider props={webApiComponentProps}>
+                <div className={stackClasses}>
+                    <SearchField />
+                    <InputActionBar {..._props} />
+                </div>
                 <LookupDialog {...lookupDialogProps} />
-                <InputActionBar {..._props} />
             </InputActionBarProvider>
         </FluentProvider>
     );

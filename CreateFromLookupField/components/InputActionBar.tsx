@@ -1,149 +1,86 @@
 import * as React from 'react';
-import { useCallback, useMemo, useRef, useContext, useState } from 'react'; // avoid re-rendering
+import { useCallback, useContext } from 'react';
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
-import { mergeClasses, Button, FluentProvider, webLightTheme, Input, InputProps, useId } from '@fluentui/react-components';
+import { mergeClasses, Button, Input, InputProps, useId } from '@fluentui/react-components';
 import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import WebApiRequest from './WebApiComponent';
 import InputActionBarContext from './InputActionBarContext';
-import { IInputActionBarContext } from '../interfaces/IInputActionBarContext';
 import { IButtonState } from '../interfaces/IButtonState';
 
 const SEARCH_DELAY = 1000;
 
 const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
-    const _props = props;
-    const webApiRequest = WebApiRequest({ utils: _props.utils, webApi: _props.webApi, config: _props.config });
-    const openOnSidePane = _props.openOnSidePane;
+    const webApiRequest = WebApiRequest({ utils: props.utils, webApi: props.webApi, config: props.config });
+    const openOnSidePane = props.openOnSidePane;
 
     const contextValue = useContext(InputActionBarContext);
     if (!contextValue) {
         throw new Error('InputActionBarContext is undefined');
     }
-    const id = useId();
     const inputValue = contextValue.inputValue;
-    const setInputValue = contextValue.setInputValue;
     const validInputState = contextValue.validInputState;
-    const setValidInputState = contextValue.setValidInputState;
     const searchState = contextValue.searchState;
-    const setSearchState = contextValue.setSearchState;
     const openState = contextValue.openState;
     const createState = contextValue.createState;
     const setCreateState = contextValue.setCreateState;
     const createEnabledState = contextValue.createEnabledState;
     const setCreateEnabledState = contextValue.setCreateEnabledState;
-    const setLookupDialogState = contextValue.setLookupDialogState;
+    const onClickSearchRequest = contextValue.onClickSearchRequest;
 
     const classes = useStyles();
     const stackClasses = mergeClasses(classes.stack, classes.stackHorizontal);
     const overflowClass = mergeClasses(classes.overflow, classes.stackitem);
     const iconClass = mergeClasses(classes.icon, classes.stackitem);
-    const inputClass = mergeClasses(classes.input, classes.stackitem);
-
-    const handleSearch = useCallback(async () => {
-        console.log('handleSearch inputValue: ' + inputValue);
-        webApiRequest.retrieveRecords(inputValue).then((result) => {
-            if (result) {
-                console.log('has found: ' + result.hasFound);
-                console.log('lookup values: ' + result.lookupValues);
-                const foundRef = result.hasFound;
-                if (!foundRef) {
-                    setCreateEnabledState(true);
-                } else {
-                    setLookupDialogState((state) => ({ ...state, values: result.lookupValues, open: true }));
-                    setCreateEnabledState(false);
-                }
-            }
-        });
-    }, [inputValue, setCreateEnabledState, setLookupDialogState, webApiRequest]);
 
     const handleCreate = useCallback(async () => {
         const result = await webApiRequest.createRecord(inputValue);
         if (result) {
+            setCreateEnabledState(!result.lookupValue);
             if (result.lookupValue) {
-                _props.onChangeRequest(result.lookupValue);
-                setCreateEnabledState(false);
-            } else {
-                setCreateEnabledState(true);
+                props.onChangeRequest(result.lookupValue);
             }
         }
-    }, [webApiRequest, inputValue, _props, setCreateEnabledState]);
+    }, [webApiRequest, inputValue, props, setCreateEnabledState]);
 
-    const onClickCreateRequest = () => {
+    const onClickCreateRequest = useCallback(() => {
         setCreateState((state: IButtonState) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
         setTimeout(() => {
             setCreateState((state: IButtonState) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, SEARCH_DELAY);
         handleCreate();
-    };
-
-    const onClickSearchRequest = () => {
-        setSearchState((state: IButtonState) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
-        setTimeout(() => {
-            setSearchState((state: IButtonState) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-        }, SEARCH_DELAY);
-        if (validInputState) {
-            console.log('onClickSearchRequest - validInputState');
-            handleSearch();
-        }
-    };
-
-    const onInputChange = (value: string) => {
-        setInputValue(value);
-        console.log('onInputChange value: ' + value);
-        if (value.length > 3) {
-            setValidInputState(true);
-        } else {
-            setValidInputState(false);
-            setCreateEnabledState(false);
-        }
-    };
-
-    const onInputKey: InputProps['onKeyUp'] = (key) => {
-        if (key.key === 'Enter') {
-            onClickSearchRequest();
-        }
-    };
+    }, [handleCreate, setCreateState]);
 
     // BUTTON ACTION: Open on Side Pane
-    const onClickOpenRequest = () => {
-        console.log('onClickOpenRequest value: ' + _props.lookupValue);
-        openOnSidePane.openOnSidePane(_props.lookupValue);
-    };
+    const onClickOpenRequest = useCallback(() => {
+        console.log('onClickOpenRequest value: ' + props.lookupValue);
+        openOnSidePane.openOnSidePane(props.lookupValue);
+    }, [openOnSidePane, props.lookupValue]);
 
     // Component Buttons (Icons)
-    const showSearchButton = () => {
-        if (searchState.overlayHidden) {
-            return <Search32Regular className={iconClass}></Search32Regular>;
-        } else {
-            return <Search32Filled className={overflowClass}></Search32Filled>;
-        }
-    };
-    const showCreateButton = () => {
-        if (createState.overlayHidden) {
-            return <AddCircle32Regular className={iconClass}></AddCircle32Regular>;
-        } else {
-            return <AddCircle32Filled className={overflowClass}></AddCircle32Filled>;
-        }
-    };
-    const showOpenButton = () => {
-        if (openState.overlayHidden) {
-            return <Open32Regular className={iconClass}></Open32Regular>;
-        } else {
-            return <Open32Filled className={overflowClass}></Open32Filled>;
-        }
-    };
+    const showSearchButton = () =>
+        searchState.overlayHidden ? (
+            <Search32Regular className={iconClass}></Search32Regular>
+        ) : (
+            <Search32Filled className={overflowClass}></Search32Filled>
+        );
+
+    const showCreateButton = () =>
+        createState.overlayHidden ? (
+            <AddCircle32Regular className={iconClass}></AddCircle32Regular>
+        ) : (
+            <AddCircle32Filled className={overflowClass}></AddCircle32Filled>
+        );
+
+    const showOpenButton = () =>
+        openState.overlayHidden ? (
+            <Open32Regular className={iconClass}></Open32Regular>
+        ) : (
+            <Open32Filled className={overflowClass}></Open32Filled>
+        );
 
     return (
         <div className={stackClasses}>
-            <Input
-                id={id}
-                readOnly={false}
-                className={inputClass}
-                value={inputValue}
-                onChange={(e) => onInputChange(e.target.value)}
-                onKeyUp={onInputKey}
-            />
             {validInputState && (
                 <>
                     <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest} />
@@ -152,7 +89,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
                     )}
                 </>
             )}
-            {_props.lookupValue && (
+            {props.lookupValue && (
                 <>
                     <Button className={classes.stackitem} icon={showOpenButton()} onClick={onClickOpenRequest} />
                 </>
