@@ -27,10 +27,7 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     return (
         <FluentProvider theme={webLightTheme}>
             <InputActionBarProvider props={webApiComponentProps}>
-                <div className={stackClasses}>
-                    <SearchField />
-                    <InputActionBar {..._props} />
-                </div>
+                <InputActionBar {..._props} />
                 <LookupDialog {...lookupDialogProps} />
             </InputActionBarProvider>
         </FluentProvider>

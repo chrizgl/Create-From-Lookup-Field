@@ -36,16 +36,14 @@ const SearchField: React.FC = () => {
     };
 
     return (
-        <div className={classes.stackitem}>
-            <Input
-                id={id}
-                readOnly={false}
-                className={inputClass}
-                value={inputValue}
-                onChange={(e) => onInputChange(e.target.value)}
-                onKeyUp={onInputKey}
-            />
-        </div>
+        <Input
+            id={id}
+            readOnly={false}
+            className={inputClass}
+            value={inputValue}
+            onChange={(e) => onInputChange(e.target.value)}
+            onKeyUp={onInputKey}
+        />
     );
 };
 export default SearchField;

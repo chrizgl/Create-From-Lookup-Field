@@ -67,7 +67,6 @@ const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
     const show = (): React.JSX.Element => {
         const state = lookupDialogState;
         const items = buildItems(state.values);
-        console.log('is open? ' + state.open);
         const columns: TableColumnDefinition<ITableGridField>[] = [];
         for (const field of _props.config.fields.values()) {
             if (field.visible) {

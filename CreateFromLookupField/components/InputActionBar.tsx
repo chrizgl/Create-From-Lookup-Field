@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
-import { mergeClasses, Button, Input, InputProps, useId } from '@fluentui/react-components';
+import { mergeClasses, Button } from '@fluentui/react-components';
 import { useStyles } from './Styles';
 import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
 import WebApiRequest from './WebApiComponent';
 import InputActionBarContext from './InputActionBarContext';
 import { IButtonState } from '../interfaces/IButtonState';
+import SearchField from './SearchField';
 
 const SEARCH_DELAY = 1000;
 
@@ -53,7 +54,6 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
 
     // BUTTON ACTION: Open on Side Pane
     const onClickOpenRequest = useCallback(() => {
-        console.log('onClickOpenRequest value: ' + props.lookupValue);
         openOnSidePane.openOnSidePane(props.lookupValue);
     }, [openOnSidePane, props.lookupValue]);
 
@@ -81,6 +81,7 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
 
     return (
         <div className={stackClasses}>
+            <SearchField />
             {validInputState && (
                 <>
                     <Button className={classes.stackitem} icon={showSearchButton()} onClick={onClickSearchRequest} />

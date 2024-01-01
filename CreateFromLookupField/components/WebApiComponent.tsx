@@ -17,7 +17,6 @@ const WebApiComponent = (props: IWebApiComponentProps) => {
     };
 
     const retrieveRecords = async (value: string) => {
-        // console.log('Retrieving records...');
         let targetEntityId = '';
         // Retrieve select for search string form config
         const selectString = _config.selectedColumns?.join(',');
@@ -28,7 +27,6 @@ const WebApiComponent = (props: IWebApiComponentProps) => {
         try {
             const result = await _webApi.retrieveMultipleRecords(_config.targetEntityName, searchString);
             if (result && result.entities.length > 0) {
-                // console.log(`${result.entities.length} records successfully retrieved`);
                 _lookupValues = result;
                 targetEntityId = result.entities[0][`${_config.lookupColumn}`];
                 // define lookupValue

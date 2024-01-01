@@ -38,11 +38,8 @@ const InputActionBarProvider = ({ children, props }: IInputActionBarProvider) =>
     const [createEnabledState, setCreateEnabledState] = useState(false);
 
     const handleSearch = useCallback(async () => {
-        console.log('handleSearch inputValue: ' + inputValue);
         webApiRequest.retrieveRecords(inputValue).then((result) => {
             if (result) {
-                console.log('has found: ' + result.hasFound);
-                console.log('lookup values: ' + result.lookupValues);
                 const foundRef = result.hasFound;
                 if (!foundRef) {
                     setCreateEnabledState(true);
@@ -60,7 +57,6 @@ const InputActionBarProvider = ({ children, props }: IInputActionBarProvider) =>
             setSearchState((state: IButtonState) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
         }, SEARCH_DELAY);
         if (validInputState) {
-            console.log('onClickSearchRequest - validInputState');
             handleSearch();
         }
     }, [handleSearch, setSearchState, validInputState]);

@@ -19,9 +19,6 @@ const OpenOnSidePane = (props: IOpenOnSidePaneProps) => {
     const openOnSidePane = (lookupValue: ComponentFramework.LookupValue[]) => {
         _props.lookupValue = lookupValue;
         getPanes();
-        console.log('_props.lookupValue: ' + _props.lookupValue[0].entityType + ':' + _props.lookupValue[0].id) +
-            ' - ' +
-            _props.lookupValue[0].name!;
         if (hasValue()) {
             if (!isOpened()) {
                 _panes
@@ -57,7 +54,6 @@ const OpenOnSidePane = (props: IOpenOnSidePaneProps) => {
 
     const isOpened = (): boolean => {
         const result = _panes.getPane(_props.lookupValue![0].entityType + ':' + _props.lookupValue![0].id) != undefined ? true : false;
-        console.log('isOpened: ' + result);
         return result;
     };
 
