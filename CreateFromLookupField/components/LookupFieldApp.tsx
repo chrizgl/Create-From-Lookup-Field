@@ -5,7 +5,6 @@ import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import LookupDialog from './SelectItemDialog';
 import InputActionBar from './InputActionBar';
 import InputActionBarProvider from './InputActionBarProvider';
-import LookupDialogProvider from './LookupDialogProvider';
 
 const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     const _props = props;
@@ -19,10 +18,8 @@ const CreateFromLookupApp = (props: ICreateFromLookupProps): JSX.Element => {
     return (
         <FluentProvider theme={webLightTheme}>
             <InputActionBarProvider>
-                <LookupDialogProvider>
-                    <LookupDialog {...lookupDialogProps} />
-                    <InputActionBar {..._props} />
-                </LookupDialogProvider>
+                <LookupDialog {...lookupDialogProps} />
+                <InputActionBar {..._props} />
             </InputActionBarProvider>
         </FluentProvider>
     );

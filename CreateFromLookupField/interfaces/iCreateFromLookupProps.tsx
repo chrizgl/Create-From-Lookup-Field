@@ -5,7 +5,6 @@ interface ICreateFromLookupProps {
     webApi: ComponentFramework.WebApi;
     config: IConfig;
     lookupValue: ComponentFramework.LookupValue[];
-    currentValue: string;
     lookupViewId: string;
     lookupEntityName: string;
     openOnSidePane: any;

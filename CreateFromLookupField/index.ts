@@ -12,7 +12,7 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
     private _notifyOutputChanged: () => void;
     private _root: Root;
     private _context: ComponentFramework.Context<IInputs>;
-    private _currentValue: string;
+    // private _currentValue: string;
     private _config: IConfig;
     private _lookupValue: ComponentFramework.LookupValue[] = [];
     private _lookupViewId: string;
@@ -61,7 +61,6 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             utils: context.utils,
             webApi: context.webAPI,
             config: this._config,
-            currentValue: this._currentValue,
             lookupValue: this._lookupValue,
             lookupViewId: this._lookupViewId,
             lookupEntityName: this._lookupEntityName,
@@ -69,8 +68,8 @@ export class CreateFromLookupField implements ComponentFramework.StandardControl
             onChangeRequest: this.onChange.bind(this),
         };
         this._root.render(createElement(CreateFromLookupApp, props));
-        // console.log('lookupViewId: ' + this._lookupViewId);
-        // console.log('lookupEntityName: ' + this._lookupEntityName);
+        console.log('lookupViewId: ' + this._lookupViewId);
+        console.log('lookupEntityName: ' + this._lookupEntityName);
     }
 
     public getOutputs(): IOutputs {

@@ -28,12 +28,10 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
     const searchState = contextValue.searchState;
     const setSearchState = contextValue.setSearchState;
     const openState = contextValue.openState;
-    const setOpenState = contextValue.setOpenState;
     const createState = contextValue.createState;
     const setCreateState = contextValue.setCreateState;
     const createEnabledState = contextValue.createEnabledState;
     const setCreateEnabledState = contextValue.setCreateEnabledState;
-    const lookupDialogState = contextValue.lookupDialogState;
     const setLookupDialogState = contextValue.setLookupDialogState;
 
     const classes = useStyles();

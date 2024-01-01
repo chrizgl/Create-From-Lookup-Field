@@ -21,12 +21,13 @@ import {
     DialogContent,
     useRestoreFocusTarget,
     mergeClasses,
+    Input,
 } from '@fluentui/react-components';
 import { ITableGridItem } from '../interfaces/ITableGridItem';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ITableGridField } from '../interfaces/ITableGridField';
 import { useStyles } from './Styles';
-import LookupDialogContext from './LookupDialogContext';
+import InputActionBarContext from './InputActionBarContext';
 
 // TODO: Anhand vom Lookup-Dialog kann ich mir das Prinzip für die WebApi-Component ableiten.
 const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
@@ -34,7 +35,7 @@ const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
     const classes = useStyles();
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
 
-    const contextValue = useContext(LookupDialogContext);
+    const contextValue = useContext(InputActionBarContext);
     if (!contextValue) {
         throw new Error('LookupDialogContext is undefined');
     }
@@ -66,7 +67,7 @@ const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
     const show = (): React.JSX.Element => {
         const state = lookupDialogState;
         const items = buildItems(state.values);
-
+        console.log('is open? ' + state.open);
         const columns: TableColumnDefinition<ITableGridField>[] = [];
         for (const field of _props.config.fields.values()) {
             if (field.visible) {
