@@ -1,6 +1,6 @@
 // InputActionBarProvider.tsx
 import React, { useState, useCallback } from 'react';
-import LookupFieldContext from './InputActionBarContext';
+import LookupFieldContext from './CreateFromLookupContext';
 import { IInputActionBarProvider } from '../interfaces/IInputActionBarProvider';
 import { IInputActionBarContext } from '../interfaces/IInputActionBarContext';
 import { IButtonState } from '../interfaces/IButtonState';
@@ -37,30 +37,6 @@ const InputActionBarProvider = ({ children, props }: IInputActionBarProvider) =>
 
     const [createEnabledState, setCreateEnabledState] = useState(false);
 
-    const handleSearch = useCallback(async () => {
-        webApiRequest.retrieveRecords(inputValue).then((result) => {
-            if (result) {
-                const foundRef = result.hasFound;
-                if (!foundRef) {
-                    setCreateEnabledState(true);
-                } else {
-                    setLookupDialogState((state) => ({ ...state, values: result.lookupValues, open: true }));
-                    setCreateEnabledState(false);
-                }
-            }
-        });
-    }, [inputValue, setCreateEnabledState, setLookupDialogState, webApiRequest]);
-
-    const onClickSearchRequest = useCallback(() => {
-        setSearchState((state: IButtonState) => ({ ...state, overlayHidden: false, iconBackground: 'lightgreen' }));
-        setTimeout(() => {
-            setSearchState((state: IButtonState) => ({ ...state, overlayHidden: true, iconBackground: 'transparent' }));
-        }, SEARCH_DELAY);
-        if (validInputState) {
-            handleSearch();
-        }
-    }, [handleSearch, setSearchState, validInputState]);
-
     const contextValue: IInputActionBarContext = {
         inputValue,
         setInputValue,
@@ -76,7 +52,6 @@ const InputActionBarProvider = ({ children, props }: IInputActionBarProvider) =>
         setCreateEnabledState,
         lookupDialogState,
         setLookupDialogState,
-        onClickSearchRequest,
     };
 
     return <LookupFieldContext.Provider value={contextValue}>{children}</LookupFieldContext.Provider>;

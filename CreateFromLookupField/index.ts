@@ -2,11 +2,10 @@ import { IInputs, IOutputs } from './generated/ManifestTypes';
 import { createElement } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import { IConfig } from './interfaces/IConfig';
-import CreateFromLookupApp from './components/LookupFieldApp';
+import CreateFromLookupApp from './components/CreateFromLookupApp';
 import { ICreateFromLookupProps } from './interfaces/ICreateFromLookupProps';
 import OpenOnSidePane from './components/OpenOnSidePane';
 import { IOpenOnSidePaneProps } from './interfaces/IOpenOnSidePaneProps';
-import LookupFieldProvider from './components/InputActionBarProvider';
 
 export class CreateFromLookupField implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _notifyOutputChanged: () => void;
