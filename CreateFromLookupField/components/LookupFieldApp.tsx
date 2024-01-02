@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
-import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
+import { ICreateFromLookupProps } from '../interfaces/IICreateFromLookupProps';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import LookupDialog from './SelectItemDialog';
 import InputActionBar from './InputActionBar';

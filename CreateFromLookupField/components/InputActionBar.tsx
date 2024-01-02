@@ -3,7 +3,7 @@ import { useCallback, useContext } from 'react';
 import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
 import { mergeClasses, Button } from '@fluentui/react-components';
 import { useStyles } from './Styles';
-import { ICreateFromLookupProps } from '../interfaces/ICreateFromLookupProps';
+import { ICreateFromLookupProps } from '../interfaces/IICreateFromLookupProps';
 import WebApiRequest from './WebApiComponent';
 import InputActionBarContext from './InputActionBarContext';
 import { IButtonState } from '../interfaces/IButtonState';
