@@ -1,16 +1,12 @@
 // InputActionBarProvider.tsx
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import LookupFieldContext from './CreateFromLookupContext';
-import { IInputActionBarProvider } from '../interfaces/IInputActionBarProvider';
-import { IInputActionBarContext } from '../interfaces/IInputActionBarContext';
+import { IInputActionBarProvider } from '../interfaces/ICreateFromLookupProvider';
+import { IInputActionBarContext } from '../interfaces/ICreateFromLookupContext';
 import { IButtonState } from '../interfaces/IButtonState';
 import { ILookupDialogState } from '../interfaces/ILookupDialogState';
-import WebApiRequest from './WebApiComponent';
 
-const SEARCH_DELAY = 1000;
-
-const InputActionBarProvider = ({ children, props }: IInputActionBarProvider) => {
-    const webApiRequest = WebApiRequest(props);
+const InputActionBarProvider = ({ children }: IInputActionBarProvider) => {
     const [inputValue, setInputValue] = useState<string>('');
     const [validInputState, setValidInputState] = useState<boolean>(false);
 

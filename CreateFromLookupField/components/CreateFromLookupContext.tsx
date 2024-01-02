@@ -1,6 +1,6 @@
 // LookupContext.js
 import React from 'react';
-import { IInputActionBarContext } from '../interfaces/IInputActionBarContext';
+import { IInputActionBarContext } from '../interfaces/ICreateFromLookupContext';
 
 const InputActionBarContext = React.createContext<IInputActionBarContext | null>(null);
 

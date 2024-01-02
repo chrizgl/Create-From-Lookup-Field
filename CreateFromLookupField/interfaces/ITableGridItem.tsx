@@ -1,4 +1,3 @@
-import { ITableGridField } from './ITableGridField';
 import { PresenceBadgeStatus } from '@fluentui/react-components';
 
 type Field = {

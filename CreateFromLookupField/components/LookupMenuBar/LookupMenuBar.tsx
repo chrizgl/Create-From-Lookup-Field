@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
-import { AddCircle32Regular, AddCircle32Filled, Search32Regular, Search32Filled, Open32Regular, Open32Filled } from '@fluentui/react-icons';
-import { mergeClasses, Button } from '@fluentui/react-components';
+import { mergeClasses } from '@fluentui/react-components';
 import { useStyles } from '../Styles';
-import { ICreateFromLookupProps } from '../../interfaces/ICreateFromLookupProps';
-import WebApiRequest from '../WebApiComponent';
 import InputActionBarContext from '../CreateFromLookupContext';
+import { ICreateFromLookupProps } from '../../interfaces/ICreateFromLookupProps';
 import { IButtonState } from '../../interfaces/IButtonState';
+import WebApiRequest from '../WebApiComponent';
 import SearchField from './SearchField';
 import SearchButton from './SearchButton';
 import CreateButton from './CreateButton';
@@ -14,7 +13,7 @@ import OpenButton from './OpenButton';
 
 const SEARCH_DELAY = 1000;
 
-const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
+const LookupMenuBar: React.FC<ICreateFromLookupProps> = (props) => {
     const webApiRequest = WebApiRequest({ utils: props.utils, webApi: props.webApi, config: props.config });
     const openOnSidePane = props.openOnSidePane;
 
@@ -94,4 +93,4 @@ const InputActionBar: React.FC<ICreateFromLookupProps> = (props) => {
         </div>
     );
 };
-export default InputActionBar;
+export default LookupMenuBar;
