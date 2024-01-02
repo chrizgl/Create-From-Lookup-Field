@@ -25,8 +25,6 @@ interface IInputActionBarContext {
     // the current state of the lookup dialog and it's setter:
     lookupDialogState: ILookupDialogState;
     setLookupDialogState: React.Dispatch<React.SetStateAction<ILookupDialogState>>;
-
-    onClickSearchRequest: () => void;
 }
 
 export { IInputActionBarContext };

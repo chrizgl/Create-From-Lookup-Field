@@ -27,11 +27,10 @@ import { ITableGridItem } from '../interfaces/ITableGridItem';
 import { ILookupDialogProps } from '../interfaces/ILookupDialogProps';
 import { ITableGridField } from '../interfaces/ITableGridField';
 import { useStyles } from './Styles';
-import InputActionBarContext from './InputActionBarContext';
+import InputActionBarContext from './CreateFromLookupContext';
 
 // TODO: Anhand vom Lookup-Dialog kann ich mir das Prinzip für die WebApi-Component ableiten.
 const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
-    const _props = props;
     const classes = useStyles();
     const restoreFocusTargetAttribute = useRestoreFocusTarget();
 
@@ -54,7 +53,7 @@ const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
                             fieldMap.set(field.id, { label: entity[field.id] });
                         }
                     }
-                    let item = { id: entity[_props.config.lookupColumn] };
+                    let item = { id: entity[props.config.lookupColumn] };
                     item = Object.assign(item, Object.fromEntries(fieldMap));
                     items.push(item);
                 }
@@ -68,7 +67,7 @@ const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
         const state = lookupDialogState;
         const items = buildItems(state.values);
         const columns: TableColumnDefinition<ITableGridField>[] = [];
-        for (const field of _props.config.fields.values()) {
+        for (const field of props.config.fields.values()) {
             if (field.visible) {
                 columns.push(
                     createTableColumn<ITableGridField>({
@@ -117,11 +116,11 @@ const LookupDialog: React.FC<ILookupDialogProps> = (props) => {
             if (item !== undefined) {
                 lookupValue[0] = {
                     id: item.id,
-                    name: item[_props.config.lookupColumnName].label,
-                    entityType: _props.config.targetEntityName,
+                    name: item[props.config.lookupColumnName].label,
+                    entityType: props.config.targetEntityName,
                 };
             }
-            _props.onChangeRequest(lookupValue);
+            props.onChangeRequest(lookupValue);
             setLookupDialogState(() => ({ ...state, open: false }));
         };
         return (
